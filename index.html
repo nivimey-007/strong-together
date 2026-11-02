@@ -1,0 +1,773 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Strong Together</title>
+<meta name="description" content="A friendly strength, grip, balance and stretching tracker for two.">
+<meta name="theme-color" content="#ff7a45">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Strong Together">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff8f1; --card:#ffffff; --ink:#1f2333; --muted:#5b6175; --line:#eadfd3;
+  --coral:#ff7a45; --coral-ink:#b8410f; --coral-soft:#ffe6da;
+  --teal:#0f9d8a; --teal-soft:#d6f3ee;
+  --violet:#7a5af8; --violet-soft:#ebe5ff;
+  --sun:#f5a524; --sun-soft:#fff0cf;
+  --rose:#e84a7f; --rose-soft:#ffe1ec;
+  --ok:#16a34a; --shadow:0 6px 20px rgba(80,50,20,.08);
+  --radius:22px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#171923; --card:#22252f; --ink:#f4f1ec; --muted:#b6b9c6; --line:#343846;
+    --coral-soft:#4a2a1d; --coral-ink:#ffb08c; --teal-soft:#123a35; --violet-soft:#2c2650;
+    --sun-soft:#43361a; --rose-soft:#46202f; --shadow:0 6px 20px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#171923; --card:#22252f; --ink:#f4f1ec; --muted:#b6b9c6; --line:#343846;
+  --coral-soft:#4a2a1d; --coral-ink:#ffb08c; --teal-soft:#123a35; --violet-soft:#2c2650;
+  --sun-soft:#43361a; --rose-soft:#46202f; --shadow:0 6px 20px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html{font-size:20px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45;font-weight:600}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+a{color:var(--coral-ink)}
+.wrap{max-width:640px;margin:0 auto;padding:16px 16px 120px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 14px}
+.brand{font-weight:900;font-size:1.35rem;letter-spacing:-.01em}
+.brand span{color:var(--coral)}
+.gear{width:52px;height:52px;border-radius:16px;background:var(--card);box-shadow:var(--shadow);font-size:1.3rem}
+h1{font-size:1.6rem;line-height:1.2;margin:.2rem 0 .3rem;font-weight:900;letter-spacing:-.01em}
+h2{font-size:1.2rem;margin:1.4rem 0 .6rem;font-weight:900}
+p{margin:.3rem 0 .8rem}
+.muted{color:var(--muted)}
+.small{font-size:.85rem}
+.card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);margin-bottom:14px;border:1px solid var(--line)}
+/* who picker */
+.who{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.who button{background:var(--card);border:3px solid var(--line);border-radius:20px;padding:12px 6px;font-weight:800;min-height:84px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.who button .e{font-size:1.7rem;line-height:1}
+.who button[aria-pressed="true"]{border-color:var(--coral);background:var(--coral-soft)}
+/* hero */
+.hero{background:linear-gradient(135deg,#ff7a45,#ff4f8b);color:#fff;border:0}
+.hero h1{color:#fff}
+.hero p{color:#fff;opacity:.95}
+.pill{display:inline-block;padding:4px 12px;border-radius:999px;background:rgba(255,255,255,.25);font-weight:800;font-size:.8rem}
+/* buttons */
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:64px;border-radius:18px;font-weight:900;font-size:1.1rem;padding:12px 18px;background:var(--coral);color:#fff;box-shadow:0 4px 0 rgba(0,0,0,.12)}
+.btn:active{transform:translateY(2px);box-shadow:none}
+.btn.ghost{background:var(--card);color:var(--ink);border:2px solid var(--line);box-shadow:none}
+.btn.teal{background:var(--teal)}
+.btn.violet{background:var(--violet)}
+.btn.sun{background:var(--sun);color:#3a2600}
+.btn.white{background:#fff;color:var(--coral-ink)}
+.row{display:flex;gap:10px}
+.row>*{flex:1}
+/* session tiles */
+.tile{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:12px;min-height:96px}
+.tile .ic{width:64px;height:64px;border-radius:18px;display:grid;place-items:center;font-size:2rem;flex:none}
+.tile .t{font-weight:900;font-size:1.1rem}
+.tile .s{color:var(--muted);font-size:.85rem}
+.tile .go{margin-left:auto;font-size:1.4rem;color:var(--muted)}
+.tile.done{outline:3px solid var(--ok)}
+.tag{display:inline-block;font-size:.72rem;font-weight:900;padding:2px 10px;border-radius:999px;background:var(--sun-soft);color:#7a4b00;margin-left:6px;vertical-align:middle}
+:root[data-theme="dark"] .tag{color:#ffd37a}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tag{color:#ffd37a}}
+.c-strength{background:var(--coral-soft)} .c-stretch{background:var(--violet-soft)} .c-grip{background:var(--teal-soft)} .c-walk{background:var(--sun-soft)}
+/* goals */
+.goals{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.goal{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:14px;display:flex;align-items:center;gap:12px;box-shadow:var(--shadow)}
+.goal svg{flex:none}
+.goal .n{font-weight:900;font-size:1.05rem}
+.goal .l{font-size:.8rem;color:var(--muted);line-height:1.2}
+/* walk chips */
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.chip{flex:1 1 calc(25% - 10px);min-width:64px;white-space:nowrap;font-size:.95rem;min-height:58px;border-radius:16px;background:var(--sun-soft);font-weight:900;border:2px solid transparent}
+.chip:active{border-color:var(--sun)}
+/* garden */
+.garden{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center}
+.garden .d{background:var(--bg);border-radius:14px;padding:6px 2px;min-height:96px;border:1px solid var(--line)}
+.garden .d.today{border:2px solid var(--coral)}
+.garden .dn{font-size:.72rem;font-weight:900;color:var(--muted)}
+.garden .fl{font-size:1.05rem;line-height:1.15;word-break:break-all}
+/* tabs */
+nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:20}
+nav.tabs .in{display:flex;max-width:640px;width:100%}
+nav.tabs button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:.78rem;font-weight:900;color:var(--muted);padding:6px 2px;border-radius:14px;min-height:64px}
+nav.tabs button .e{font-size:1.5rem;line-height:1.1}
+nav.tabs button[aria-current="page"]{color:var(--coral-ink);background:var(--coral-soft)}
+/* library */
+.filter{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:8px}
+.filter button{white-space:nowrap;padding:10px 16px;border-radius:999px;background:var(--card);border:2px solid var(--line);font-weight:800;min-height:50px}
+.filter button[aria-pressed="true"]{border-color:var(--coral);background:var(--coral-soft)}
+.ex{display:flex;gap:14px;align-items:flex-start}
+.ex .ic{font-size:2rem;width:56px;height:56px;border-radius:16px;display:grid;place-items:center;flex:none}
+.ex h3{margin:0;font-size:1.05rem;font-weight:900}
+.ex ol{margin:.4rem 0 .4rem;padding-left:1.2rem}
+.ex li{margin:.15rem 0}
+.vid{display:inline-flex;align-items:center;gap:8px;background:#ff0033;color:#fff;text-decoration:none;font-weight:900;border-radius:14px;padding:10px 16px;min-height:52px;margin-top:6px}
+.safety{background:var(--sun-soft);border-radius:14px;padding:10px 12px;font-size:.88rem;margin:.5rem 0}
+/* player */
+.player{position:fixed;inset:0;background:var(--bg);z-index:50;overflow-y:auto}
+.player .wrap{padding-bottom:40px}
+.progressbar{height:12px;background:var(--line);border-radius:999px;overflow:hidden;margin:8px 0 18px}
+.progressbar i{display:block;height:100%;background:linear-gradient(90deg,var(--coral),var(--rose));border-radius:999px;transition:width .4s}
+.bigemoji{font-size:5rem;text-align:center;line-height:1.1;margin:8px 0}
+.dose{font-size:1.5rem;font-weight:900;text-align:center;color:var(--coral-ink);margin:.2rem 0 .6rem}
+.timer{font-size:3.4rem;font-weight:900;text-align:center;font-variant-numeric:tabular-nums;margin:6px 0}
+.steps{font-size:1.05rem}
+.steps li{margin:.35rem 0}
+.feel{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.feel button{background:var(--card);border:3px solid var(--line);border-radius:18px;padding:14px 4px;font-weight:900;min-height:96px}
+.feel button .e{display:block;font-size:2rem}
+/* tests */
+.counter{width:100%;min-height:200px;border-radius:30px;background:var(--teal);color:#fff;font-size:4rem;font-weight:900;box-shadow:0 6px 0 rgba(0,0,0,.15)}
+.counter:active{transform:translateY(3px);box-shadow:none}
+.stat{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.stat b{font-size:1.6rem}
+.chart{width:100%;height:auto;display:block}
+/* badges */
+.badges{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.badge{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:12px 6px;text-align:center;box-shadow:var(--shadow)}
+.badge .e{font-size:2.2rem}
+.badge .n{font-weight:900;font-size:.82rem;line-height:1.2}
+.badge .w{font-size:.7rem;color:var(--muted)}
+.badge.locked{opacity:.38;filter:grayscale(1)}
+.level{height:18px;background:var(--line);border-radius:999px;overflow:hidden}
+.level i{display:block;height:100%;background:linear-gradient(90deg,var(--sun),var(--coral))}
+/* forms */
+label.f{display:block;font-weight:800;margin:.6rem 0 .3rem}
+input[type=text],input[type=number]{width:100%;font:inherit;font-size:1.1rem;padding:14px;border-radius:14px;border:2px solid var(--line);background:var(--bg);color:var(--ink);min-height:58px}
+.stepper{display:flex;align-items:center;gap:10px}
+.stepper button{width:58px;height:58px;border-radius:16px;background:var(--coral-soft);font-size:1.6rem;font-weight:900}
+.stepper output{min-width:2.5ch;text-align:center;font-size:1.4rem;font-weight:900}
+.toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:14px 22px;border-radius:999px;font-weight:900;z-index:80;box-shadow:var(--shadow);max-width:90vw;text-align:center}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:90}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:380px){html{font-size:18px}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div class="wrap" id="app"></div>
+<nav class="tabs" aria-label="Main"><div class="in">
+  <button data-tab="today"><span class="e">☀️</span>Today</button>
+  <button data-tab="moves"><span class="e">🎬</span>Exercises</button>
+  <button data-tab="progress"><span class="e">📈</span>Progress</button>
+  <button data-tab="trophies"><span class="e">🏆</span>Trophies</button>
+</div></nav>
+<div id="overlay"></div>
+
+<script>
+/* =========================================================
+   Strong Together: everything is saved on this device only.
+   Edit EXERCISES below to change moves or paste in your own
+   favourite video links (set `video` to a full URL).
+   ========================================================= */
+
+const yt = q => 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q);
+
+const CATS = {
+  strength:{label:'Strength', emoji:'💪', cls:'c-strength'},
+  grip:{label:'Grip & Balance', emoji:'✊', cls:'c-grip'},
+  stretch:{label:'Yoga & Stretch', emoji:'🧘', cls:'c-stretch'},
+  walk:{label:'Walk', emoji:'🚶', cls:'c-walk'}
+};
+
+const EXERCISES = {
+  march:{name:'Seated Marching', emoji:'🥁', cat:'strength', dose:'1 minute', timer:60,
+    steps:['Sit tall near the front of a sturdy chair.','Lift one knee, then the other, like marching.','Swing your arms too. Keep breathing!'],
+    tip:'A warm-up. Go at your own pace.', q:'seated marching warm up seniors'},
+  chairStand:{name:'Sit-to-Stand', emoji:'🪑', cat:'strength', dose:'2 rounds of 8',
+    steps:['Sit near the front of a sturdy chair, feet flat and hip-width apart.','Lean forward a little ("nose over toes") and stand up. Use your hands on the armrests if you need to.','Sit back down slowly. Count 1-2-3 on the way down.'],
+    tip:'Put the chair against a wall so it can’t slide.', easier:'Use your hands to push up.', harder:'Cross your arms over your chest.',
+    q:'sit to stand exercise for seniors physical therapist'},
+  wallPush:{name:'Wall Push-Ups', emoji:'🧱', cat:'strength', dose:'2 rounds of 8',
+    steps:['Stand an arm’s length from a wall. Hands flat on the wall at shoulder height.','Bend your elbows and bring your chest toward the wall.','Push back out. Keep your body straight like a plank.'],
+    tip:'Wear shoes with grip so your feet don’t slip.', easier:'Stand closer to the wall.', harder:'Step your feet a little further back.',
+    q:'wall push ups for seniors'},
+  curls:{name:'Arm Curls', emoji:'🥫', cat:'strength', dose:'2 rounds of 10',
+    steps:['Sit tall holding a soup can or water bottle in each hand, palms up.','Bend your elbows and bring the weights up to your shoulders.','Lower slowly. Keep your elbows by your sides.'],
+    tip:'Start light. Two cans are plenty to begin.', easier:'No weights, just make tight fists.', harder:'Use 1–2 kg (2–5 lb) dumbbells.',
+    q:'seated bicep curls seniors'},
+  heelRaise:{name:'Heel Raises', emoji:'🦶', cat:'strength', dose:'2 rounds of 10',
+    steps:['Stand behind a chair or at the kitchen counter, holding on.','Rise up onto your toes as high as feels comfortable.','Lower slowly back down.'],
+    tip:'Always hold on. These build strong ankles for steadier walking.', easier:'Do it seated.', harder:'Hold the top for 2 seconds.',
+    q:'heel raises for seniors balance'},
+  sideLeg:{name:'Side Leg Raises', emoji:'🦵', cat:'strength', dose:'8 each leg', sides:true,
+    steps:['Stand behind a chair holding the back with both hands.','Lift one leg out to the side, keeping your toes pointing forward.','Lower slowly. Then do the other leg.'],
+    tip:'Stand tall. Don’t lean over to lift higher.', easier:'Smaller lifts.', harder:'Hold each lift for 2 seconds.',
+    q:'standing side leg raise seniors hip strength'},
+  kneeExt:{name:'Leg Straighteners', emoji:'🦿', cat:'strength', dose:'10 each leg', sides:true,
+    steps:['Sit tall in a chair.','Straighten one leg out in front until it’s level, toes pointing up.','Hold for 2 seconds, then lower slowly. Swap legs.'],
+    tip:'Great for knees and for getting up from low chairs.', harder:'Hold for 5 seconds.',
+    q:'seated knee extension exercise seniors'},
+  overhead:{name:'Overhead Press', emoji:'🙌', cat:'strength', dose:'2 rounds of 8',
+    steps:['Sit tall holding a can or bottle in each hand at shoulder height.','Push your arms up toward the ceiling.','Lower slowly back to your shoulders.'],
+    tip:'Skip this one if your shoulders hurt. Try it without weights.', easier:'No weights.',
+    q:'seated overhead press seniors light weights'},
+
+  ballSqueeze:{name:'Ball Squeeze', emoji:'🎾', cat:'grip', dose:'10 squeezes each hand', sides:true,
+    steps:['Hold a tennis ball or soft stress ball in one hand.','Squeeze as hard as is comfortable and hold for 3 seconds.','Relax. Do 10, then switch hands.'],
+    tip:'Grip strength is one of the best simple signs of overall health. Squeeze away!', easier:'Use a rolled-up sock.',
+    q:'hand grip strengthening exercises seniors ball squeeze'},
+  towelWring:{name:'Towel Wring', emoji:'🧺', cat:'grip', dose:'5 twists each way',
+    steps:['Roll up a hand towel and hold it with both hands.','Twist it like you’re wringing out water.','Then twist the other way.'],
+    tip:'Easy on sore wrists: twist gently.', q:'towel wringing grip exercise'},
+  rubberBand:{name:'Finger Spreads', emoji:'🖐️', cat:'grip', dose:'10 each hand', sides:true,
+    steps:['Put a rubber band around your fingers and thumb.','Spread your fingers wide against the band.','Slowly close. Repeat, then switch hands.'],
+    tip:'Opens the hand. Good for stiff fingers.', easier:'No band, just spread wide.',
+    q:'rubber band finger extension exercise'},
+  bagHold:{name:'Shopping Bag Hold', emoji:'🛍️', cat:'grip', dose:'Hold 20 seconds', timer:20,
+    steps:['Stand next to the counter. Hold a shopping bag in one hand with a couple of cans or a water bottle inside.','Stand tall and hold it by your side for 20 seconds.','Put it down and switch hands.'],
+    tip:'Keep it light! The point is holding on, not lifting heavy.', q:'farmers carry hold for seniors grip'},
+  oneLeg:{name:'Stand on One Foot', emoji:'🦩', cat:'grip', dose:'10 seconds each foot', timer:10, sides:true,
+    steps:['Stand at the kitchen counter and hold on with one or both hands.','Lift one foot just off the floor.','Hold, then swap feet.'],
+    tip:'Always hold on. Have the counter right in front of you.', harder:'Hold on with just one fingertip.',
+    q:'single leg stand balance exercise seniors'},
+  heelToe:{name:'Heel-to-Toe Walk', emoji:'👣', cat:'grip', dose:'10 steps, twice',
+    steps:['Stand next to the counter or a wall, one hand on it.','Put your heel right in front of the toes of your other foot.','Walk along the counter like this for 10 steps.'],
+    tip:'Go slowly. Look ahead, not at your feet.', q:'heel to toe walk balance seniors'},
+  weightShift:{name:'Weight Shifts', emoji:'⚖️', cat:'grip', dose:'10 each side',
+    steps:['Stand with feet hip-width apart, holding the counter.','Shift your weight onto your right foot and lift the left foot slightly.','Hold 3 seconds. Then shift to the other side.'],
+    tip:'A gentle start for balance.', q:'weight shift balance exercise seniors'},
+
+  shoulderRoll:{name:'Shoulder Rolls', emoji:'🔄', cat:'stretch', dose:'5 forward, 5 back',
+    steps:['Sit tall.','Roll your shoulders up, back and down in big circles.','Then roll them the other way.'],
+    tip:'Breathe slowly. This should feel good!', q:'chair yoga shoulder rolls seniors'},
+  neck:{name:'Neck Stretch', emoji:'🦒', cat:'stretch', dose:'Hold 15 seconds each side', timer:15, sides:true,
+    steps:['Sit tall and look straight ahead.','Gently tip your ear toward your shoulder.','Hold, breathe, then switch sides.'],
+    tip:'Go gently. Never roll your head all the way round.', q:'gentle neck stretch seniors seated'},
+  catCow:{name:'Seated Cat-Cow', emoji:'🐈', cat:'stretch', dose:'6 slow breaths',
+    steps:['Sit near the edge of your chair with your hands on your knees.','Breathe in: lift your chest and look up a little.','Breathe out: round your back and drop your chin. Repeat.'],
+    tip:'Move with your breath, slow and easy.', q:'seated cat cow chair yoga seniors'},
+  sideBend:{name:'Side Reach', emoji:'🌈', cat:'stretch', dose:'3 each side', sides:true,
+    steps:['Sit tall. Reach one arm up toward the ceiling.','Lean gently to the other side, making a rainbow shape.','Come back up and switch.'],
+    tip:'Keep both bottoms on the chair!', q:'seated side bend chair yoga seniors'},
+  twist:{name:'Seated Twist', emoji:'🌀', cat:'stretch', dose:'Hold 15 seconds each side', timer:15, sides:true,
+    steps:['Sit tall with feet flat.','Turn your upper body to the right, holding the back or side of the chair.','Breathe, come back to centre, then turn left.'],
+    tip:'Twist from your middle, gently. No forcing.', q:'seated spinal twist chair yoga seniors'},
+  hamstring:{name:'Back-of-Leg Stretch', emoji:'🦵', cat:'stretch', dose:'Hold 20 seconds each leg', timer:20, sides:true,
+    steps:['Sit near the edge of your chair. Stretch one leg out with the heel on the floor.','Sit tall and lean forward a little from your hips.','Feel a gentle stretch behind the leg. Switch.'],
+    tip:'A gentle pull, never pain.', q:'seated hamstring stretch seniors'},
+  ankle:{name:'Ankle Circles', emoji:'⭕', cat:'stretch', dose:'10 each way, each foot',
+    steps:['Sit and lift one foot slightly.','Draw circles with your toes, 10 one way and 10 the other.','Switch feet.'],
+    tip:'Helps keep ankles flexible for steady walking.', q:'ankle circles exercise seniors'},
+  calf:{name:'Wall Calf Stretch', emoji:'🧍', cat:'stretch', dose:'Hold 20 seconds each leg', timer:20, sides:true,
+    steps:['Face a wall with your hands on it.','Step one foot back, keep that heel down and the leg straight.','Bend your front knee until you feel a stretch in the back calf. Switch.'],
+    tip:'Great after your daily walk!', q:'wall calf stretch seniors'},
+  breathing:{name:'Belly Breathing', emoji:'🌬️', cat:'stretch', dose:'1 minute', timer:60,
+    steps:['Sit comfortably with one hand on your belly.','Breathe in slowly through your nose and feel your belly rise.','Breathe out slowly through your mouth. Relax your shoulders.'],
+    tip:'A calm finish. Well done!', q:'belly breathing relaxation seniors'}
+};
+
+const SESSIONS = {
+  strength:{title:'Strong Day', emoji:'💪', cat:'strength', mins:15, blurb:'Legs, arms and core: the muscles that get you up and about.',
+    list:['march','chairStand','wallPush','curls','heelRaise','sideLeg','kneeExt','overhead','ballSqueeze']},
+  stretch:{title:'Yoga & Stretch', emoji:'🧘', cat:'stretch', mins:12, blurb:'Gentle chair yoga to loosen up and feel good.',
+    list:['shoulderRoll','neck','catCow','sideBend','twist','hamstring','ankle','calf','breathing']},
+  grip:{title:'Grip & Balance', emoji:'✊', cat:'grip', mins:6, blurb:'Five quick minutes for strong hands and steady feet.',
+    list:['ballSqueeze','towelWring','rubberBand','bagHold','oneLeg','heelToe']}
+};
+
+/* Full-length follow-along classes. These open YouTube searches for
+   reputable senior-fitness sources; swap in exact links any time. */
+const CLASSES = [
+  {t:'Chair yoga, 15–20 min', e:'🧘', q:'chair yoga for seniors 20 minutes'},
+  {t:'Seated strength workout', e:'💪', q:'seated strength workout for seniors 15 minutes'},
+  {t:'Balance exercises', e:'🦩', q:'balance exercises for seniors physical therapist'},
+  {t:'Grip and hand strength', e:'✊', q:'grip strength exercises for seniors'},
+  {t:'National Institute on Aging exercises', e:'🏛️', q:'National Institute on Aging Go4Life exercise'},
+  {t:'Gentle stretching after a walk', e:'🚶', q:'stretches after walking for seniors'}
+];
+
+/* CDC STEADI 30-Second Chair Stand: "below average" if fewer than these. */
+const CHAIR_BELOW = { m:[[60,14],[65,12],[70,12],[75,11],[80,10],[85,8],[90,7]], f:[[60,12],[65,11],[70,10],[75,10],[80,9],[85,8],[90,4]] };
+
+const POINTS = {walk:10, grip:10, stretch:15, strength:20, test:15, together:5};
+const LEVELS = ['Sprout 🌱','Seedling 🌿','Blossom 🌸','Sunflower 🌻','Mighty Oak 🌳','Mountain ⛰️','Shooting Star 🌠'];
+const LEVEL_SIZE = 250;
+
+const CHEERS = [
+  'Every rep counts. Strong muscles, steady steps.',
+  'Strength is the best birthday present to yourself.',
+  'Little and often beats big and rarely.',
+  'Your future self says thank you!',
+  'Muscles don’t know how old you are. They just know you showed up.',
+  'Two walkers, one team. Keep it up!',
+  'A strong grip means a strong you.',
+  'You’re never too old to get stronger. That’s science!',
+  'Today’s goal: feel a little better than yesterday.',
+  'Stand tall, breathe deep, smile big.'
+];
+
+/* ---------------- state ---------------- */
+const KEY = 'strongTogether.v1';
+const DEFAULT = {
+  people:[{id:'dad',name:'Dad',emoji:'👴',age:84,sex:'m'},{id:'mom',name:'Mom',emoji:'👵',age:75,sex:'f'}],
+  active:'both', goals:{walk:6,strength:2,stretch:3,grip:5}, log:[], tests:[], seen:{}, theme:'auto'
+};
+let S;
+function load(){
+  try{ const raw = localStorage.getItem(KEY); S = raw ? Object.assign(structuredClone(DEFAULT), JSON.parse(raw)) : structuredClone(DEFAULT); }
+  catch(e){ S = structuredClone(DEFAULT); }
+}
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ toast('Couldn’t save on this device'); } }
+
+/* ---------------- dates ---------------- */
+const pad = n => String(n).padStart(2,'0');
+const ymd = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const today = () => ymd(new Date());
+function parse(s){ const [y,m,d]=s.split('-').map(Number); return new Date(y,m-1,d); }
+function weekStart(d=new Date()){ const x=new Date(d.getFullYear(),d.getMonth(),d.getDate()); const off=(x.getDay()+6)%7; x.setDate(x.getDate()-off); return x; }
+function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
+const DAYN = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+/* ---------------- helpers ---------------- */
+const $ = (s,el=document) => el.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const person = id => S.people.find(p=>p.id===id);
+const whoIds = () => S.active==='both' ? S.people.map(p=>p.id) : [S.active];
+const focusId = () => S.active==='both' ? S.people[0].id : S.active;
+const vlink = ex => ex.video && /^https?:/.test(ex.video) ? ex.video : yt(ex.q);
+function toast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2600); }
+function buzz(){ try{ navigator.vibrate && navigator.vibrate(60);}catch(e){} }
+let actx;
+function beep(){ try{ actx = actx || new (window.AudioContext||window.webkitAudioContext)(); const o=actx.createOscillator(), g=actx.createGain(); o.frequency.value=880; g.gain.value=.15; o.connect(g); g.connect(actx.destination); o.start(); o.stop(actx.currentTime+.25);}catch(e){} }
+
+/* ---------------- stats ---------------- */
+function logsFor(id){ return S.log.filter(l=>l.who===id); }
+function weekCounts(id, ws=weekStart()){
+  const a=ymd(ws), b=ymd(addDays(ws,7));
+  const L = logsFor(id).filter(l=>l.date>=a && l.date<b);
+  const walkDays = new Set(L.filter(l=>l.type==='walk').map(l=>l.date)).size;
+  const c = t => L.filter(l=>l.type===t).length;
+  return {walk:walkDays, strength:c('strength'), stretch:c('stretch'), grip:c('grip'), L};
+}
+function points(id){
+  let p=0; for(const l of logsFor(id)){ p+=POINTS[l.type]||0; if(l.together) p+=POINTS.together; }
+  p += S.tests.filter(t=>t.who===id).length*POINTS.test;
+  return p;
+}
+function streak(id){
+  const days = new Set(logsFor(id).map(l=>l.date));
+  let d = new Date(); if(!days.has(ymd(d))) d=addDays(d,-1);
+  let n=0; while(days.has(ymd(d))){ n++; d=addDays(d,-1); }
+  return n;
+}
+function goalsMet(id, ws){ const c=weekCounts(id,ws), g=S.goals; return c.walk>=g.walk && c.strength>=g.strength && c.stretch>=g.stretch && c.grip>=g.grip; }
+
+/* ---------------- badges ---------------- */
+const BADGES = [
+  {id:'first', e:'🎉', n:'First Step', w:'Log anything', test:id=>logsFor(id).length>=1},
+  {id:'strong1', e:'💪', n:'Muscle Maker', w:'First Strong Day', test:id=>logsFor(id).some(l=>l.type==='strength')},
+  {id:'zen1', e:'🧘', n:'Zen Master', w:'First yoga session', test:id=>logsFor(id).some(l=>l.type==='stretch')},
+  {id:'grip10', e:'✊', n:'Iron Grip', w:'10 grip sessions', test:id=>logsFor(id).filter(l=>l.type==='grip').length>=10},
+  {id:'streak3', e:'🔥', n:'On a Roll', w:'3-day streak', test:id=>streak(id)>=3},
+  {id:'streak7', e:'🌟', n:'Week Wonder', w:'7-day streak', test:id=>streak(id)>=7},
+  {id:'streak30', e:'👑', n:'Royalty', w:'30-day streak', test:id=>streak(id)>=30},
+  {id:'together10', e:'💞', n:'Dream Team', w:'10 sessions together', test:id=>logsFor(id).filter(l=>l.together).length>=10},
+  {id:'walk100', e:'🗺️', n:'Explorer', w:'2,000 minutes walked', test:id=>logsFor(id).filter(l=>l.type==='walk').reduce((a,l)=>a+(l.minutes||0),0)>=2000},
+  {id:'goals', e:'🎯', n:'Bullseye', w:'Hit every weekly goal', test:id=>{ for(let i=0;i<52;i++){ if(goalsMet(id, addDays(weekStart(),-7*i))) return true;} return false; }},
+  {id:'tested', e:'📋', n:'Check-in Champ', w:'Do a fitness check-in', test:id=>S.tests.some(t=>t.who===id)},
+  {id:'better', e:'🚀', n:'Getting Stronger', w:'Beat your chair-stand score', test:id=>{ const t=S.tests.filter(x=>x.who===id&&x.kind==='chair'); return t.length>1 && Math.max(...t.slice(1).map(x=>x.value))>t[0].value; }},
+  {id:'strong20', e:'🏋️', n:'Powerhouse', w:'20 Strong Days', test:id=>logsFor(id).filter(l=>l.type==='strength').length>=20},
+  {id:'zen20', e:'🪷', n:'Bendy', w:'20 yoga sessions', test:id=>logsFor(id).filter(l=>l.type==='stretch').length>=20},
+  {id:'level3', e:'🌻', n:'In Full Bloom', w:'Reach Sunflower level', test:id=>points(id)>=LEVEL_SIZE*3}
+];
+function checkBadges(){
+  const fresh=[];
+  for(const p of S.people){ S.seen[p.id]=S.seen[p.id]||{}; for(const b of BADGES){ if(!S.seen[p.id][b.id] && b.test(p.id)){ S.seen[p.id][b.id]=today(); fresh.push({p,b}); } } }
+  save(); return fresh;
+}
+
+/* ---------------- logging ---------------- */
+function addLog(type, extra={}){
+  const ids = whoIds(), together = ids.length>1, d=today();
+  for(const id of ids) S.log.push({id:Math.random().toString(36).slice(2), date:d, ts:Date.now(), who:id, type, together, ...extra});
+  save();
+  const fresh = checkBadges();
+  confetti();
+  queueBadges(fresh);
+}
+let PENDING=[];
+function queueBadges(list){ PENDING.push(...list); setTimeout(flushBadges,700); }
+function flushBadges(){ if(!PENDING.length || $('#overlay').innerHTML.trim()) return; const l=PENDING; PENDING=[]; showBadges(l); }
+function undoToday(type){
+  const ids=whoIds(), d=today();
+  for(const id of ids){ for(let i=S.log.length-1;i>=0;i--){ const l=S.log[i]; if(l.who===id && l.date===d && l.type===type){ S.log.splice(i,1); break; } } }
+  save(); render(); toast('Removed. No problem!');
+}
+
+/* ---------------- render: shell ---------------- */
+let TAB='today', LIBCAT='all';
+function render(){
+  document.documentElement.dataset.theme = S.theme==='auto' ? '' : S.theme;
+  if(S.theme==='auto') delete document.documentElement.dataset.theme;
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-current', b.dataset.tab===TAB?'page':'false'));
+  const app=$('#app');
+  app.innerHTML = header() + ({today:viewToday, moves:viewMoves, progress:viewProgress, trophies:viewTrophies}[TAB])();
+  bind(app);
+  window.scrollTo({top:0});
+}
+function header(){
+  return `<header class="top"><div class="brand">Strong <span>Together</span></div><button class="gear" data-act="settings" aria-label="Settings">⚙️</button></header>
+  <div class="who" role="group" aria-label="Who is exercising?">
+    ${S.people.map(p=>`<button data-who="${p.id}" aria-pressed="${S.active===p.id}"><span class="e">${p.emoji}</span>${esc(p.name)}</button>`).join('')}
+    <button data-who="both" aria-pressed="${S.active==='both'}"><span class="e">💞</span>Both</button>
+  </div>`;
+}
+function whoLabel(){ return S.active==='both' ? S.people.map(p=>esc(p.name)).join(' & ') : esc(person(S.active).name); }
+
+/* ---------------- Today ---------------- */
+function suggestedToday(){
+  const wd = (new Date().getDay()+6)%7; // Mon=0
+  // Strength Mon/Thu (+Sat), yoga Tue/Fri/Sun, Wed light
+  return [0,3,5].includes(wd) ? 'strength' : 'stretch';
+}
+function ring(val, goal, color){
+  const r=26, c=2*Math.PI*r, f=Math.min(1, goal? val/goal : 0);
+  return `<svg width="64" height="64" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="${r}" fill="none" stroke="var(--line)" stroke-width="8"/>
+  <circle cx="32" cy="32" r="${r}" fill="none" stroke="${color}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-f)}" transform="rotate(-90 32 32)"/>
+  <text x="32" y="38" text-anchor="middle" font-size="17" font-weight="900" fill="var(--ink)">${f>=1?'✓':val}</text></svg>`;
+}
+function feelTip(){
+  const id=focusId();
+  const last = logsFor(id).filter(l=>l.type==='strength'&&l.feel).slice(-2);
+  if(last.length===2 && last.every(l=>l.feel==='easy')) return `💡 Strong Day felt easy twice in a row. Time to level up! Try 2 more reps each round, or the “harder” option.`;
+  if(last.length && last[last.length-1].feel==='tough') return `💡 Last Strong Day felt tough. Use the “easier” options today. Showing up is what counts.`;
+  return '';
+}
+function viewToday(){
+  const id = focusId(), g=S.goals, sug = suggestedToday();
+  const doneToday = t => logsFor(id).some(l=>l.date===today() && l.type===t);
+  const st = streak(id);
+  const hour = new Date().getHours();
+  const hi = hour<12?'Good morning':hour<17?'Good afternoon':'Good evening';
+  const cheer = CHEERS[(new Date().getDate()+new Date().getMonth()) % CHEERS.length];
+  const tip = feelTip();
+  const order = sug==='strength' ? ['strength','grip','stretch'] : ['stretch','grip','strength'];
+  return `
+  <section class="card hero">
+    <span class="pill">${st? `🔥 ${st}-day streak`:'✨ Fresh start'}</span>
+    <h1>${hi}, ${whoLabel()}!</h1>
+    <p>${cheer}</p>
+  </section>
+  ${tip?`<div class="card" style="background:var(--sun-soft)">${tip}</div>`:''}
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:12px"><div class="tile ic c-walk" style="width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:1.8rem;margin:0;padding:0;min-height:0;box-shadow:none;border:0">🚶</div>
+    <div><div style="font-weight:900;font-size:1.1rem">${doneToday('walk')?'Walk logged today! 🎉':'Did you walk today?'}</div><div class="muted small">Tap how long. It counts toward your weekly goal.</div></div></div>
+    <div class="chips">${[15,30,45,60].map(m=>`<button class="chip" data-walk="${m}">${m} min</button>`).join('')}</div>
+    ${doneToday('walk')?`<p class="small muted" style="margin-top:10px">Oops, tapped by mistake? <a href="#" data-undo="walk">Undo</a></p>`:''}
+  </div>
+  <h2>Today’s moves</h2>
+  ${order.map(k=>{ const s=SESSIONS[k]; return `<button class="tile ${doneToday(k)?'done':''}" data-start="${k}">
+    <span class="ic ${CATS[s.cat].cls}">${s.emoji}</span>
+    <span><span class="t">${s.title}</span>${k===sug?'<span class="tag">Suggested today</span>':''}${doneToday(k)?'<span class="tag" style="background:#dcfce7;color:#14532d">Done ✓</span>':''}<br><span class="s">${s.blurb} · about ${s.mins} min</span></span>
+    <span class="go">›</span></button>`;}).join('')}
+  <h2>This week’s goals</h2>
+  ${whoIds().map(pid=>{ const cc=weekCounts(pid); return `${S.active==='both'?`<div style="font-weight:900;margin:10px 0 8px">${person(pid).emoji} ${esc(person(pid).name)}${goalsMet(pid)?' · ⭐ All done!':''}</div>`:''}
+  <div class="goals">
+    ${[['walk','Walking days','var(--sun)'],['strength','Strong Days','var(--coral)'],['stretch','Yoga & Stretch','var(--violet)'],['grip','Grip & Balance','var(--teal)']].map(([k,l,col])=>
+      `<div class="goal">${ring(cc[k],g[k],col)}<div><div class="n">${Math.min(cc[k],99)} of ${g[k]}</div><div class="l">${l}</div></div></div>`).join('')}
+  </div>`; }).join('')}
+  ${garden(id)}
+  <p class="small muted" style="margin-top:18px">⚠️ Stop if anything hurts, or if you feel dizzy, short of breath or have chest pain. Keep a sturdy chair or the kitchen counter close for balance. Best to check new exercise plans with your doctor.</p>`;
+}
+function garden(id){
+  const ws=weekStart(), t=today();
+  const fl = {walk:'🌼',strength:'🌷',stretch:'🪻',grip:'🌱',test:'⭐'};
+  return `<h2>Your week’s garden</h2><div class="card"><div class="garden">
+  ${DAYN.map((n,i)=>{ const d=ymd(addDays(ws,i)); const L=logsFor(id).filter(l=>l.date===d);
+    return `<div class="d ${d===t?'today':''}"><div class="dn">${n}</div><div class="fl">${L.map(l=>fl[l.type]||'🌸').join('')||(d<t?'<span class="muted">·</span>':'')}</div></div>`; }).join('')}
+  </div><p class="small muted" style="margin:10px 0 0">🌼 walk · 🌷 strength · 🪻 yoga · 🌱 grip & balance. Fill it with flowers!</p></div>`;
+}
+
+/* ---------------- Exercise library ---------------- */
+function viewMoves(){
+  const list = Object.entries(EXERCISES).filter(([k,e])=>LIBCAT==='all'||e.cat===LIBCAT);
+  return `<h1>Exercise library</h1><p class="muted">Each move has simple steps and a “Watch how” video button.</p>
+  <div class="filter" role="group" aria-label="Filter">
+   ${[['all','All'],['strength','💪 Strength'],['grip','✊ Grip & Balance'],['stretch','🧘 Yoga & Stretch']].map(([k,l])=>`<button data-cat="${k}" aria-pressed="${LIBCAT===k}">${l}</button>`).join('')}
+  </div>
+  ${list.map(([k,e])=>exCard(e)).join('')}
+  <h2>🎬 Full follow-along classes</h2>
+  <p class="muted small">When you feel like a longer class, these open YouTube with good options to choose from.</p>
+  ${CLASSES.map(c=>`<a class="tile" style="text-decoration:none;color:inherit" href="${c.video||yt(c.q)}" target="_blank" rel="noopener"><span class="ic c-stretch">${c.e}</span><span><span class="t">${c.t}</span><br><span class="s">Opens YouTube</span></span><span class="go">↗</span></a>`).join('')}`;
+}
+function exCard(e){
+  return `<article class="card ex"><div class="ic ${CATS[e.cat].cls}">${e.emoji}</div><div style="flex:1">
+   <h3>${esc(e.name)}</h3><div class="muted small" style="font-weight:800">${esc(e.dose)}</div>
+   <ol>${e.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>
+   ${e.tip?`<div class="safety">👉 ${esc(e.tip)}</div>`:''}
+   ${e.easier||e.harder?`<div class="small muted">${e.easier?`<b>Easier:</b> ${esc(e.easier)} `:''}${e.harder?`<b>Harder:</b> ${esc(e.harder)}`:''}</div>`:''}
+   <a class="vid" href="${vlink(e)}" target="_blank" rel="noopener">▶ Watch how</a></div></article>`;
+}
+
+/* ---------------- Session player ---------------- */
+let P=null, TIMER=null;
+function startSession(key){
+  P={key, i:0, s:SESSIONS[key], left:null, running:false};
+  drawPlayer();
+}
+function stopTimer(){ clearInterval(TIMER); TIMER=null; if(P) P.running=false; }
+function closePlayer(){ stopTimer(); P=null; closeOverlay(); render(); }
+function drawPlayer(){
+  document.body.style.overflow='hidden';
+  const s=P.s, n=s.list.length;
+  if(P.i>=n){ return drawFinish(); }
+  const ex=EXERCISES[s.list[P.i]];
+  if(P.left===null) P.left = ex.timer||null;
+  $('#overlay').innerHTML = `<div class="player" role="dialog" aria-label="${esc(s.title)}"><div class="wrap">
+    <div class="row" style="align-items:center"><div style="font-weight:900">${s.emoji} ${esc(s.title)}</div>
+    <button class="btn ghost" style="flex:0 0 auto;width:auto;min-height:52px;padding:8px 16px;font-size:.9rem" data-act="close">✕ Close</button></div>
+    <div class="progressbar" aria-label="Move ${P.i+1} of ${n}"><i style="width:${(P.i/n)*100}%"></i></div>
+    <div class="muted small" style="text-align:center;font-weight:800">Move ${P.i+1} of ${n}</div>
+    <div class="bigemoji" aria-hidden="true">${ex.emoji}</div>
+    <h1 style="text-align:center">${esc(ex.name)}</h1>
+    <div class="dose">${esc(ex.dose)}</div>
+    ${ex.timer?`<div class="timer" id="tm">${fmt(P.left)}</div>
+      <button class="btn teal" data-act="timer" style="margin-bottom:12px">${P.running?'⏸ Pause':'⏱ Start timer'}</button>`:''}
+    <ol class="steps">${ex.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
+    ${ex.tip?`<div class="safety">👉 ${esc(ex.tip)}</div>`:''}
+    ${ex.easier?`<p class="small"><b>Easier:</b> ${esc(ex.easier)}</p>`:''}
+    <a class="btn ghost" style="margin:12px 0;text-decoration:none" href="${vlink(ex)}" target="_blank" rel="noopener">▶ Watch how it’s done</a>
+    <button class="btn" data-act="next">${P.i===n-1?'Finish 🎉':'Done! Next move ›'}</button>
+    <div class="row" style="margin-top:10px">
+      <button class="btn ghost" data-act="back" ${P.i===0?'disabled style="opacity:.4"':''}>‹ Back</button>
+      <button class="btn ghost" data-act="skip">Skip</button>
+    </div>
+  </div></div>`;
+  bindPlayer();
+}
+const fmt = s => s==null?'':(Math.floor(s/60)+':'+pad(s%60));
+function bindPlayer(){
+  const o=$('#overlay');
+  o.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{
+    const a=b.dataset.act;
+    if(a==='close'){ if(P.i===0||confirm('Stop this session? Progress won’t be saved.')) closePlayer(); }
+    if(a==='next'||a==='skip'){ stopTimer(); P.i++; P.left=null; drawPlayer(); }
+    if(a==='back'){ stopTimer(); P.i=Math.max(0,P.i-1); P.left=null; drawPlayer(); }
+    if(a==='timer'){
+      if(P.running){ stopTimer(); drawPlayer(); return; }
+      if(P.left<=0) P.left = EXERCISES[P.s.list[P.i]].timer;
+      P.running=true; b.textContent='⏸ Pause';
+      TIMER=setInterval(()=>{ P.left--; const t=$('#tm'); if(t) t.textContent=fmt(Math.max(0,P.left));
+        if(P.left<=0){ stopTimer(); beep(); buzz(); const t2=$('#tm'); if(t2) t2.textContent='Done! ✓'; b.textContent='↺ Again'; } },1000);
+    }
+    if(a.startsWith('feel:')){ const feel=a.split(':')[1]; addLog(P.key,{feel}); const k=P.key; P=null; closeOverlay(); render();
+      toast(`${SESSIONS[k].title} done! +${POINTS[k]+(S.active==='both'?POINTS.together:0)} points`); }
+  });
+}
+function drawFinish(){
+  $('#overlay').innerHTML = `<div class="player"><div class="wrap" style="text-align:center">
+    <div class="bigemoji" style="margin-top:30px">🏅</div><h1>You did it, ${whoLabel()}!</h1>
+    <p class="muted">${esc(P.s.title)} complete. How did that feel?</p>
+    <div class="feel">
+      <button data-act="feel:easy"><span class="e">😎</span>Easy</button>
+      <button data-act="feel:right"><span class="e">😊</span>Just right</button>
+      <button data-act="feel:tough"><span class="e">😅</span>Tough</button>
+    </div>
+    <p class="small muted" style="margin-top:16px">Your answer helps the app suggest when to make things harder or easier.</p>
+  </div></div>`;
+  bindPlayer();
+}
+
+/* ---------------- Progress & check-ins ---------------- */
+function chairRef(p){ const tbl=CHAIR_BELOW[p.sex==='f'?'f':'m']; let v=null; for(const [a,n] of tbl){ if(p.age>=a) v=n; } return v; }
+function viewProgress(){
+  const ids = S.people.map(p=>p.id);
+  const kinds = [
+    {k:'chair', t:'30-second chair stand', u:'stands', e:'🪑', d:'How many times can you stand up from a chair in 30 seconds, arms crossed? The app counts down while you tap.'},
+    {k:'grip', t:'Grip strength', u:'kg', e:'✊', d:'Needs a hand grip meter (a "hand dynamometer", about $20–30 online). Best squeeze of 2 tries, stronger hand.'},
+    {k:'balance', t:'One-foot balance', u:'sec', e:'🦩', d:'Stand at the counter, ready to hold on. Lift one foot. How long, up to 30 seconds?'}
+  ];
+  const weeks = [...Array(6)].map((_,i)=>addDays(weekStart(),-7*(5-i)));
+  return `<h1>Progress</h1>
+  <p class="muted">Do a <b>check-in once a month</b> to see yourselves getting stronger. It’s the fun part!</p>
+  ${kinds.map(K=>`<section class="card">
+    <div class="row" style="align-items:center"><div style="flex:0 0 auto;font-size:2rem">${K.e}</div><div style="flex:1"><h3 style="margin:0;font-weight:900">${K.t}</h3></div></div>
+    <p class="small muted">${K.d}</p>
+    ${ids.map(id=>{ const p=person(id); const T=S.tests.filter(t=>t.who===id&&t.kind===K.k); const last=T[T.length-1], first=T[0];
+      let ref=''; if(K.k==='chair' && last){ const r=chairRef(p); if(r) ref = last.value>=r ? `<span class="small" style="color:var(--ok)">✓ Average or better for age</span>` : `<span class="small muted">Room to grow (age reference: ${r}+)</span>`; }
+      return `<div class="stat" style="margin:8px 0"><span>${p.emoji} ${esc(p.name)}</span><span>${last?`<b>${last.value}</b> ${K.u}`:'<span class="muted small">No check-in yet</span>'}</span></div>
+      ${T.length>1?`<div class="small" style="text-align:right;font-weight:800;color:${last.value>=first.value?'var(--ok)':'var(--muted)'}">${last.value>=first.value?'▲':'▼'} ${Math.abs(+(last.value-first.value).toFixed(1))} since first check-in</div>`:''}
+      ${ref?`<div style="text-align:right">${ref}</div>`:''}
+      ${T.length>1?lineChart(T):''}`; }).join('')}
+    <button class="btn ${K.k==='chair'?'teal':K.k==='grip'?'violet':'sun'}" data-test="${K.k}" style="margin-top:10px">Start check-in</button>
+  </section>`).join('')}
+  <h2>Last 6 weeks</h2>
+  <div class="card">${ids.map(id=>`<div style="margin-bottom:14px"><div style="font-weight:900;margin-bottom:6px">${person(id).emoji} ${esc(person(id).name)}</div>${weekBars(id,weeks)}</div>`).join('')}
+  <p class="small muted" style="margin:0">Each bar is a week. ⭐ means every goal was hit.</p></div>
+  <button class="btn ghost" data-act="share">📤 Send this week’s update to family</button>
+  <p class="small muted" style="margin-top:14px">The 30-second chair stand is a standard test from the CDC’s STEADI fall-prevention program. Age references are for information only, not a diagnosis.</p>`;
+}
+function weekBars(id, weeks){
+  const max = Math.max(4, ...weeks.map(w=>weekCounts(id,w).L.length));
+  return `<div style="display:flex;gap:8px;align-items:flex-end;height:110px">${weeks.map(w=>{ const c=weekCounts(id,w); const h=Math.round((c.L.length/max)*80); const met=goalsMet(id,w);
+    return `<div style="flex:1;text-align:center"><div class="small" style="font-weight:900">${met?'⭐':c.L.length||''}</div><div style="height:${Math.max(4,h)}px;background:${met?'var(--sun)':'var(--coral)'};border-radius:8px 8px 4px 4px;opacity:${c.L.length?1:.25}"></div><div class="small muted" style="font-size:.65rem">${w.getMonth()+1}/${w.getDate()}</div></div>`; }).join('')}</div>`;
+}
+function lineChart(T){
+  const W=520,H=120,pd=24; const vals=T.map(t=>t.value); const mn=Math.min(...vals), mx=Math.max(...vals); const rng=(mx-mn)||1;
+  const pts=T.map((t,i)=>[pd+(i*(W-2*pd))/Math.max(1,T.length-1), H-pd-((t.value-mn)/rng)*(H-2*pd)]);
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Trend">
+    <polyline fill="none" stroke="var(--coral)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" points="${pts.map(p=>p.join(',')).join(' ')}"/>
+    ${pts.map((p,i)=>`<circle cx="${p[0]}" cy="${p[1]}" r="6" fill="var(--card)" stroke="var(--coral)" stroke-width="3"/><text x="${p[0]}" y="${p[1]-11}" text-anchor="middle" font-size="15" font-weight="800" fill="var(--ink)">${T[i].value}</text>`).join('')}
+  </svg>`;
+}
+
+/* --- check-in flows --- */
+function testFlow(kind){
+  const ids = whoIds();
+  let idx=0;
+  const next = () => { if(idx>=ids.length){ closeOverlay(); const fresh=checkBadges(); render(); confetti(); toast('Check-in saved! ⭐'); queueBadges(fresh); return; } runTest(kind, person(ids[idx]), v=>{ if(v!=null) S.tests.push({date:today(), who:ids[idx], kind, value:v}); save(); idx++; next(); }); };
+  next();
+}
+function closeOverlay(){ stopTimer(); $('#overlay').innerHTML=''; document.body.style.overflow=''; setTimeout(flushBadges,300); }
+function runTest(kind, p, done){
+  document.body.style.overflow='hidden';
+  const shell = inner => { $('#overlay').innerHTML = `<div class="player"><div class="wrap"><div class="row" style="align-items:center"><div style="font-weight:900">${p.emoji} ${esc(p.name)}’s check-in</div><button class="btn ghost" style="flex:0 0 auto;width:auto;min-height:52px;padding:8px 16px;font-size:.9rem" id="tx">✕ Close</button></div>${inner}</div></div>`; $('#tx').onclick=()=>{ closeOverlay(); render(); }; };
+  if(kind==='chair'){
+    let count=0, left=30, started=false;
+    shell(`<h1 style="margin-top:16px">30-second chair stand 🪑</h1>
+      <ol class="steps"><li>Chair against a wall. Sit in the middle, feet flat.</li><li>Cross your arms over your chest.</li><li>A helper taps the big button each time ${esc(p.name)} stands all the way up.</li></ol>
+      <div class="safety">If you need your hands to stand up, that’s okay. Use them safely, and note it.</div>
+      <div class="timer" id="cs-t">0:30</div>
+      <button class="counter" id="cs-b">Start</button>
+      <button class="btn ghost" id="cs-skip" style="margin-top:12px">Skip ${esc(p.name)}</button>`);
+    $('#cs-skip').onclick=()=>done(null);
+    $('#cs-b').onclick=()=>{
+      if(!started){ started=true; $('#cs-b').textContent='0'; beep();
+        TIMER=setInterval(()=>{ left--; $('#cs-t').textContent=fmt(left); if(left<=0){ stopTimer(); beep(); buzz(); finish(); } },1000); return; }
+      if(left>0){ count++; $('#cs-b').textContent=count; buzz(); }
+    };
+    const finish=()=>{ const r=chairRef(p);
+      shell(`<div style="text-align:center"><div class="bigemoji">🎉</div><h1>${count} stands!</h1>
+        <p class="muted">${r? (count>=r?'That’s average or better for your age group. Brilliant!':`The age reference is ${r}. Strong Days will get you there!`):''}</p>
+        <label class="f" for="adj">Fix the number if a tap was missed:</label><input id="adj" type="number" inputmode="numeric" value="${count}" min="0" max="60">
+        <button class="btn" id="ok" style="margin-top:14px">Save ✓</button></div>`);
+      $('#ok').onclick=()=>{ const v=parseInt($('#adj').value,10); done(isNaN(v)?null:v); };
+    };
+  } else if(kind==='grip'){
+    shell(`<h1 style="margin-top:16px">Grip strength ✊</h1>
+      <ol class="steps"><li>Stand up, arm by your side, elbow slightly bent.</li><li>Squeeze the grip meter as hard as you can for 3 seconds.</li><li>Rest a minute, try again. Enter your best number.</li></ol>
+      <label class="f" for="gv">Best squeeze</label><input id="gv" type="number" inputmode="decimal" step="0.5" min="0" max="120" placeholder="e.g. 24">
+      <div class="row" style="margin-top:10px"><button class="btn ghost" data-u="kg" aria-pressed="true" id="ukg">kg</button><button class="btn ghost" data-u="lb" id="ulb">lb</button></div>
+      <button class="btn violet" id="ok" style="margin-top:14px">Save ✓</button>
+      <button class="btn ghost" id="sk" style="margin-top:10px">No grip meter yet. Skip</button>`);
+    let unit='kg'; const setU=u=>{ unit=u; $('#ukg').style.borderColor=u==='kg'?'var(--coral)':''; $('#ulb').style.borderColor=u==='lb'?'var(--coral)':''; }; setU('kg');
+    $('#ukg').onclick=()=>setU('kg'); $('#ulb').onclick=()=>setU('lb');
+    $('#sk').onclick=()=>done(null);
+    $('#ok').onclick=()=>{ let v=parseFloat($('#gv').value); if(isNaN(v)) return toast('Enter a number first'); if(unit==='lb') v=v*0.4536; done(Math.round(v*10)/10); };
+  } else {
+    let sec=0;
+    shell(`<h1 style="margin-top:16px">One-foot balance 🦩</h1>
+      <ol class="steps"><li>Stand facing the kitchen counter, hands hovering just above it.</li><li>Lift one foot and press Start.</li><li>Press Stop the moment you touch the counter or put your foot down. Stop at 30 seconds.</li></ol>
+      <div class="safety">Have a helper stand next to you the first time.</div>
+      <div class="timer" id="bt">0</div>
+      <button class="counter" id="bb" style="background:var(--sun);color:#3a2600">Start</button>
+      <button class="btn ghost" id="sk" style="margin-top:12px">Skip ${esc(p.name)}</button>`);
+    $('#sk').onclick=()=>{ stopTimer(); done(null); };
+    $('#bb').onclick=()=>{
+      if(!TIMER){ sec=0; $('#bb').textContent='Stop'; beep(); TIMER=setInterval(()=>{ sec++; $('#bt').textContent=sec; if(sec>=30){ stopTimer(); beep(); buzz(); end(); } },1000); }
+      else { stopTimer(); end(); }
+    };
+    const end=()=>{ shell(`<div style="text-align:center"><div class="bigemoji">🦩</div><h1>${sec} seconds</h1><p class="muted">${sec>=30?'Maximum reached. Amazing balance!':'Practise Stand on One Foot to grow this number.'}</p><button class="btn sun" id="ok">Save ✓</button></div>`); $('#ok').onclick=()=>done(sec); };
+  }
+}
+
+/* ---------------- Trophies ---------------- */
+function viewTrophies(){
+  return `<h1>Trophies</h1><p class="muted">Collect them all! Points come from every walk, session and check-in. Doing things <b>together</b> earns a bonus.</p>
+  ${S.people.map(p=>{ const pts=points(p.id), lv=Math.min(LEVELS.length-1, Math.floor(pts/LEVEL_SIZE)), into=pts-lv*LEVEL_SIZE; const got=S.seen[p.id]||{};
+    return `<section class="card"><div class="stat"><span style="font-weight:900;font-size:1.15rem">${p.emoji} ${esc(p.name)}</span><span><b>${pts}</b> pts</span></div>
+      <div style="margin:6px 0 4px;font-weight:900">${LEVELS[lv]}</div>
+      <div class="level"><i style="width:${lv===LEVELS.length-1?100:(into/LEVEL_SIZE)*100}%"></i></div>
+      <div class="small muted" style="margin:4px 0 14px">${lv<LEVELS.length-1?`${LEVEL_SIZE-into} points to ${LEVELS[lv+1]}`:'Top level!'} · 🔥 ${streak(p.id)}-day streak</div>
+      <div class="badges">${BADGES.map(b=>`<div class="badge ${got[b.id]?'':'locked'}"><div class="e">${b.e}</div><div class="n">${b.n}</div><div class="w">${got[b.id]?'Earned '+parse(got[b.id]).toLocaleDateString(undefined,{month:'short',day:'numeric'}):b.w}</div></div>`).join('')}</div>
+    </section>`; }).join('')}`;
+}
+function showBadges(list){
+  $('#overlay').innerHTML = `<div class="player" style="display:grid;place-items:center"><div class="wrap" style="text-align:center">
+   ${list.map(({p,b})=>`<div class="bigemoji">${b.e}</div><h1>${esc(p.name)} earned “${b.n}”!</h1><p class="muted">${b.w}</p>`).join('')}
+   <button class="btn" id="bok" style="margin-top:20px">Hooray! 🎉</button></div></div>`;
+  confetti(); document.body.style.overflow='hidden'; $('#bok').onclick=()=>{ closeOverlay(); render(); };
+}
+
+/* ---------------- Settings ---------------- */
+function openSettings(){
+  document.body.style.overflow='hidden';
+  const g=S.goals;
+  $('#overlay').innerHTML = `<div class="player"><div class="wrap">
+   <div class="row" style="align-items:center"><h1 style="margin:0">Settings</h1><button class="btn ghost" style="flex:0 0 auto;width:auto;min-height:52px;padding:8px 16px" id="sx">Done</button></div>
+   ${S.people.map((p,i)=>`<div class="card"><label class="f" for="pn${i}">Name</label><input id="pn${i}" type="text" value="${esc(p.name)}">
+     <div class="row"><div><label class="f" for="pa${i}">Age</label><input id="pa${i}" type="number" inputmode="numeric" value="${p.age}"></div>
+     <div><label class="f" for="pe${i}">Emoji</label><input id="pe${i}" type="text" value="${esc(p.emoji)}" maxlength="4"></div></div></div>`).join('')}
+   <h2>Weekly goals</h2>
+   <p class="small muted">Defaults follow the CDC’s advice for adults 65+: strength at least 2 days a week, plus balance work and regular walking.</p>
+   ${[['walk','🚶 Walking days'],['strength','💪 Strong Days'],['stretch','🧘 Yoga & Stretch'],['grip','✊ Grip & Balance']].map(([k,l])=>`<div class="card stat" style="align-items:center"><span style="font-weight:800">${l}</span><span class="stepper"><button data-g="${k}" data-d="-1" aria-label="Less">−</button><output id="g-${k}">${g[k]}</output><button data-g="${k}" data-d="1" aria-label="More">+</button></span></div>`).join('')}
+   <h2>Look</h2>
+   <div class="row">${['auto','light','dark'].map(t=>`<button class="btn ghost" data-theme="${t}" style="${S.theme===t?'border-color:var(--coral)':''}">${t==='auto'?'Auto':t==='light'?'☀️ Light':'🌙 Dark'}</button>`).join('')}</div>
+   <h2>Backup</h2>
+   <p class="small muted">Everything is saved on this device only. Make a backup now and then, or to move to a new phone.</p>
+   <div class="row"><button class="btn ghost" id="exp">💾 Save backup</button><label class="btn ghost" for="imp" style="cursor:pointer">📂 Restore</label></div>
+   <input type="file" id="imp" accept="application/json" class="sr">
+   <button class="btn ghost" id="reset" style="margin-top:24px;color:#b91c1c">Start over (erase everything)</button>
+  </div></div>`;
+  const commit=()=>{ S.people.forEach((p,i)=>{ p.name=$('#pn'+i).value.trim()||p.name; p.age=parseInt($('#pa'+i).value,10)||p.age; p.emoji=$('#pe'+i).value.trim()||p.emoji; }); save(); };
+  $('#sx').onclick=()=>{ commit(); closeOverlay(); render(); };
+  $('#overlay').querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{ const k=b.dataset.g; S.goals[k]=Math.max(0,Math.min(7,S.goals[k]+Number(b.dataset.d))); $('#g-'+k).textContent=S.goals[k]; save(); });
+  $('#overlay').querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>{ commit(); S.theme=b.dataset.theme; save(); render(); openSettings(); });
+  $('#exp').onclick=()=>{ const blob=new Blob([JSON.stringify(S,null,1)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='strong-together-backup-'+today()+'.json'; a.click(); };
+  $('#imp').onchange=e=>{ const f=e.target.files[0]; if(!f) return; f.text().then(t=>{ try{ const d=JSON.parse(t); if(!d.people||!d.log) throw 0; S=Object.assign(structuredClone(DEFAULT),d); save(); toast('Backup restored ✓'); closeOverlay(); render(); }catch(err){ toast('That file isn’t a Strong Together backup'); } }); };
+  $('#reset').onclick=()=>{ if(confirm('Erase all progress on this device? This can’t be undone.')){ S=structuredClone(DEFAULT); save(); closeOverlay(); render(); } };
+}
+
+/* ---------------- share ---------------- */
+function shareWeek(){
+  const lines=[`💪 Strong Together: week of ${weekStart().toLocaleDateString(undefined,{month:'short',day:'numeric'})}`];
+  for(const p of S.people){ const c=weekCounts(p.id); lines.push(`${p.emoji} ${p.name}: walked ${c.walk}/${S.goals.walk} days · strength ${c.strength}/${S.goals.strength} · yoga ${c.stretch}/${S.goals.stretch} · grip & balance ${c.grip}/${S.goals.grip} · 🔥 ${streak(p.id)}-day streak${goalsMet(p.id)?' · ⭐ ALL GOALS HIT!':''}`); }
+  const text=lines.join('\n');
+  if(navigator.share){ navigator.share({text}).catch(()=>{}); }
+  else if(navigator.clipboard){ navigator.clipboard.writeText(text).then(()=>toast('Copied! Paste it into a text message.'),()=>prompt('Copy this:',text)); }
+  else prompt('Copy this:',text);
+}
+
+/* ---------------- confetti ---------------- */
+function confetti(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c=$('#confetti'), x=c.getContext('2d'); c.width=innerWidth; c.height=innerHeight;
+  const cols=['#ff7a45','#ff4f8b','#7a5af8','#0f9d8a','#f5a524'];
+  const ps=[...Array(120)].map(()=>({x:innerWidth/2+(Math.random()-.5)*120,y:innerHeight*.35,vx:(Math.random()-.5)*14,vy:-Math.random()*14-4,s:6+Math.random()*7,c:cols[Math.floor(Math.random()*5)],r:Math.random()*6}));
+  let f=0; (function tick(){ x.clearRect(0,0,c.width,c.height); for(const p of ps){ p.vy+=.45; p.x+=p.vx; p.y+=p.vy; p.r+=.2; x.save(); x.translate(p.x,p.y); x.rotate(p.r); x.fillStyle=p.c; x.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6); x.restore(); } if(++f<110) requestAnimationFrame(tick); else x.clearRect(0,0,c.width,c.height); })();
+}
+
+/* ---------------- events ---------------- */
+function bind(root){
+  root.querySelectorAll('[data-who]').forEach(b=>b.onclick=()=>{ S.active=b.dataset.who; save(); render(); });
+  root.querySelectorAll('[data-start]').forEach(b=>b.onclick=()=>startSession(b.dataset.start));
+  root.querySelectorAll('[data-walk]').forEach(b=>b.onclick=()=>{ addLog('walk',{minutes:Number(b.dataset.walk)}); render(); toast(`Walk logged for ${S.active==='both'?'both of you':person(S.active).name}! 🚶`); });
+  root.querySelectorAll('[data-undo]').forEach(a=>a.onclick=e=>{ e.preventDefault(); undoToday(a.dataset.undo); });
+  root.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{ LIBCAT=b.dataset.cat; render(); });
+  root.querySelectorAll('[data-test]').forEach(b=>b.onclick=()=>testFlow(b.dataset.test));
+  root.querySelectorAll('[data-act="settings"]').forEach(b=>b.onclick=openSettings);
+  root.querySelectorAll('[data-act="share"]').forEach(b=>b.onclick=shareWeek);
+}
+document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>{ TAB=b.dataset.tab; render(); });
+
+load(); checkBadges(); render();
+if('serviceWorker' in navigator && location.protocol.startsWith('http')){ navigator.serviceWorker.register('sw.js').catch(()=>{}); }
+</script>
+</body>
+</html>
