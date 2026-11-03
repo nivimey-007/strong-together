@@ -346,6 +346,17 @@ function buzz(){ try{ navigator.vibrate && navigator.vibrate(60);}catch(e){} }
 let actx;
 function beep(){ try{ actx = actx || new (window.AudioContext||window.webkitAudioContext)(); const o=actx.createOscillator(), g=actx.createGain(); o.frequency.value=880; g.gain.value=.15; o.connect(g); g.connect(actx.destination); o.start(); o.stop(actx.currentTime+.25);}catch(e){} }
 
+function ask(msg, yes, onYes){
+  const d=document.createElement('div'); d.className='player'; d.style.cssText='display:grid;place-items:center;z-index:70;background:rgba(20,20,30,.55)';
+  d.innerHTML=`<div class="card" style="max-width:520px;margin:16px;width:calc(100% - 32px)"><h1 style="font-size:1.3rem">${esc(msg)}</h1><div class="row" style="margin-top:14px"><button class="btn ghost" data-n>No, go back</button><button class="btn" data-y>${esc(yes)}</button></div></div>`;
+  document.body.appendChild(d); d.querySelector('[data-n]').onclick=()=>d.remove(); d.querySelector('[data-y]').onclick=()=>{ d.remove(); onYes(); };
+}
+function showText(text){
+  const d=document.createElement('div'); d.className='player'; d.style.zIndex=70;
+  d.innerHTML=`<div class="wrap"><h1>Copy this message</h1><p class="muted">Press and hold the text, choose Select All, then Copy and paste it into a text message.</p><textarea id="sharetxt" readonly style="width:100%;min-height:220px;font:inherit;font-size:1rem;padding:14px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--ink)"></textarea><button class="btn" style="margin-top:12px" data-c>Done</button></div>`;
+  document.body.appendChild(d); const t=d.querySelector('#sharetxt'); t.value=text; t.focus(); t.select(); d.querySelector('[data-c]').onclick=()=>d.remove();
+}
+
 /* ---------------- stats ---------------- */
 function logsFor(id){ return S.log.filter(l=>l.who===id); }
 function weekCounts(id, ws=weekStart()){
@@ -556,7 +567,7 @@ function bindPlayer(){
   const o=$('#overlay');
   o.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{
     const a=b.dataset.act;
-    if(a==='close'){ if(P.i===0||confirm('Stop this session? Progress won’t be saved.')) closePlayer(); }
+    if(a==='close'){ if(P.i===0) closePlayer(); else ask('Stop this session? It won’t be counted.','Yes, stop',closePlayer); }
     if(a==='next'||a==='skip'){ stopTimer(); P.i++; P.left=null; drawPlayer(); }
     if(a==='back'){ stopTimer(); P.i=Math.max(0,P.i-1); P.left=null; drawPlayer(); }
     if(a==='timer'){
@@ -731,7 +742,7 @@ function openSettings(){
   $('#overlay').querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>{ commit(); S.theme=b.dataset.theme; save(); render(); openSettings(); });
   $('#exp').onclick=()=>{ const blob=new Blob([JSON.stringify(S,null,1)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='strong-together-backup-'+today()+'.json'; a.click(); };
   $('#imp').onchange=e=>{ const f=e.target.files[0]; if(!f) return; f.text().then(t=>{ try{ const d=JSON.parse(t); if(!d.people||!d.log) throw 0; S=Object.assign(structuredClone(DEFAULT),d); save(); toast('Backup restored ✓'); closeOverlay(); render(); }catch(err){ toast('That file isn’t a Strong Together backup'); } }); };
-  $('#reset').onclick=()=>{ if(confirm('Erase all progress on this device? This can’t be undone.')){ S=structuredClone(DEFAULT); save(); closeOverlay(); render(); } };
+  $('#reset').onclick=()=>ask('Erase all progress on this device? This can’t be undone.','Erase',()=>{ S=structuredClone(DEFAULT); save(); closeOverlay(); render(); });
 }
 
 /* ---------------- share ---------------- */
@@ -739,9 +750,8 @@ function shareWeek(){
   const lines=[`💪 Strong Together: week of ${weekStart().toLocaleDateString(undefined,{month:'short',day:'numeric'})}`];
   for(const p of S.people){ const c=weekCounts(p.id); lines.push(`${p.emoji} ${p.name}: walked ${c.walk}/${S.goals.walk} days · strength ${c.strength}/${S.goals.strength} · yoga ${c.stretch}/${S.goals.stretch} · grip & balance ${c.grip}/${S.goals.grip} · 🔥 ${streak(p.id)}-day streak${goalsMet(p.id)?' · ⭐ ALL GOALS HIT!':''}`); }
   const text=lines.join('\n');
-  if(navigator.share){ navigator.share({text}).catch(()=>{}); }
-  else if(navigator.clipboard){ navigator.clipboard.writeText(text).then(()=>toast('Copied! Paste it into a text message.'),()=>prompt('Copy this:',text)); }
-  else prompt('Copy this:',text);
+  const copy=()=>{ if(navigator.clipboard){ navigator.clipboard.writeText(text).then(()=>toast('Copied! Paste it into a text message.'),()=>showText(text)); } else showText(text); };
+  if(navigator.share){ navigator.share({text}).catch(e=>{ if(e&&e.name!=='AbortError') copy(); }); } else copy();
 }
 
 /* ---------------- confetti ---------------- */
