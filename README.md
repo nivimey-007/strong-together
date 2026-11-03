@@ -24,6 +24,12 @@ All content is at the top of the `<script>` in `index.html`:
 - `SESSIONS`: which moves go in each session.
 - `CLASSES`: longer follow-along videos (add `video:` for an exact link).
 
+## iPhone & iPad
+- **Install from Safari:** Share (or ••• → Share) → Add to Home Screen. The app shows these steps itself until it's installed. Always open it from the icon: iOS keeps a home-screen app's data separate from Safari's, and protects it from Safari's automatic clean-up of website data.
+- **One person logs for both.** Tap Dad / Mom / Both at the top. **Yesterday** backfills a missed day. **Did it without the app?** ticks off a session without going through the guide.
+- **Text size** (A / A+ / A++) is in Settings. On iPad the layout widens to two and three columns.
+- The screen stays awake during sessions and check-ins (Wake Lock, iOS 16.4+). Timer beeps follow the ring/silent switch.
+
 ## Known limitations
-- Data lives on one device. If both parents use the app, one shared phone or tablet with the "Both" button works best. Two separate phones won't sync. Use Backup/Restore to move data.
+- **No automatic sync.** The iPhone and the iPad each keep their own copy. Settings → **Send my progress** → AirDrop, then **Add progress from a file** on the other device. Entries are merged, not overwritten. Pick one main device to avoid the chore.
 - Video buttons open YouTube searches, not specific videos, because the links weren't verified when the app was built.

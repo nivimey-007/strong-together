@@ -11,6 +11,8 @@
 <link rel="apple-touch-icon" href="icon-180.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Strong Together">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
@@ -42,7 +44,18 @@ html{font-size:20px;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:Nunito,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.45;font-weight:600}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 a{color:var(--coral-ink)}
-.wrap{max-width:640px;margin:0 auto;padding:16px 16px 120px}
+.wrap{max-width:640px;margin:0 auto;padding-top:max(16px, env(safe-area-inset-top, 0px));padding-bottom:calc(120px + env(safe-area-inset-bottom, 0px));padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+html{-webkit-tap-highlight-color:transparent}
+button,a,.chip,label.btn{touch-action:manipulation;-webkit-user-select:none;user-select:none}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+.grid2,.grid3{display:grid;grid-template-columns:1fr;gap:0 14px}
+.daypick{display:flex;gap:8px;align-items:center;margin:0 0 14px}
+.daypick button{flex:1;min-height:52px;border-radius:14px;background:var(--card);border:2px solid var(--line);font-weight:900}
+.daypick button[aria-pressed="true"]{border-color:var(--coral);background:var(--coral-soft)}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.quick button{min-height:72px;border-radius:16px;font-weight:900;font-size:.9rem;border:2px solid transparent}
+.quick button .e{display:block;font-size:1.5rem}
+.share-ico{display:inline-block;vertical-align:-4px;width:22px;height:22px}
 header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 14px}
 .brand{font-weight:900;font-size:1.35rem;letter-spacing:-.01em}
 .brand span{color:var(--coral)}
@@ -119,7 +132,8 @@ nav.tabs button[aria-current="page"]{color:var(--coral-ink);background:var(--cor
 .safety{background:var(--sun-soft);border-radius:14px;padding:10px 12px;font-size:.88rem;margin:.5rem 0}
 /* player */
 .player{position:fixed;inset:0;background:var(--bg);z-index:50;overflow-y:auto}
-.player .wrap{padding-bottom:40px}
+.player{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.player .wrap{padding-bottom:calc(40px + env(safe-area-inset-bottom, 0px))}
 .progressbar{height:12px;background:var(--line);border-radius:999px;overflow:hidden;margin:8px 0 18px}
 .progressbar i{display:block;height:100%;background:linear-gradient(90deg,var(--coral),var(--rose));border-radius:999px;transition:width .4s}
 .bigemoji{font-size:5rem;text-align:center;line-height:1.1;margin:8px 0}
@@ -151,10 +165,29 @@ input[type=text],input[type=number]{width:100%;font:inherit;font-size:1.1rem;pad
 .stepper{display:flex;align-items:center;gap:10px}
 .stepper button{width:58px;height:58px;border-radius:16px;background:var(--coral-soft);font-size:1.6rem;font-weight:900}
 .stepper output{min-width:2.5ch;text-align:center;font-size:1.4rem;font-weight:900}
-.toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:14px 22px;border-radius:999px;font-weight:900;z-index:80;box-shadow:var(--shadow);max-width:90vw;text-align:center}
+.toast{position:fixed;left:50%;bottom:calc(110px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:14px 22px;border-radius:999px;font-weight:900;z-index:80;box-shadow:var(--shadow);max-width:90vw;text-align:center}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:90}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-@media (max-width:380px){html{font-size:18px}}
+html[data-size="large"]{font-size:23px}
+html[data-size="xl"]{font-size:26px}
+@media (max-width:380px){html{font-size:18px} html[data-size="large"]{font-size:21px} html[data-size="xl"]{font-size:23px}}
+/* iPad and other wide screens: more room, two columns */
+@media (min-width:768px){
+  .wrap{max-width:940px}
+  .grid2{grid-template-columns:1fr 1fr}
+  .grid3{grid-template-columns:repeat(3,1fr)}
+  .grid3 .tile{flex-direction:column;align-items:flex-start;text-align:left}
+  .grid3 .tile .go{display:none}
+  .goals{grid-template-columns:repeat(4,1fr)}
+  .goal{flex-direction:column;text-align:center}
+  .badges{grid-template-columns:repeat(5,1fr)}
+  .player .wrap{max-width:720px}
+  .chips .chip{min-height:64px}
+  .garden .d{min-height:120px}
+  .garden .fl{font-size:1.3rem}
+}
+@media (min-width:1100px){ .wrap{max-width:1040px} }
+@media (max-width:600px){ html[data-size] .chip{flex-basis:calc(50% - 5px)} html[data-size] .quick button{font-size:.8rem} }
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
 </style>
 </head>
@@ -344,6 +377,16 @@ const vlink = ex => ex.video && /^https?:/.test(ex.video) ? ex.video : yt(ex.q);
 function toast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2600); }
 function buzz(){ try{ navigator.vibrate && navigator.vibrate(60);}catch(e){} }
 let actx;
+function unlockAudio(){ try{ actx = actx || new (window.AudioContext||window.webkitAudioContext)(); if(actx.state==='suspended') actx.resume(); const b=actx.createBuffer(1,1,22050), s=actx.createBufferSource(); s.buffer=b; s.connect(actx.destination); s.start(0);}catch(e){} }
+let WAKE=null;
+async function keepAwake(on){ try{ if(on && 'wakeLock' in navigator && !WAKE){ WAKE=await navigator.wakeLock.request('screen'); WAKE.addEventListener('release',()=>WAKE=null); } if(!on && WAKE){ await WAKE.release(); WAKE=null; } }catch(e){} }
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible' && $('#overlay').innerHTML.trim()) keepAwake(true); });
+const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
+const isStandalone = window.navigator.standalone===true || matchMedia('(display-mode: standalone)').matches;
+const isIPad = isIOS && (/iPad/.test(navigator.userAgent) || Math.min(screen.width,screen.height)>=744);
+const deviceName = () => isIPad ? 'iPad' : isIOS ? 'iPhone' : 'device';
+let LOGDAY=0; // 0 = today, -1 = yesterday
+const logDate = () => ymd(addDays(new Date(), LOGDAY));
 function beep(){ try{ actx = actx || new (window.AudioContext||window.webkitAudioContext)(); const o=actx.createOscillator(), g=actx.createGain(); o.frequency.value=880; g.gain.value=.15; o.connect(g); g.connect(actx.destination); o.start(); o.stop(actx.currentTime+.25);}catch(e){} }
 
 function ask(msg, yes, onYes){
@@ -405,7 +448,8 @@ function checkBadges(){
 
 /* ---------------- logging ---------------- */
 function addLog(type, extra={}){
-  const ids = whoIds(), together = ids.length>1, d=today();
+  const ids = whoIds(), together = ids.length>1, d=logDate();
+  if(LOGDAY!==0){ LOGDAY=0; }
   for(const id of ids) S.log.push({id:Math.random().toString(36).slice(2), date:d, ts:Date.now(), who:id, type, together, ...extra});
   save();
   const fresh = checkBadges();
@@ -416,7 +460,7 @@ let PENDING=[];
 function queueBadges(list){ PENDING.push(...list); setTimeout(flushBadges,700); }
 function flushBadges(){ if(!PENDING.length || $('#overlay').innerHTML.trim()) return; const l=PENDING; PENDING=[]; showBadges(l); }
 function undoToday(type){
-  const ids=whoIds(), d=today();
+  const ids=whoIds(), d=logDate();
   for(const id of ids){ for(let i=S.log.length-1;i>=0;i--){ const l=S.log[i]; if(l.who===id && l.date===d && l.type===type){ S.log.splice(i,1); break; } } }
   save(); render(); toast('Removed. No problem!');
 }
@@ -426,6 +470,7 @@ let TAB='today', LIBCAT='all';
 function render(){
   document.documentElement.dataset.theme = S.theme==='auto' ? '' : S.theme;
   if(S.theme==='auto') delete document.documentElement.dataset.theme;
+  if(S.size && S.size!=='normal') document.documentElement.dataset.size=S.size; else delete document.documentElement.dataset.size;
   document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-current', b.dataset.tab===TAB?'page':'false'));
   const app=$('#app');
   app.innerHTML = header() + ({today:viewToday, moves:viewMoves, progress:viewProgress, trophies:viewTrophies}[TAB])();
@@ -460,9 +505,30 @@ function feelTip(){
   if(last.length && last[last.length-1].feel==='tough') return `💡 Last Strong Day felt tough. Use the “easier” options today. Showing up is what counts.`;
   return '';
 }
+function welcomeCard(){
+  if(S.welcomed) return '';
+  return `<div class="card" style="border:2px solid var(--coral)">
+    <div style="font-weight:900;font-size:1.15rem">👋 Welcome to Strong Together!</div>
+    <p>One person can keep track for both of you. Tap <b>${esc(S.people[0].name)}</b>, <b>${esc(S.people[1].name)}</b> or <b>Both</b> at the top to choose who you are logging for. If you forgot yesterday, tap <b>Yesterday</b>.</p>
+    <p class="small muted">Names and goals can be changed with the ⚙️ button.</p>
+    <button class="btn" data-act="welcomed">Got it, let’s go!</button></div>`;
+}
+function installCard(){
+  if(!isIOS || isStandalone || S.installHidden) return '';
+  const share = `<svg class="share-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Share"><path d="M12 3v12"/><path d="M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></svg>`;
+  return `<div class="card" style="background:var(--teal-soft);border:0">
+    <div style="font-weight:900;font-size:1.1rem">📲 Put Strong Together on your Home Screen</div>
+    <ol style="margin:.5rem 0;padding-left:1.3rem">
+      <li>In Safari, tap the Share button ${share}. If you don’t see it, tap the <b>•••</b> button first, then <b>Share</b>.</li>
+      <li>Scroll down and tap <b>Add to Home Screen</b>.</li>
+      <li>Tap <b>Add</b>. Then always open it from the new icon.</li></ol>
+    <p class="small muted">It then opens like a normal app, works without Wi-Fi, and keeps your progress safe.</p>
+    <button class="btn ghost" data-act="hideinstall">Hide this</button></div>`;
+}
 function viewToday(){
   const id = focusId(), g=S.goals, sug = suggestedToday();
-  const doneToday = t => logsFor(id).some(l=>l.date===today() && l.type===t);
+  const doneToday = t => whoIds().every(pid=>logsFor(pid).some(l=>l.date===logDate() && l.type===t));
+  const dayWord = LOGDAY===0?'today':'yesterday';
   const st = streak(id);
   const hour = new Date().getHours();
   const hi = hour<12?'Good morning':hour<17?'Good afternoon':'Good evening';
@@ -475,18 +541,27 @@ function viewToday(){
     <h1>${hi}, ${whoLabel()}!</h1>
     <p>${cheer}</p>
   </section>
+  ${welcomeCard()}
+  ${installCard()}
   ${tip?`<div class="card" style="background:var(--sun-soft)">${tip}</div>`:''}
-  <div class="card">
+  <div class="daypick" role="group" aria-label="Which day are you logging?"><span class="small muted" style="flex:0 0 auto;font-weight:800">Logging for</span>
+    <button data-day="0" aria-pressed="${LOGDAY===0}">Today</button><button data-day="-1" aria-pressed="${LOGDAY===-1}">Yesterday</button></div>
+  <div class="grid2"><div class="card">
     <div style="display:flex;align-items:center;gap:12px"><div class="tile ic c-walk" style="width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:1.8rem;margin:0;padding:0;min-height:0;box-shadow:none;border:0">🚶</div>
-    <div><div style="font-weight:900;font-size:1.1rem">${doneToday('walk')?'Walk logged today! 🎉':'Did you walk today?'}</div><div class="muted small">Tap how long. It counts toward your weekly goal.</div></div></div>
+    <div><div style="font-weight:900;font-size:1.1rem">${doneToday('walk')?`Walk logged ${dayWord}! 🎉`:`Did ${S.active==='both'?'you':esc(person(S.active).name)} walk ${dayWord}?`}</div><div class="muted small">Tap how long. It counts toward your weekly goal.</div></div></div>
     <div class="chips">${[15,30,45,60].map(m=>`<button class="chip" data-walk="${m}">${m} min</button>`).join('')}</div>
     ${doneToday('walk')?`<p class="small muted" style="margin-top:10px">Oops, tapped by mistake? <a href="#" data-undo="walk">Undo</a></p>`:''}
   </div>
+  <div class="card">
+    <div style="font-weight:900;font-size:1.1rem">Did it without the app?</div>
+    <div class="muted small">Tap to tick off a session ${dayWord} for ${whoLabel()}.</div>
+    <div class="quick">${['strength','stretch','grip'].map(k=>`<button class="${CATS[k].cls}" data-quick="${k}"><span class="e">${SESSIONS[k].emoji}</span>${k==='strength'?'Strength':k==='stretch'?'Yoga':'Grip'}${doneToday(k)?' ✓':''}</button>`).join('')}</div>
+  </div></div>
   <h2>Today’s moves</h2>
-  ${order.map(k=>{ const s=SESSIONS[k]; return `<button class="tile ${doneToday(k)?'done':''}" data-start="${k}">
+  <div class="grid3">${order.map(k=>{ const s=SESSIONS[k]; return `<button class="tile ${doneToday(k)?'done':''}" data-start="${k}">
     <span class="ic ${CATS[s.cat].cls}">${s.emoji}</span>
     <span><span class="t">${s.title}</span>${k===sug?'<span class="tag">Suggested today</span>':''}${doneToday(k)?'<span class="tag" style="background:#dcfce7;color:#14532d">Done ✓</span>':''}<br><span class="s">${s.blurb} · about ${s.mins} min</span></span>
-    <span class="go">›</span></button>`;}).join('')}
+    <span class="go">›</span></button>`;}).join('')}</div>
   <h2>This week’s goals</h2>
   ${whoIds().map(pid=>{ const cc=weekCounts(pid); return `${S.active==='both'?`<div style="font-weight:900;margin:10px 0 8px">${person(pid).emoji} ${esc(person(pid).name)}${goalsMet(pid)?' · ⭐ All done!':''}</div>`:''}
   <div class="goals">
@@ -512,7 +587,7 @@ function viewMoves(){
   <div class="filter" role="group" aria-label="Filter">
    ${[['all','All'],['strength','💪 Strength'],['grip','✊ Grip & Balance'],['stretch','🧘 Yoga & Stretch']].map(([k,l])=>`<button data-cat="${k}" aria-pressed="${LIBCAT===k}">${l}</button>`).join('')}
   </div>
-  ${list.map(([k,e])=>exCard(e)).join('')}
+  <div class="grid2">${list.map(([k,e])=>exCard(e)).join('')}</div>
   <h2>🎬 Full follow-along classes</h2>
   <p class="muted small">When you feel like a longer class, these open YouTube with good options to choose from.</p>
   ${CLASSES.map(c=>`<a class="tile" style="text-decoration:none;color:inherit" href="${c.video||yt(c.q)}" target="_blank" rel="noopener"><span class="ic c-stretch">${c.e}</span><span><span class="t">${c.t}</span><br><span class="s">Opens YouTube</span></span><span class="go">↗</span></a>`).join('')}`;
@@ -529,6 +604,7 @@ function exCard(e){
 /* ---------------- Session player ---------------- */
 let P=null, TIMER=null;
 function startSession(key){
+  unlockAudio(); keepAwake(true);
   P={key, i:0, s:SESSIONS[key], left:null, running:false};
   drawPlayer();
 }
@@ -571,6 +647,7 @@ function bindPlayer(){
     if(a==='next'||a==='skip'){ stopTimer(); P.i++; P.left=null; drawPlayer(); }
     if(a==='back'){ stopTimer(); P.i=Math.max(0,P.i-1); P.left=null; drawPlayer(); }
     if(a==='timer'){
+      unlockAudio();
       if(P.running){ stopTimer(); drawPlayer(); return; }
       if(P.left<=0) P.left = EXERCISES[P.s.list[P.i]].timer;
       P.running=true; b.textContent='⏸ Pause';
@@ -640,12 +717,13 @@ function lineChart(T){
 
 /* --- check-in flows --- */
 function testFlow(kind){
+  unlockAudio(); keepAwake(true);
   const ids = whoIds();
   let idx=0;
   const next = () => { if(idx>=ids.length){ closeOverlay(); const fresh=checkBadges(); render(); confetti(); toast('Check-in saved! ⭐'); queueBadges(fresh); return; } runTest(kind, person(ids[idx]), v=>{ if(v!=null) S.tests.push({date:today(), who:ids[idx], kind, value:v}); save(); idx++; next(); }); };
   next();
 }
-function closeOverlay(){ stopTimer(); $('#overlay').innerHTML=''; document.body.style.overflow=''; setTimeout(flushBadges,300); }
+function closeOverlay(){ keepAwake(false); stopTimer(); $('#overlay').innerHTML=''; document.body.style.overflow=''; setTimeout(flushBadges,300); }
 function runTest(kind, p, done){
   document.body.style.overflow='hidden';
   const shell = inner => { $('#overlay').innerHTML = `<div class="player"><div class="wrap"><div class="row" style="align-items:center"><div style="font-weight:900">${p.emoji} ${esc(p.name)}’s check-in</div><button class="btn ghost" style="flex:0 0 auto;width:auto;min-height:52px;padding:8px 16px;font-size:.9rem" id="tx">✕ Close</button></div>${inner}</div></div>`; $('#tx').onclick=()=>{ closeOverlay(); render(); }; };
@@ -728,23 +806,43 @@ function openSettings(){
    <h2>Weekly goals</h2>
    <p class="small muted">Defaults follow the CDC’s advice for adults 65+: strength at least 2 days a week, plus balance work and regular walking.</p>
    ${[['walk','🚶 Walking days'],['strength','💪 Strong Days'],['stretch','🧘 Yoga & Stretch'],['grip','✊ Grip & Balance']].map(([k,l])=>`<div class="card stat" style="align-items:center"><span style="font-weight:800">${l}</span><span class="stepper"><button data-g="${k}" data-d="-1" aria-label="Less">−</button><output id="g-${k}">${g[k]}</output><button data-g="${k}" data-d="1" aria-label="More">+</button></span></div>`).join('')}
+   <h2>Text size</h2>
+   <div class="row">${[['normal','A'],['large','A+'],['xl','A++']].map(([k,l],i)=>`<button class="btn ghost" data-size="${k}" style="font-size:${1+i*.2}rem;${(S.size||'normal')===k?'border-color:var(--coral);background:var(--coral-soft)':''}">${l}</button>`).join('')}</div>
    <h2>Look</h2>
    <div class="row">${['auto','light','dark'].map(t=>`<button class="btn ghost" data-theme="${t}" style="${S.theme===t?'border-color:var(--coral)':''}">${t==='auto'?'Auto':t==='light'?'☀️ Light':'🌙 Dark'}</button>`).join('')}</div>
-   <h2>Backup</h2>
-   <p class="small muted">Everything is saved on this device only. Make a backup now and then, or to move to a new phone.</p>
-   <div class="row"><button class="btn ghost" id="exp">💾 Save backup</button><label class="btn ghost" for="imp" style="cursor:pointer">📂 Restore</label></div>
-   <input type="file" id="imp" accept="application/json" class="sr">
+   <h2>iPhone &amp; iPad</h2>
+   <p class="small muted">Progress is saved on this ${deviceName()} only. It’s easiest to use one main device. To bring your progress to another device, tap <b>Send my progress</b>, choose <b>AirDrop</b> (or Save to Files), then on the other device tap <b>Add progress from a file</b>. Nothing gets lost: entries from both devices are combined.</p>
+   <div class="row"><button class="btn ghost" id="exp">📤 Send my progress</button><label class="btn ghost" for="imp" style="cursor:pointer">📥 Add progress from a file</label></div>
+   <input type="file" id="imp" accept=".json,application/json" class="sr">
    <button class="btn ghost" id="reset" style="margin-top:24px;color:#b91c1c">Start over (erase everything)</button>
   </div></div>`;
   const commit=()=>{ S.people.forEach((p,i)=>{ p.name=$('#pn'+i).value.trim()||p.name; p.age=parseInt($('#pa'+i).value,10)||p.age; p.emoji=$('#pe'+i).value.trim()||p.emoji; }); save(); };
   $('#sx').onclick=()=>{ commit(); closeOverlay(); render(); };
   $('#overlay').querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{ const k=b.dataset.g; S.goals[k]=Math.max(0,Math.min(7,S.goals[k]+Number(b.dataset.d))); $('#g-'+k).textContent=S.goals[k]; save(); });
   $('#overlay').querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>{ commit(); S.theme=b.dataset.theme; save(); render(); openSettings(); });
-  $('#exp').onclick=()=>{ const blob=new Blob([JSON.stringify(S,null,1)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='strong-together-backup-'+today()+'.json'; a.click(); };
-  $('#imp').onchange=e=>{ const f=e.target.files[0]; if(!f) return; f.text().then(t=>{ try{ const d=JSON.parse(t); if(!d.people||!d.log) throw 0; S=Object.assign(structuredClone(DEFAULT),d); save(); toast('Backup restored ✓'); closeOverlay(); render(); }catch(err){ toast('That file isn’t a Strong Together backup'); } }); };
+  $('#overlay').querySelectorAll('[data-size]').forEach(b=>b.onclick=()=>{ commit(); S.size=b.dataset.size; save(); render(); openSettings(); });
+  $('#exp').onclick=async()=>{ commit();
+    const name='strong-together-'+today()+'.json', json=JSON.stringify(S,null,1);
+    try{ const file=new File([json],name,{type:'application/json'});
+      if(navigator.canShare && navigator.canShare({files:[file]})){ await navigator.share({files:[file], title:'Strong Together progress'}); return; } }
+    catch(e){ if(e && e.name==='AbortError') return; }
+    try{ const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([json],{type:'application/json'})); a.download=name; document.body.appendChild(a); a.click(); a.remove(); }catch(e){ showText(json); } };
+  $('#imp').onchange=e=>{ const f=e.target.files[0]; if(!f) return; f.text().then(t=>{ try{ const d=JSON.parse(t); if(!d.people||!d.log) throw 0; const n=mergeIn(d); save(); closeOverlay(); render(); toast(n?`Added ${n} entries ✓`:'Already up to date ✓'); }catch(err){ toast('That file isn’t Strong Together progress'); } }); };
   $('#reset').onclick=()=>ask('Erase all progress on this device? This can’t be undone.','Erase',()=>{ S=structuredClone(DEFAULT); save(); closeOverlay(); render(); });
 }
 
+/* Combine another device's progress with this one (no duplicates). */
+function mergeIn(d){
+  const wasEmpty=!S.log.length && !S.tests.length;
+  let n=0; const ids=new Set(S.log.map(l=>l.id));
+  for(const l of d.log||[]) if(!ids.has(l.id)){ S.log.push(l); ids.add(l.id); n++; }
+  const key=t=>[t.date,t.who,t.kind,t.value].join('|'); const tk=new Set(S.tests.map(key));
+  for(const t of d.tests||[]) if(!tk.has(key(t))){ S.tests.push(t); tk.add(key(t)); n++; }
+  S.log.sort((a,b)=>a.ts-b.ts); S.tests.sort((a,b)=>a.date<b.date?-1:a.date>b.date?1:0);
+  for(const [pid,b] of Object.entries(d.seen||{})){ S.seen[pid]=Object.assign({}, b, S.seen[pid]||{}); }
+  if(wasEmpty && d.people) S.people=d.people;
+  return n;
+}
 /* ---------------- share ---------------- */
 function shareWeek(){
   const lines=[`💪 Strong Together: week of ${weekStart().toLocaleDateString(undefined,{month:'short',day:'numeric'})}`];
@@ -768,6 +866,10 @@ function bind(root){
   root.querySelectorAll('[data-who]').forEach(b=>b.onclick=()=>{ S.active=b.dataset.who; save(); render(); });
   root.querySelectorAll('[data-start]').forEach(b=>b.onclick=()=>startSession(b.dataset.start));
   root.querySelectorAll('[data-walk]').forEach(b=>b.onclick=()=>{ addLog('walk',{minutes:Number(b.dataset.walk)}); render(); toast(`Walk logged for ${S.active==='both'?'both of you':person(S.active).name}! 🚶`); });
+  root.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{ LOGDAY=Number(b.dataset.day); render(); });
+  root.querySelectorAll('[data-quick]').forEach(b=>b.onclick=()=>{ const k=b.dataset.quick; addLog(k,{quick:true}); render(); toast(`${SESSIONS[k].title} ticked off for ${S.active==='both'?'both of you':person(S.active).name}! ✓`); });
+  root.querySelectorAll('[data-act="welcomed"]').forEach(b=>b.onclick=()=>{ S.welcomed=true; save(); render(); });
+  root.querySelectorAll('[data-act="hideinstall"]').forEach(b=>b.onclick=()=>{ S.installHidden=true; save(); render(); });
   root.querySelectorAll('[data-undo]').forEach(a=>a.onclick=e=>{ e.preventDefault(); undoToday(a.dataset.undo); });
   root.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{ LIBCAT=b.dataset.cat; render(); });
   root.querySelectorAll('[data-test]').forEach(b=>b.onclick=()=>testFlow(b.dataset.test));
