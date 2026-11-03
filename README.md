@@ -14,9 +14,7 @@ A friendly, phone-first fitness tracker for two older adults. It covers strength
 Walk 6 days · Strong Day 2× · Yoga & Stretch 3× · Grip & Balance 5× per week. The strength minimum follows the CDC guidance for adults 65+: [muscle strengthening ≥2 days/week plus balance activities](https://www.cdc.gov/physical-activity-basics/guidelines/older-adults.html).
 
 ## Putting it online
-Any static host works. Upload this folder:
-- **Netlify Drop**: drag the `strong-together` folder onto https://app.netlify.com/drop to get a URL.
-- **GitHub Pages**: serve this folder from a public repo.
+Hosted with **GitHub Pages** straight from the `main` branch, with no build step (`.nojekyll` makes Pages serve the files exactly as they are). Every push to `main` redeploys in about a minute.
 
 On the phone, open the URL and choose **Add to Home Screen**. It then opens like an app and works offline (videos still need internet).
 
