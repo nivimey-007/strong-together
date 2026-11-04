@@ -70,6 +70,9 @@ p{margin:.3rem 0 .8rem}
 .who{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
 .who button{background:var(--card);border:3px solid var(--line);border-radius:20px;padding:12px 6px;font-weight:800;min-height:84px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
 .who button .e{font-size:1.7rem;line-height:1}
+.av{display:inline-grid;place-items:center;border-radius:50%;color:#fff;font-weight:900;line-height:1;vertical-align:middle;flex:none;font-size:.62em}
+.who .av{font-size:1.15rem}
+.av-e{line-height:1;vertical-align:middle}
 .who button[aria-pressed="true"]{border-color:var(--coral);background:var(--coral-soft)}
 /* hero */
 .hero{background:linear-gradient(135deg,#ff7a45,#ff4f8b);color:#fff;border:0}
@@ -337,10 +340,10 @@ const CHEERS = [
   'Strength is the best birthday present to yourself.',
   'Little and often beats big and rarely.',
   'Your future self says thank you!',
-  'Muscles don’t know how old you are. They just know you showed up.',
+  'Your muscles noticed you showed up today. Nice work!',
   'Two walkers, one team. Keep it up!',
   'A strong grip means a strong you.',
-  'You’re never too old to get stronger. That’s science!',
+  'Stronger every week. That’s how it works!',
   'Today’s goal: feel a little better than yesterday.',
   'Stand tall, breathe deep, smile big.'
 ];
@@ -348,13 +351,14 @@ const CHEERS = [
 /* ---------------- state ---------------- */
 const KEY = 'strongTogether.v1';
 const DEFAULT = {
-  people:[{id:'dad',name:'Dad',emoji:'👴',age:84,sex:'m'},{id:'mom',name:'Mom',emoji:'👵',age:75,sex:'f'}],
+  people:[{id:'dad',name:'Dad',emoji:'',age:84,sex:'m'},{id:'mom',name:'Mom',emoji:'',age:75,sex:'f'}],
   active:'both', goals:{walk:6,strength:2,stretch:3,grip:5}, log:[], tests:[], seen:{}, theme:'auto'
 };
 let S;
 function load(){
   try{ const raw = localStorage.getItem(KEY); S = raw ? Object.assign(structuredClone(DEFAULT), JSON.parse(raw)) : structuredClone(DEFAULT); }
   catch(e){ S = structuredClone(DEFAULT); }
+  for(const p of S.people){ if(['👴','👵','🧓','👴🏻','👵🏻'].includes(p.emoji)) p.emoji=''; }
 }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ toast('Couldn’t save on this device'); } }
 
@@ -371,6 +375,12 @@ const DAYN = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 const $ = (s,el=document) => el.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const person = id => S.people.find(p=>p.id===id);
+const AV_COLORS = ['linear-gradient(135deg,#ff7a45,#ff4f8b)','linear-gradient(135deg,#7a5af8,#0f9d8a)'];
+function avatar(p, size='1.6em'){
+  if(p.emoji) return `<span class="av-e" style="font-size:${size}" aria-hidden="true">${esc(p.emoji)}</span>`;
+  const i=Math.max(0,S.people.indexOf(p)); const letter=(p.name.trim()[0]||'?').toUpperCase();
+  return `<span class="av" style="width:${size};height:${size};background:${AV_COLORS[i%2]}" aria-hidden="true">${esc(letter)}</span>`;
+}
 const whoIds = () => S.active==='both' ? S.people.map(p=>p.id) : [S.active];
 const focusId = () => S.active==='both' ? S.people[0].id : S.active;
 const vlink = ex => ex.video && /^https?:/.test(ex.video) ? ex.video : yt(ex.q);
@@ -480,7 +490,7 @@ function render(){
 function header(){
   return `<header class="top"><div class="brand">Strong <span>Together</span></div><button class="gear" data-act="settings" aria-label="Settings">⚙️</button></header>
   <div class="who" role="group" aria-label="Who is exercising?">
-    ${S.people.map(p=>`<button data-who="${p.id}" aria-pressed="${S.active===p.id}"><span class="e">${p.emoji}</span>${esc(p.name)}</button>`).join('')}
+    ${S.people.map(p=>`<button data-who="${p.id}" aria-pressed="${S.active===p.id}">${avatar(p,'2.3rem')}${esc(p.name)}</button>`).join('')}
     <button data-who="both" aria-pressed="${S.active==='both'}"><span class="e">💞</span>Both</button>
   </div>`;
 }
@@ -563,7 +573,7 @@ function viewToday(){
     <span><span class="t">${s.title}</span>${k===sug?'<span class="tag">Suggested today</span>':''}${doneToday(k)?'<span class="tag" style="background:#dcfce7;color:#14532d">Done ✓</span>':''}<br><span class="s">${s.blurb} · about ${s.mins} min</span></span>
     <span class="go">›</span></button>`;}).join('')}</div>
   <h2>This week’s goals</h2>
-  ${whoIds().map(pid=>{ const cc=weekCounts(pid); return `${S.active==='both'?`<div style="font-weight:900;margin:10px 0 8px">${person(pid).emoji} ${esc(person(pid).name)}${goalsMet(pid)?' · ⭐ All done!':''}</div>`:''}
+  ${whoIds().map(pid=>{ const cc=weekCounts(pid); return `${S.active==='both'?`<div style="font-weight:900;margin:10px 0 8px">${avatar(person(pid))} ${esc(person(pid).name)}${goalsMet(pid)?' · ⭐ All done!':''}</div>`:''}
   <div class="goals">
     ${[['walk','Walking days','var(--sun)'],['strength','Strong Days','var(--coral)'],['stretch','Yoga & Stretch','var(--violet)'],['grip','Grip & Balance','var(--teal)']].map(([k,l,col])=>
       `<div class="goal">${ring(cc[k],g[k],col)}<div><div class="n">${Math.min(cc[k],99)} of ${g[k]}</div><div class="l">${l}</div></div></div>`).join('')}
@@ -689,14 +699,14 @@ function viewProgress(){
     <p class="small muted">${K.d}</p>
     ${ids.map(id=>{ const p=person(id); const T=S.tests.filter(t=>t.who===id&&t.kind===K.k); const last=T[T.length-1], first=T[0];
       let ref=''; if(K.k==='chair' && last){ const r=chairRef(p); if(r) ref = last.value>=r ? `<span class="small" style="color:var(--ok)">✓ Average or better for age</span>` : `<span class="small muted">Room to grow (age reference: ${r}+)</span>`; }
-      return `<div class="stat" style="margin:8px 0"><span>${p.emoji} ${esc(p.name)}</span><span>${last?`<b>${last.value}</b> ${K.u}`:'<span class="muted small">No check-in yet</span>'}</span></div>
+      return `<div class="stat" style="margin:8px 0"><span>${avatar(p)} ${esc(p.name)}</span><span>${last?`<b>${last.value}</b> ${K.u}`:'<span class="muted small">No check-in yet</span>'}</span></div>
       ${T.length>1?`<div class="small" style="text-align:right;font-weight:800;color:${last.value>=first.value?'var(--ok)':'var(--muted)'}">${last.value>=first.value?'▲':'▼'} ${Math.abs(+(last.value-first.value).toFixed(1))} since first check-in</div>`:''}
       ${ref?`<div style="text-align:right">${ref}</div>`:''}
       ${T.length>1?lineChart(T):''}`; }).join('')}
     <button class="btn ${K.k==='chair'?'teal':K.k==='grip'?'violet':'sun'}" data-test="${K.k}" style="margin-top:10px">Start check-in</button>
   </section>`).join('')}
   <h2>Last 6 weeks</h2>
-  <div class="card">${ids.map(id=>`<div style="margin-bottom:14px"><div style="font-weight:900;margin-bottom:6px">${person(id).emoji} ${esc(person(id).name)}</div>${weekBars(id,weeks)}</div>`).join('')}
+  <div class="card">${ids.map(id=>`<div style="margin-bottom:14px"><div style="font-weight:900;margin-bottom:6px">${avatar(person(id))} ${esc(person(id).name)}</div>${weekBars(id,weeks)}</div>`).join('')}
   <p class="small muted" style="margin:0">Each bar is a week. ⭐ means every goal was hit.</p></div>
   <button class="btn ghost" data-act="share">📤 Send this week’s update to family</button>
   <p class="small muted" style="margin-top:14px">The 30-second chair stand is a standard test from the CDC’s STEADI fall-prevention program. Age references are for information only, not a diagnosis.</p>`;
@@ -726,7 +736,7 @@ function testFlow(kind){
 function closeOverlay(){ keepAwake(false); stopTimer(); $('#overlay').innerHTML=''; document.body.style.overflow=''; setTimeout(flushBadges,300); }
 function runTest(kind, p, done){
   document.body.style.overflow='hidden';
-  const shell = inner => { $('#overlay').innerHTML = `<div class="player"><div class="wrap"><div class="row" style="align-items:center"><div style="font-weight:900">${p.emoji} ${esc(p.name)}’s check-in</div><button class="btn ghost" style="flex:0 0 auto;width:auto;min-height:52px;padding:8px 16px;font-size:.9rem" id="tx">✕ Close</button></div>${inner}</div></div>`; $('#tx').onclick=()=>{ closeOverlay(); render(); }; };
+  const shell = inner => { $('#overlay').innerHTML = `<div class="player"><div class="wrap"><div class="row" style="align-items:center"><div style="font-weight:900">${avatar(p)} ${esc(p.name)}’s check-in</div><button class="btn ghost" style="flex:0 0 auto;width:auto;min-height:52px;padding:8px 16px;font-size:.9rem" id="tx">✕ Close</button></div>${inner}</div></div>`; $('#tx').onclick=()=>{ closeOverlay(); render(); }; };
   if(kind==='chair'){
     let count=0, left=30, started=false;
     shell(`<h1 style="margin-top:16px">30-second chair stand 🪑</h1>
@@ -780,7 +790,7 @@ function runTest(kind, p, done){
 function viewTrophies(){
   return `<h1>Trophies</h1><p class="muted">Collect them all! Points come from every walk, session and check-in. Doing things <b>together</b> earns a bonus.</p>
   ${S.people.map(p=>{ const pts=points(p.id), lv=Math.min(LEVELS.length-1, Math.floor(pts/LEVEL_SIZE)), into=pts-lv*LEVEL_SIZE; const got=S.seen[p.id]||{};
-    return `<section class="card"><div class="stat"><span style="font-weight:900;font-size:1.15rem">${p.emoji} ${esc(p.name)}</span><span><b>${pts}</b> pts</span></div>
+    return `<section class="card"><div class="stat"><span style="font-weight:900;font-size:1.15rem">${avatar(p)} ${esc(p.name)}</span><span><b>${pts}</b> pts</span></div>
       <div style="margin:6px 0 4px;font-weight:900">${LEVELS[lv]}</div>
       <div class="level"><i style="width:${lv===LEVELS.length-1?100:(into/LEVEL_SIZE)*100}%"></i></div>
       <div class="small muted" style="margin:4px 0 14px">${lv<LEVELS.length-1?`${LEVEL_SIZE-into} points to ${LEVELS[lv+1]}`:'Top level!'} · 🔥 ${streak(p.id)}-day streak</div>
@@ -802,7 +812,7 @@ function openSettings(){
    <div class="row" style="align-items:center"><h1 style="margin:0">Settings</h1><button class="btn ghost" style="flex:0 0 auto;width:auto;min-height:52px;padding:8px 16px" id="sx">Done</button></div>
    ${S.people.map((p,i)=>`<div class="card"><label class="f" for="pn${i}">Name</label><input id="pn${i}" type="text" value="${esc(p.name)}">
      <div class="row"><div><label class="f" for="pa${i}">Age</label><input id="pa${i}" type="number" inputmode="numeric" value="${p.age}"></div>
-     <div><label class="f" for="pe${i}">Emoji</label><input id="pe${i}" type="text" value="${esc(p.emoji)}" maxlength="4"></div></div></div>`).join('')}
+     <div><label class="f" for="pe${i}">Picture <span class="muted small">(optional emoji; leave blank for initial)</span></label><input id="pe${i}" type="text" value="${esc(p.emoji)}" maxlength="8" placeholder="${esc((p.name.trim()[0]||'').toUpperCase())}"></div></div></div>`).join('')}
    <h2>Weekly goals</h2>
    <p class="small muted">Defaults follow the CDC’s advice for adults 65+: strength at least 2 days a week, plus balance work and regular walking.</p>
    ${[['walk','🚶 Walking days'],['strength','💪 Strong Days'],['stretch','🧘 Yoga & Stretch'],['grip','✊ Grip & Balance']].map(([k,l])=>`<div class="card stat" style="align-items:center"><span style="font-weight:800">${l}</span><span class="stepper"><button data-g="${k}" data-d="-1" aria-label="Less">−</button><output id="g-${k}">${g[k]}</output><button data-g="${k}" data-d="1" aria-label="More">+</button></span></div>`).join('')}
@@ -816,7 +826,7 @@ function openSettings(){
    <input type="file" id="imp" accept=".json,application/json" class="sr">
    <button class="btn ghost" id="reset" style="margin-top:24px;color:#b91c1c">Start over (erase everything)</button>
   </div></div>`;
-  const commit=()=>{ S.people.forEach((p,i)=>{ p.name=$('#pn'+i).value.trim()||p.name; p.age=parseInt($('#pa'+i).value,10)||p.age; p.emoji=$('#pe'+i).value.trim()||p.emoji; }); save(); };
+  const commit=()=>{ S.people.forEach((p,i)=>{ p.name=$('#pn'+i).value.trim()||p.name; p.age=parseInt($('#pa'+i).value,10)||p.age; p.emoji=$('#pe'+i).value.trim(); }); save(); };
   $('#sx').onclick=()=>{ commit(); closeOverlay(); render(); };
   $('#overlay').querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{ const k=b.dataset.g; S.goals[k]=Math.max(0,Math.min(7,S.goals[k]+Number(b.dataset.d))); $('#g-'+k).textContent=S.goals[k]; save(); });
   $('#overlay').querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>{ commit(); S.theme=b.dataset.theme; save(); render(); openSettings(); });
@@ -846,7 +856,7 @@ function mergeIn(d){
 /* ---------------- share ---------------- */
 function shareWeek(){
   const lines=[`💪 Strong Together: week of ${weekStart().toLocaleDateString(undefined,{month:'short',day:'numeric'})}`];
-  for(const p of S.people){ const c=weekCounts(p.id); lines.push(`${p.emoji} ${p.name}: walked ${c.walk}/${S.goals.walk} days · strength ${c.strength}/${S.goals.strength} · yoga ${c.stretch}/${S.goals.stretch} · grip & balance ${c.grip}/${S.goals.grip} · 🔥 ${streak(p.id)}-day streak${goalsMet(p.id)?' · ⭐ ALL GOALS HIT!':''}`); }
+  for(const p of S.people){ const c=weekCounts(p.id); lines.push(`${p.emoji?p.emoji+' ':''}${p.name}: walked ${c.walk}/${S.goals.walk} days · strength ${c.strength}/${S.goals.strength} · yoga ${c.stretch}/${S.goals.stretch} · grip & balance ${c.grip}/${S.goals.grip} · 🔥 ${streak(p.id)}-day streak${goalsMet(p.id)?' · ⭐ ALL GOALS HIT!':''}`); }
   const text=lines.join('\n');
   const copy=()=>{ if(navigator.clipboard){ navigator.clipboard.writeText(text).then(()=>toast('Copied! Paste it into a text message.'),()=>showText(text)); } else showText(text); };
   if(navigator.share){ navigator.share({text}).catch(e=>{ if(e&&e.name!=='AbortError') copy(); }); } else copy();
