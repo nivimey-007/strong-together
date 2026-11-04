@@ -145,6 +145,13 @@ nav.tabs button[aria-current="page"]{color:var(--coral-ink);background:var(--cor
 .ex li{margin:.15rem 0}
 .vid{display:inline-flex;align-items:center;gap:8px;background:#ff0033;color:#fff;text-decoration:none;font-weight:900;border-radius:14px;padding:10px 16px;min-height:52px;margin-top:6px}
 .habit{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:0 0 14px;font-size:.9rem;box-shadow:var(--shadow)}
+.why{background:var(--violet-soft);border-radius:14px;padding:4px 12px;margin:.6rem 0;font-size:.9rem}
+.why summary{cursor:pointer;font-weight:900;min-height:44px;display:flex;align-items:center;list-style:none}
+.why summary::-webkit-details-marker{display:none}
+.why summary::after{content:'▾';margin-left:auto;transition:transform .2s}
+.why[open] summary::after{transform:rotate(180deg)}
+.why p{margin:.2rem 0 .6rem}
+.why a{display:inline-block;margin-bottom:.6rem}
 .breathe{background:var(--teal-soft);border-radius:14px;padding:10px 12px;font-size:.88rem;margin:.5rem 0}
 .safety{background:var(--sun-soft);border-radius:14px;padding:10px 12px;font-size:.88rem;margin:.5rem 0}
 /* player */
@@ -301,13 +308,13 @@ const EXERCISES = {
     tip:'Go gently. Never roll your head all the way round.', q:'gentle neck stretch seniors seated'},
   catCow:{name:'Seated Cat-Cow', emoji:'🐈', cat:'stretch', dose:'6 slow breaths',
     steps:['Sit near the edge of your chair with your hands on your knees.','Breathe in: lift your chest and look up a little.','Breathe out: round your back and drop your chin. Repeat.'],
-    tip:'Move with your breath, slow and easy.', q:'seated cat cow chair yoga seniors'},
+    tip:'Move with your breath, slow and easy. With osteoporosis, keep the rounding small.', q:'seated cat cow chair yoga seniors'},
   sideBend:{name:'Side Reach', emoji:'🌈', cat:'stretch', dose:'3 each side', sides:true,
     steps:['Sit tall. Reach one arm up toward the ceiling.','Lean gently to the other side, making a rainbow shape.','Come back up and switch.'],
     tip:'Keep both hips on the chair.', q:'seated side bend chair yoga seniors'},
   twist:{name:'Seated Twist', emoji:'🌀', cat:'stretch', dose:'Hold 15 seconds each side', timer:15, sides:true,
     steps:['Sit tall with feet flat.','Turn your upper body to the right, holding the back or side of the chair.','Breathe, come back to centre, then turn left.'],
-    tip:'Twist from your middle, gently. No forcing.', q:'seated spinal twist chair yoga seniors'},
+    tip:'Twist from your middle, gently. No forcing. With osteoporosis, keep it small.', q:'seated spinal twist chair yoga seniors'},
   hamstring:{name:'Back-of-Leg Stretch', emoji:'🦵', cat:'stretch', dose:'Hold 20 seconds each leg', timer:20, sides:true,
     steps:['Sit near the edge of your chair. Stretch one leg out with the heel on the floor.','Sit tall and lean forward a little from your hips.','Feel a gentle stretch behind the leg. Switch.'],
     tip:'A gentle pull, never pain.', q:'seated hamstring stretch seniors'},
@@ -358,6 +365,51 @@ const EXERCISES = {
     steps:['Look up from your work.','Find something at least 20 feet away, like out of a window.','Look at it and blink slowly until the timer ends.'],
     tip:'The 20-20-20 rule: every 20 minutes, look 20 feet away for 20 seconds.', q:'20 20 20 rule eye strain'}
 };
+
+/* "Why this works": what each move trains and what it's for in daily life.
+   General exercise physiology; a source is linked where a specific study is cited. */
+const WHY = {
+  march:'Raises heart rate and blood flow to the legs before you load them. It also rehearses the hip-flexor lift (iliopsoas) that clears your toes on every walking step.',
+  chairStand:'Trains the quadriceps and gluteus maximus in exactly the movement of rising from a chair, a car seat or the toilet. The fast, powerful fibres in these muscles decline fastest with age, and sit-to-stand ability is one of the best everyday markers of independence. It’s why the CDC uses a 30-second chair stand as a screening test.',
+  wallPush:'Works the chest (pectoralis major), front of the shoulders and triceps: the pushing muscles you use to get out of bed, up off the floor, or to catch yourself if you stumble. The angle to the wall sets the load, so stepping your feet back is an easy way to progress.',
+  curls:'Biceps and forearm muscles for carrying: groceries, a kettle, a grandchild. The forearm work also feeds directly into grip strength.',
+  heelRaise:'The calf muscles (gastrocnemius and soleus) provide most of the push-off in each walking step and make the first, fastest corrections when you sway. Stronger calves mean a longer, steadier stride.',
+  sideLeg:'The hip abductors (gluteus medius and minimus) keep your pelvis level whenever you stand on one leg, which happens with every step. When they’re weak the body sways side to side, a common contributor to falls.',
+  kneeExt:'Isolates the quadriceps, the main stabiliser of the knee. Strong quads take load off the joint itself and make stairs easier, and isolating them works even on days standing moves feel sore.',
+  overhead:'Shoulders (deltoids), triceps and the upper-back muscles that steady the shoulder blade, for reaching up to shelves and cupboards. Optional because pressing overhead raises blood pressure more than most moves.',
+  ballSqueeze:{w:'Strengthens the forearm flexors that close the hand. Grip strength is a robust marker of overall muscle strength: in the PURE study of about 140,000 adults in 17 countries, each 5 kg lower grip was associated with about 16% higher all-cause mortality. That’s an association, not proof that training grip alone extends life; it most likely reflects whole-body strength, which is why grip work sits alongside the leg exercises.', src:'Leong et al., Lancet 2015 (PURE)', url:'https://pubmed.ncbi.nlm.nih.gov/25982160/'},
+  towelWring:'Combines grip with forearm rotation (pronation and supination): the motion for opening jars, turning keys and door handles.',
+  rubberBand:'Trains the finger extensors, the muscles that open the hand. They’re usually neglected, and balancing them against the much stronger closing muscles helps hand comfort and dexterity.',
+  bagHold:'A loaded hold builds grip endurance and the core and hip muscles that stop you leaning sideways under a one-sided load: exactly what carrying a shopping bag demands.',
+  oneLeg:'Balance is a trainable skill. Practising single-leg stance sharpens the ankle and hip reactions your nervous system uses to correct sway, and every walking step is a brief single-leg stand.',
+  heelToe:'Narrowing your base of support makes the three balance systems (inner ear, vision and sensation from the feet) work harder. It’s training for uneven paths, curbs and tight spaces.',
+  weightShift:'Teaches controlled movement of your centre of mass over each foot, which is the first phase of every step and of catching yourself.',
+  shoulderRoll:'Moves the shoulder blades through elevation, retraction and depression. It counters a forward-rounded posture and eases tension in the neck and upper back.',
+  neck:'Lengthens the upper trapezius and scalene muscles, which tighten with reading, sewing and playing. Side bends are used instead of full head circles to avoid compressing the joints at the back of the neck.',
+  catCow:'Moves the spine through flexion and extension one segment at a time, keeping the small spinal joints mobile and coordinating movement with breathing. If you have osteoporosis, keep the rounding part small or skip it: forward flexion is the spinal position bone-health guidance usually limits.',
+  sideBend:'Lengthens the side of the trunk (obliques, quadratus lumborum and latissimus dorsi). Side bending is the spinal movement most people use least in daily life.',
+  twist:'Rotation keeps the upper (thoracic) spine mobile, which you need to look over your shoulder when reversing a car. With osteoporosis, keep twists small and gentle and avoid twisting while lifting.',
+  hamstring:'Tight hamstrings shorten your stride and pull on the lower back when you bend. Holding a gentle stretch for 20–30 seconds is the standard way to improve their length.',
+  ankle:'Ankle range, especially lifting the foot upward (dorsiflexion), lets your toes clear the ground. Reduced dorsiflexion is linked to tripping.',
+  calf:'Calf flexibility allows the ankle to bend for heel strike and a full stride. It complements Heel Raises: one strengthens the calf, this keeps it long.',
+  breathing:'Slow belly breathing at about 6 breaths a minute shifts the nervous system toward its “rest and digest” (parasympathetic) mode and helps heart rate settle after exercise.',
+  legSwing:'Dynamic mobility: moving the hip through flexion and extension under control increases usable range for walking. Moving stretches like this prepare tissue for activity better than long static holds.',
+  armCircle:'Takes the shoulder through its full range, circulating joint fluid and warming up the rotator cuff before heavier arm work.',
+  hipCircle:'Moves the hips and lower back in every direction, reducing the stiffness that builds up after sitting.',
+  thumbScale:'Thumb opposition, touching the thumb to each fingertip, is the basis of almost every fine hand skill. Practising it maintains coordination of the thumb muscles (the thenar group) and finger independence.',
+  fingerLift:'Trains individuated finger control: moving one finger without the others. It declines with age and is precisely what fretting and fingering need.',
+  tendonGlide:'Moves the finger flexor tendons through their full glide inside their sheaths. Hand therapists use this sequence for stiffness and arthritis to keep the tendons moving smoothly.',
+  wristStretch:'Lengthens the forearm flexors and extensors, which are loaded by sewing, holding a bow or a neck, and gripping. Regular stretching helps prevent overuse irritation such as tennis elbow.',
+  chinTuck:'Strengthens the deep neck flexors and brings the head back over the shoulders. When the head drifts forward, the neck and upper-back muscles have to work much harder to hold it up.',
+  bladeSqueeze:'Activates the middle trapezius and rhomboids, which hold the shoulder blades back. It counters the rounded shoulders that come from leaning over work.',
+  backBend:'Gentle extension counters the hours of forward flexion from sitting, sewing and playing. Extension is generally considered the spine-friendly direction, including for people with low bone density.',
+  eyeBreak:'Focusing up close keeps the eye’s focusing muscle (the ciliary muscle) contracted. Looking into the distance lets it relax, which eases eye strain. The 20-20-20 rule is a common eye-care guideline.'
+};
+function whyBlock(id){
+  const w=WHY[id]; if(!w) return '';
+  const text = typeof w==='string' ? w : w.w;
+  return `<details class="why"><summary>🔬 Why this works</summary><p>${esc(text)}</p>${w.url?`<a class="small" href="${w.url}" target="_blank" rel="noopener">Source: ${esc(w.src)} ↗</a>`:''}</details>`;
+}
 
 const SESSIONS = {
   strength:{title:'Strong Day', emoji:'💪', cat:'strength', mins:15, blurb:'Legs, arms and core: the muscles that get you up and about.',
@@ -793,18 +845,19 @@ function viewMoves(){
   <div class="filter" role="group" aria-label="Filter">
    ${[['all','All'],['strength','💪 Strength'],['grip','✊ Grip & Balance'],['stretch','🧘 Mobility & Yoga']].map(([k,l])=>`<button data-cat="${k}" aria-pressed="${LIBCAT===k}">${l}</button>`).join('')}
   </div>
-  <div class="grid2">${list.map(([k,e])=>exCard(e)).join('')}</div>
+  <div class="grid2">${list.map(([k,e])=>exCard(e,k)).join('')}</div>
   <h2>🎬 Full follow-along classes</h2>
   <p class="muted small">When you feel like a longer class, these open YouTube with good options to choose from.</p>
   ${CLASSES.map(c=>`<a class="tile" style="text-decoration:none;color:inherit" href="${c.video||yt(c.q)}" target="_blank" rel="noopener"><span class="ic c-stretch">${c.e}</span><span><span class="t">${c.t}</span><br><span class="s">Opens YouTube</span></span><span class="go">↗</span></a>`).join('')}`;
 }
-function exCard(e){
+function exCard(e,k){
   return `<article class="card ex"><div class="ic ${CATS[e.cat].cls}">${e.emoji}</div><div style="flex:1">
    <h3>${esc(e.name)}${e.optional?' <span class="tag">Optional</span>':''}</h3><div class="muted small" style="font-weight:800">${esc(e.dose)}</div>
    <ol>${e.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>
    ${needsBreath(e)?`<div class="breathe">🌬️ <b>Breathe out as you lift or push.</b> Never hold your breath.</div>`:''}
    ${e.tip?`<div class="safety">👉 ${esc(e.tip)}</div>`:''}
    ${e.easier||e.harder?`<div class="small muted">${e.easier?`<b>Easier:</b> ${esc(e.easier)} `:''}${e.harder?`<b>Harder:</b> ${esc(e.harder)}`:''}</div>`:''}
+   ${whyBlock(k)}
    <a class="vid" href="${vlink(e)}" target="_blank" rel="noopener">▶ Watch how</a></div></article>`;
 }
 
@@ -839,6 +892,7 @@ function drawPlayer(){
     ${ex.tip?`<div class="safety">👉 ${esc(ex.tip)}</div>`:''}
     ${ex.easier?`<p class="small"><b>Easier:</b> ${esc(ex.easier)}</p>`:''}
     ${ex.harder?`<p class="small"><b>Too easy?</b> ${esc(ex.harder)}</p>`:''}
+    ${whyBlock(s.list[P.i])}
     <a class="btn ghost" style="margin:12px 0;text-decoration:none" href="${vlink(ex)}" target="_blank" rel="noopener">▶ Watch how it’s done</a>
     <button class="btn" data-act="next">${P.i===n-1?'Finish 🎉':'Done! Next move ›'}</button>
     <div class="row" style="margin-top:10px">

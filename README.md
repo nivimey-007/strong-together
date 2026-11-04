@@ -24,6 +24,9 @@ All content is at the top of the `<script>` in `index.html`:
 - `SESSIONS`: which moves go in each session.
 - `CLASSES`: longer follow-along videos (add `video:` for an exact link).
 
+## Why this works
+Every exercise has a collapsible **Why this works** note, in the library and during sessions: which muscles it trains and what that does in daily life. They are general exercise physiology; a source is linked where a specific study is cited (e.g. PURE for grip strength). Cat-Cow and Seated Twist include an osteoporosis caution.
+
 ## Kitchen Corner
 A new recipe every Monday (12 rotating), each with about 20–30 g of protein per serving and no added salt (low-sodium for blood pressure). Each recipe comes with a short "Science corner" note with a source link: protein per meal and per day for older adults, leucine, thirst with age, protein before bed, creatine, sodium, and protein after strength training. There's also a one-line daily habit on the Today screen, matched to each person's theme. Settings can hide the recipe.
 
