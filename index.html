@@ -281,7 +281,7 @@ const EXERCISES = {
     q:'rubber band finger extension exercise'},
   bagHold:{name:'Shopping Bag Hold', emoji:'🛍️', cat:'grip', dose:'Hold 20 seconds', timer:20,
     steps:['Stand next to the counter. Hold a shopping bag in one hand with a couple of cans or a water bottle inside.','Stand tall and hold it by your side for 20 seconds.','Put it down and switch hands.'],
-    tip:'Keep it light! The point is holding on, not lifting heavy.', breath:true, q:'farmers carry hold for seniors grip'},
+    tip:'Keep it light. This trains holding on, not lifting.', breath:true, q:'farmers carry hold for seniors grip'},
   oneLeg:{name:'Stand on One Foot', emoji:'🦩', cat:'grip', dose:'10 seconds each foot', timer:10, sides:true,
     steps:['Stand at the kitchen counter and hold on with one or both hands.','Lift one foot just off the floor.','Hold, then swap feet.'],
     tip:'Always hold on. Look straight ahead at something at eye level, not down at your feet. Bifocals and progressive lenses make the floor look blurry.', harder:'Hold on with just one fingertip.',
@@ -295,7 +295,7 @@ const EXERCISES = {
 
   shoulderRoll:{name:'Shoulder Rolls', emoji:'🔄', cat:'stretch', dose:'5 forward, 5 back',
     steps:['Sit tall.','Roll your shoulders up, back and down in big circles.','Then roll them the other way.'],
-    tip:'Breathe slowly. This should feel good!', q:'chair yoga shoulder rolls seniors'},
+    tip:'Breathe slowly. This should feel good.', q:'chair yoga shoulder rolls seniors'},
   neck:{name:'Neck Stretch', emoji:'🦒', cat:'stretch', dose:'Hold 15 seconds each side', timer:15, sides:true,
     steps:['Sit tall and look straight ahead.','Gently tip your ear toward your shoulder.','Hold, breathe, then switch sides.'],
     tip:'Go gently. Never roll your head all the way round.', q:'gentle neck stretch seniors seated'},
@@ -304,7 +304,7 @@ const EXERCISES = {
     tip:'Move with your breath, slow and easy.', q:'seated cat cow chair yoga seniors'},
   sideBend:{name:'Side Reach', emoji:'🌈', cat:'stretch', dose:'3 each side', sides:true,
     steps:['Sit tall. Reach one arm up toward the ceiling.','Lean gently to the other side, making a rainbow shape.','Come back up and switch.'],
-    tip:'Keep both bottoms on the chair!', q:'seated side bend chair yoga seniors'},
+    tip:'Keep both hips on the chair.', q:'seated side bend chair yoga seniors'},
   twist:{name:'Seated Twist', emoji:'🌀', cat:'stretch', dose:'Hold 15 seconds each side', timer:15, sides:true,
     steps:['Sit tall with feet flat.','Turn your upper body to the right, holding the back or side of the chair.','Breathe, come back to centre, then turn left.'],
     tip:'Twist from your middle, gently. No forcing.', q:'seated spinal twist chair yoga seniors'},
@@ -319,7 +319,7 @@ const EXERCISES = {
     tip:'Great after your daily walk!', q:'wall calf stretch seniors'},
   breathing:{name:'Belly Breathing', emoji:'🌬️', cat:'stretch', dose:'1 minute', timer:60,
     steps:['Sit comfortably with one hand on your belly.','Breathe in slowly through your nose and feel your belly rise.','Breathe out slowly through your mouth. Relax your shoulders.'],
-    tip:'A calm finish. Well done!', q:'belly breathing relaxation seniors'},
+    tip:'A calm finish to the session.', q:'belly breathing relaxation seniors'},
 
   /* Mobility: moving joints through their range, standing at the counter */
   legSwing:{name:'Leg Swings', emoji:'🦵', cat:'stretch', dose:'10 each leg', sides:true,
@@ -379,7 +379,7 @@ const THEMES = {
     cheers:['One stitch at a time, one rep at a time.','Piece by piece, you’re building something strong.','Strong hands make neat stitches.','Every patch counts. So does every walk.','Measure twice, move daily.','You’re piecing together a stronger you.']},
   music:{label:'Music', icon:'🎻', week:'This week’s music', weekHelp:'Every activity adds a note. Compose a full week!',
     levels:['Open Strings','First Scales','Etude','Sonata','Concerto','Virtuoso','Maestro'],
-    cheers:['Keep the tempo: a little every day.','Practice makes progress, same as scales.','Strong hands, nimble fingers, sweet music.','Every rep is a note. Keep playing!','Find your rhythm today.','Strong arms make the accordion feel lighter!']},
+    cheers:['Keep the tempo: a little every day.','Practice makes progress, same as scales.','Strong hands, nimble fingers, sweet music.','Every rep is a note. Keep playing.','Find your rhythm today.','Strong arms make the accordion feel lighter.']},
   garden:{label:'Garden', icon:'🌼', week:'Your week’s garden', weekHelp:'Every activity adds a flower. Fill it up!',
     levels:['Sprout','Seedling','Blossom','Sunflower','Mighty Oak','Mountain','Shooting Star'], cheers:[]}
 };
@@ -407,13 +407,13 @@ const CHEERS = [
   'Every rep counts. Strong muscles, steady steps.',
   'Strength is the best birthday present to yourself.',
   'Little and often beats big and rarely.',
-  'Your future self says thank you!',
-  'Your muscles noticed you showed up today. Nice work!',
-  'Two walkers, one team. Keep it up!',
+  'Strength is a skill. Regular practice builds it.',
+  'Muscle adapts to what you ask of it. Ask a little more each week.',
+  'Two walkers, one team.',
   'A strong grip means a strong you.',
-  'Stronger every week. That’s how it works!',
+  'Small, regular effort compounds into strength.',
   'Today’s goal: feel a little better than yesterday.',
-  'Stand tall, breathe deep, smile big.'
+  'Strong legs and a strong grip are what keep life easy.'
 ];
 
 /* ---------------- state ---------------- */
@@ -517,7 +517,7 @@ const BADGES = [
   {id:'tested', e:'📋', n:'Check-in Champ', w:'Do a fitness check-in', test:id=>S.tests.some(t=>t.who===id)},
   {id:'better', e:'🚀', n:'Getting Stronger', w:'Beat your chair-stand score', test:id=>{ const t=S.tests.filter(x=>x.who===id&&x.kind==='chair'); return t.length>1 && Math.max(...t.slice(1).map(x=>x.value))>t[0].value; }},
   {id:'strong20', e:'🏋️', n:'Powerhouse', w:'20 Strong Days', test:id=>logsFor(id).filter(l=>l.type==='strength').length>=20},
-  {id:'zen20', e:'🪷', n:'Bendy', w:'20 yoga sessions', test:id=>logsFor(id).filter(l=>l.type==='stretch').length>=20},
+  {id:'zen20', e:'🪷', n:'Limber', w:'20 yoga sessions', test:id=>logsFor(id).filter(l=>l.type==='stretch').length>=20},
   {id:'level3', e:'🌟', n:'Rising Star', w:'Reach level 4', test:id=>points(id)>=LEVEL_SIZE*3}
 ];
 function checkBadges(){
@@ -542,7 +542,7 @@ function flushBadges(){ if(!PENDING.length || $('#overlay').innerHTML.trim()) re
 function undoToday(type){
   const ids=whoIds(), d=logDate();
   for(const id of ids){ for(let i=S.log.length-1;i>=0;i--){ const l=S.log[i]; if(l.who===id && l.date===d && l.type===type){ S.log.splice(i,1); break; } } }
-  save(); render(); toast('Removed. No problem!');
+  save(); render(); toast('Removed.');
 }
 
 /* ---------------- render: shell ---------------- */
@@ -581,8 +581,8 @@ function ring(val, goal, color){
 function feelTip(){
   const id=focusId();
   const last = logsFor(id).filter(l=>l.type==='strength'&&l.feel).slice(-2);
-  if(last.length===2 && last.every(l=>l.feel==='easy')) return `💡 Strong Day felt easy twice in a row. Time to level up! Try 2 more reps each round, or the “harder” option.`;
-  if(last.length && last[last.length-1].feel==='tough') return `💡 Last Strong Day felt tough. Use the “easier” options today. Showing up is what counts.`;
+  if(last.length===2 && last.every(l=>l.feel==='easy')) return `💡 Strong Day felt easy twice in a row. Time to make it harder: add 2 reps to each round, or use the “Too easy?” option.`;
+  if(last.length && last[last.length-1].feel==='tough') return `💡 Last Strong Day felt tough. Use the easier options today; consistency matters more than intensity.`;
   return '';
 }
 /* ---------------- Kitchen Corner: one recipe + one piece of science a week ----------------
@@ -953,7 +953,7 @@ function runTest(kind, p, done){
     };
     const finish=()=>{ const r=chairRef(p);
       shell(`<div style="text-align:center"><div class="bigemoji">🎉</div><h1>${count} stands!</h1>
-        <p class="muted">${r? (count>=r?'That’s average or better for your age group. Brilliant!':`The age reference is ${r}. Strong Days will get you there!`):''}</p>
+        <p class="muted">${r? (count>=r?'That’s average or better for this age group.':`The age reference is ${r}. Strong Days are designed to raise it.`):''}</p>
         <label class="f" for="adj">Fix the number if a tap was missed:</label><input id="adj" type="number" inputmode="numeric" value="${count}" min="0" max="60">
         <button class="btn" id="ok" style="margin-top:14px">Save ✓</button></div>`);
       $('#ok').onclick=()=>{ const v=parseInt($('#adj').value,10); done(isNaN(v)?null:v); };
@@ -982,13 +982,13 @@ function runTest(kind, p, done){
       if(!TIMER){ sec=0; $('#bb').textContent='Stop'; beep(); TIMER=setInterval(()=>{ sec++; $('#bt').textContent=sec; if(sec>=30){ stopTimer(); beep(); buzz(); end(); } },1000); }
       else { stopTimer(); end(); }
     };
-    const end=()=>{ shell(`<div style="text-align:center"><div class="bigemoji">🦩</div><h1>${sec} seconds</h1><p class="muted">${sec>=30?'Maximum reached. Amazing balance!':'Practise Stand on One Foot to grow this number.'}</p><button class="btn sun" id="ok">Save ✓</button></div>`); $('#ok').onclick=()=>done(sec); };
+    const end=()=>{ shell(`<div style="text-align:center"><div class="bigemoji">🦩</div><h1>${sec} seconds</h1><p class="muted">${sec>=30?'Maximum reached: 30 seconds.':'Practise Stand on One Foot to grow this number.'}</p><button class="btn sun" id="ok">Save ✓</button></div>`); $('#ok').onclick=()=>done(sec); };
   }
 }
 
 /* ---------------- Trophies ---------------- */
 function viewTrophies(){
-  return `<h1>Trophies</h1><p class="muted">Collect them all! Points come from every walk, session and check-in. Doing things <b>together</b> earns a bonus.</p>
+  return `<h1>Trophies</h1><p class="muted">Points come from every walk, session and check-in. Doing things <b>together</b> earns a bonus.</p>
   ${S.people.map(p=>{ const LV=themeOf(p).levels, pts=points(p.id), lv=Math.min(LV.length-1, Math.floor(pts/LEVEL_SIZE)), into=pts-lv*LEVEL_SIZE; const got=S.seen[p.id]||{};
     return `<section class="card"><div class="stat"><span style="font-weight:900;font-size:1.15rem">${avatar(p)} ${esc(p.name)}</span><span><b>${pts}</b> pts</span></div>
       <div style="margin:6px 0 4px;font-weight:900">${themeOf(p).icon} ${LV[lv]} <span class="small muted">· level ${lv+1} of ${LV.length}</span></div>
@@ -1000,7 +1000,7 @@ function viewTrophies(){
 function showBadges(list){
   $('#overlay').innerHTML = `<div class="player" style="display:grid;place-items:center"><div class="wrap" style="text-align:center">
    ${list.map(({p,b})=>`<div class="bigemoji">${b.e}</div><h1>${esc(p.name)} earned “${b.n}”!</h1><p class="muted">${b.w}</p>`).join('')}
-   <button class="btn" id="bok" style="margin-top:20px">Hooray! 🎉</button></div></div>`;
+   <button class="btn" id="bok" style="margin-top:20px">Continue</button></div></div>`;
   confetti(); document.body.style.overflow='hidden'; $('#bok').onclick=()=>{ closeOverlay(); render(); };
 }
 
