@@ -144,6 +144,7 @@ nav.tabs button[aria-current="page"]{color:var(--coral-ink);background:var(--cor
 .ex ol{margin:.4rem 0 .4rem;padding-left:1.2rem}
 .ex li{margin:.15rem 0}
 .vid{display:inline-flex;align-items:center;gap:8px;background:#ff0033;color:#fff;text-decoration:none;font-weight:900;border-radius:14px;padding:10px 16px;min-height:52px;margin-top:6px}
+.breathe{background:var(--teal-soft);border-radius:14px;padding:10px 12px;font-size:.88rem;margin:.5rem 0}
 .safety{background:var(--sun-soft);border-radius:14px;padding:10px 12px;font-size:.88rem;margin:.5rem 0}
 /* player */
 .player{position:fixed;inset:0;background:var(--bg);z-index:50;overflow-y:auto}
@@ -229,7 +230,7 @@ const yt = q => 'https://www.youtube.com/results?search_query=' + encodeURICompo
 const CATS = {
   strength:{label:'Strength', emoji:'💪', cls:'c-strength'},
   grip:{label:'Grip & Balance', emoji:'✊', cls:'c-grip'},
-  stretch:{label:'Yoga & Stretch', emoji:'🧘', cls:'c-stretch'},
+  stretch:{label:'Mobility & Yoga', emoji:'🧘', cls:'c-stretch'},
   walk:{label:'Walk', emoji:'🚶', cls:'c-walk'}
 };
 
@@ -238,8 +239,8 @@ const EXERCISES = {
     steps:['Sit tall near the front of a sturdy chair.','Lift one knee, then the other, like marching.','Swing your arms too. Keep breathing!'],
     tip:'A warm-up. Go at your own pace.', q:'seated marching warm up seniors'},
   chairStand:{name:'Sit-to-Stand', emoji:'🪑', cat:'strength', dose:'2 rounds of 8',
-    steps:['Sit near the front of a sturdy chair, feet flat and hip-width apart.','Lean forward a little ("nose over toes") and stand up. Use your hands on the armrests if you need to.','Sit back down slowly. Count 1-2-3 on the way down.'],
-    tip:'Put the chair against a wall so it can’t slide.', easier:'Use your hands to push up.', harder:'Cross your arms over your chest.',
+    steps:['Sit near the front of a sturdy chair, feet flat and hip-width apart.','Lean forward a little ("nose over toes") and stand up. Use your hands on the armrests if you need to.','Sit back down slowly. Count 1-2-3 on the way down.','After the last one, stand still for a few seconds before you walk off.'],
+    tip:'Put the chair against a wall so it can’t slide. Getting up fast can make you light-headed, especially with blood pressure pills, so take your time.', easier:'Use your hands to push up.', harder:'Cross your arms over your chest.',
     q:'sit to stand exercise for seniors physical therapist'},
   wallPush:{name:'Wall Push-Ups', emoji:'🧱', cat:'strength', dose:'2 rounds of 8',
     steps:['Stand an arm’s length from a wall. Hands flat on the wall at shoulder height.','Bend your elbows and bring your chest toward the wall.','Push back out. Keep your body straight like a plank.'],
@@ -261,14 +262,14 @@ const EXERCISES = {
     steps:['Sit tall in a chair.','Straighten one leg out in front until it’s level, toes pointing up.','Hold for 2 seconds, then lower slowly. Swap legs.'],
     tip:'Great for knees and for getting up from low chairs.', harder:'Hold for 5 seconds.',
     q:'seated knee extension exercise seniors'},
-  overhead:{name:'Overhead Press', emoji:'🙌', cat:'strength', dose:'2 rounds of 8',
+  overhead:{name:'Overhead Press', emoji:'🙌', cat:'strength', dose:'2 rounds of 8', optional:true,
     steps:['Sit tall holding a can or bottle in each hand at shoulder height.','Push your arms up toward the ceiling.','Lower slowly back to your shoulders.'],
-    tip:'Skip this one if your shoulders hurt. Try it without weights.', easier:'No weights.',
+    tip:'Optional. Lifting overhead raises blood pressure more than other moves. Skip it if your shoulders hurt or your doctor hasn’t said it’s fine. Start without weights.', easier:'No weights.',
     q:'seated overhead press seniors light weights'},
 
   ballSqueeze:{name:'Ball Squeeze', emoji:'🎾', cat:'grip', dose:'10 squeezes each hand', sides:true,
     steps:['Hold a tennis ball or soft stress ball in one hand.','Squeeze as hard as is comfortable and hold for 3 seconds.','Relax. Do 10, then switch hands.'],
-    tip:'Grip strength is one of the best simple signs of overall health. Squeeze away!', easier:'Use a rolled-up sock.',
+    tip:'Grip strength is one of the best simple signs of overall health. Keep breathing while you squeeze.', easier:'Use a rolled-up sock.', breath:true,
     q:'hand grip strengthening exercises seniors ball squeeze'},
   towelWring:{name:'Towel Wring', emoji:'🧺', cat:'grip', dose:'5 twists each way',
     steps:['Roll up a hand towel and hold it with both hands.','Twist it like you’re wringing out water.','Then twist the other way.'],
@@ -279,14 +280,14 @@ const EXERCISES = {
     q:'rubber band finger extension exercise'},
   bagHold:{name:'Shopping Bag Hold', emoji:'🛍️', cat:'grip', dose:'Hold 20 seconds', timer:20,
     steps:['Stand next to the counter. Hold a shopping bag in one hand with a couple of cans or a water bottle inside.','Stand tall and hold it by your side for 20 seconds.','Put it down and switch hands.'],
-    tip:'Keep it light! The point is holding on, not lifting heavy.', q:'farmers carry hold for seniors grip'},
+    tip:'Keep it light! The point is holding on, not lifting heavy.', breath:true, q:'farmers carry hold for seniors grip'},
   oneLeg:{name:'Stand on One Foot', emoji:'🦩', cat:'grip', dose:'10 seconds each foot', timer:10, sides:true,
     steps:['Stand at the kitchen counter and hold on with one or both hands.','Lift one foot just off the floor.','Hold, then swap feet.'],
-    tip:'Always hold on. Have the counter right in front of you.', harder:'Hold on with just one fingertip.',
+    tip:'Always hold on. Look straight ahead at something at eye level, not down at your feet. Bifocals and progressive lenses make the floor look blurry.', harder:'Hold on with just one fingertip.',
     q:'single leg stand balance exercise seniors'},
   heelToe:{name:'Heel-to-Toe Walk', emoji:'👣', cat:'grip', dose:'10 steps, twice',
     steps:['Stand next to the counter or a wall, one hand on it.','Put your heel right in front of the toes of your other foot.','Walk along the counter like this for 10 steps.'],
-    tip:'Go slowly. Look ahead, not at your feet.', q:'heel to toe walk balance seniors'},
+    tip:'Go slowly. Look ahead at eye level, not down at your feet. Bifocals and progressive lenses make the floor look blurry.', q:'heel to toe walk balance seniors'},
   weightShift:{name:'Weight Shifts', emoji:'⚖️', cat:'grip', dose:'10 each side',
     steps:['Stand with feet hip-width apart, holding the counter.','Shift your weight onto your right foot and lift the left foot slightly.','Hold 3 seconds. Then shift to the other side.'],
     tip:'A gentle start for balance.', q:'weight shift balance exercise seniors'},
@@ -319,6 +320,17 @@ const EXERCISES = {
     steps:['Sit comfortably with one hand on your belly.','Breathe in slowly through your nose and feel your belly rise.','Breathe out slowly through your mouth. Relax your shoulders.'],
     tip:'A calm finish. Well done!', q:'belly breathing relaxation seniors'},
 
+  /* Mobility: moving joints through their range, standing at the counter */
+  legSwing:{name:'Leg Swings', emoji:'🦵', cat:'stretch', dose:'10 each leg', sides:true,
+    steps:['Stand side-on to the kitchen counter and hold it with one hand.','Swing the outside leg gently forward and back, like a pendulum.','Keep it small and easy at first. Turn around for the other leg.'],
+    tip:'Loosens the hips for walking. Stand tall and keep holding on.', q:'standing leg swings hip mobility'},
+  armCircle:{name:'Arm Circles', emoji:'🌀', cat:'stretch', dose:'10 forward, 10 back',
+    steps:['Stand or sit tall with your arms out to the sides.','Make small circles, growing slowly bigger.','Then circle the other way.'],
+    tip:'Arms tired? Do one arm at a time.', q:'arm circles shoulder mobility'},
+  hipCircle:{name:'Hip Circles', emoji:'⭕', cat:'stretch', dose:'5 each way',
+    steps:['Stand at the counter with both hands on it, feet hip-width apart.','Slowly circle your hips, like a hula hoop.','Then circle the other way.'],
+    tip:'Slow and smooth. Keep your feet planted.', q:'standing hip circles mobility'},
+
   /* Hobby moves: hands for music, posture for quilting */
   thumbScale:{name:'Finger Scales', emoji:'🎵', cat:'grip', dose:'3 times up and down, each hand',
     steps:['Touch your thumb to the tip of your pointer finger to make an “O”.','Then middle, ring and little finger, like playing up a scale.','Come back down the scale. Speed up a little once it feels easy.'],
@@ -349,8 +361,8 @@ const EXERCISES = {
 const SESSIONS = {
   strength:{title:'Strong Day', emoji:'💪', cat:'strength', mins:15, blurb:'Legs, arms and core: the muscles that get you up and about.',
     list:['march','chairStand','wallPush','curls','heelRaise','sideLeg','kneeExt','overhead','ballSqueeze']},
-  stretch:{title:'Yoga & Stretch', emoji:'🧘', cat:'stretch', mins:12, blurb:'Gentle chair yoga to loosen up and feel good.',
-    list:['shoulderRoll','neck','catCow','sideBend','twist','hamstring','ankle','calf','breathing']},
+  stretch:{title:'Mobility & Yoga', emoji:'🧘', cat:'stretch', mins:14, blurb:'Loosen hips, shoulders and back, then gentle chair yoga.',
+    list:['armCircle','legSwing','hipCircle','shoulderRoll','neck','catCow','sideBend','twist','hamstring','calf','breathing']},
   grip:{title:'Grip & Balance', emoji:'✊', cat:'grip', mins:6, blurb:'Five quick minutes for strong hands and steady feet.',
     list:['ballSqueeze','towelWring','rubberBand','bagHold','oneLeg','heelToe']},
   hands:{title:'Musician’s Hands', emoji:'🎻', cat:'grip', mins:5, theme:'music', blurb:'Nimble fingers and loose wrists for strings and squeezebox.',
@@ -407,12 +419,13 @@ const CHEERS = [
 const KEY = 'strongTogether.v1';
 const DEFAULT = {
   people:[{id:'dad',name:'Dad',emoji:'',age:84,sex:'m',theme:'music'},{id:'mom',name:'Mom',emoji:'',age:75,sex:'f',theme:'quilt'}],
-  active:'both', goals:{walk:6,strength:2,stretch:3,grip:5}, log:[], tests:[], seen:{}, theme:'auto'
+  active:'both', goals:{walk:7,strength:3,stretch:3,grip:5}, log:[], tests:[], seen:{}, theme:'auto'
 };
 let S;
 function load(){
   try{ const raw = localStorage.getItem(KEY); S = raw ? Object.assign(structuredClone(DEFAULT), JSON.parse(raw)) : structuredClone(DEFAULT); }
   catch(e){ S = structuredClone(DEFAULT); }
+  if(S.goals && S.goals.walk===6 && S.goals.strength===2 && S.goals.stretch===3 && S.goals.grip===5) S.goals={walk:7,strength:3,stretch:3,grip:5};
   for(const p of S.people){ if(['👴','👵','🧓','👴🏻','👵🏻'].includes(p.emoji)) p.emoji=''; if(!p.theme) p.theme = p.id==='dad'?'music':p.id==='mom'?'quilt':'garden'; }
 }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ toast('Couldn’t save on this device'); } }
@@ -438,6 +451,7 @@ function avatar(p, size='1.6em'){
 }
 const whoIds = () => S.active==='both' ? S.people.map(p=>p.id) : [S.active];
 const focusId = () => S.active==='both' ? S.people[0].id : S.active;
+const needsBreath = ex => ex.breath || (ex.cat==='strength' && ex.name!=='Seated Marching');
 const vlink = ex => ex.video && /^https?:/.test(ex.video) ? ex.video : yt(ex.q);
 function toast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2600); }
 function buzz(){ try{ navigator.vibrate && navigator.vibrate(60);}catch(e){} }
@@ -617,13 +631,13 @@ function viewToday(){
   <div class="grid2"><div class="card">
     <div style="display:flex;align-items:center;gap:12px"><div class="tile ic c-walk" style="width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font-size:1.8rem;margin:0;padding:0;min-height:0;box-shadow:none;border:0">🚶</div>
     <div><div style="font-weight:900;font-size:1.1rem">${doneToday('walk')?`Walk logged ${dayWord}! 🎉`:`Did ${S.active==='both'?'you':esc(person(S.active).name)} walk ${dayWord}?`}</div><div class="muted small">Tap how long. It counts toward your weekly goal.</div></div></div>
-    <div class="chips">${[15,30,45,60].map(m=>`<button class="chip" data-walk="${m}">${m} min</button>`).join('')}</div>
+    <div class="chips">${[30,45,60,90].map(m=>`<button class="chip" data-walk="${m}">${m} min</button>`).join('')}</div>
     ${doneToday('walk')?`<p class="small muted" style="margin-top:10px">Oops, tapped by mistake? <a href="#" data-undo="walk">Undo</a></p>`:''}
   </div>
   <div class="card">
     <div style="font-weight:900;font-size:1.1rem">Did it without the app?</div>
     <div class="muted small">Tap to tick off a session ${dayWord} for ${whoLabel()}.</div>
-    <div class="quick">${['strength','stretch','grip'].map(k=>`<button class="${CATS[k].cls}" data-quick="${k}"><span class="e">${SESSIONS[k].emoji}</span>${k==='strength'?'Strength':k==='stretch'?'Yoga':'Grip'}${doneToday(k)?' ✓':''}</button>`).join('')}</div>
+    <div class="quick">${['strength','stretch','grip'].map(k=>`<button class="${CATS[k].cls}" data-quick="${k}"><span class="e">${SESSIONS[k].emoji}</span>${k==='strength'?'Strength':k==='stretch'?'Mobility':'Grip'}${doneToday(k)?' ✓':''}</button>`).join('')}</div>
   </div></div>
   <h2>Today’s moves</h2>
   <div class="grid3">${order.map(k=>{ const s=SESSIONS[k]; return `<button class="tile ${doneToday(k)?'done':''}" data-start="${k}">
@@ -637,11 +651,11 @@ function viewToday(){
   <h2>This week’s goals</h2>
   ${whoIds().map(pid=>{ const cc=weekCounts(pid); return `${S.active==='both'?`<div style="font-weight:900;margin:10px 0 8px">${avatar(person(pid))} ${esc(person(pid).name)}${goalsMet(pid)?' · ⭐ All done!':''}</div>`:''}
   <div class="goals">
-    ${[['walk','Walking days','var(--sun)'],['strength','Strong Days','var(--coral)'],['stretch','Yoga & Stretch','var(--violet)'],['grip','Grip & Balance','var(--teal)']].map(([k,l,col])=>
+    ${[['walk','Walking days','var(--sun)'],['strength','Strong Days','var(--coral)'],['stretch','Mobility & Yoga','var(--violet)'],['grip','Grip & Balance','var(--teal)']].map(([k,l,col])=>
       `<div class="goal">${ring(cc[k],g[k],col)}<div><div class="n">${Math.min(cc[k],99)} of ${g[k]}</div><div class="l">${l}</div></div></div>`).join('')}
   </div>`; }).join('')}
   ${whoIds().map(pid=>weekView(pid)).join('')}
-  <p class="small muted" style="margin-top:18px">⚠️ Stop if anything hurts, or if you feel dizzy, short of breath or have chest pain. Keep a sturdy chair or the kitchen counter close for balance. Best to check new exercise plans with your doctor.</p>`;
+  <p class="small muted" style="margin-top:18px">⚠️ Stop if anything hurts, or if you feel dizzy, short of breath, chest pain or a racing or uneven heartbeat. Breathe out as you lift and never hold your breath. Stand up slowly. Keep a sturdy chair or the kitchen counter close for balance. Check new exercise plans with your doctor.</p>`;
 }
 function weekView(id){
   const p=person(id), th=themeOf(p), who = S.active==='both' ? ` <span class="muted small">(${esc(p.name)})</span>` : '';
@@ -688,7 +702,7 @@ function viewMoves(){
   const list = Object.entries(EXERCISES).filter(([k,e])=>LIBCAT==='all'||e.cat===LIBCAT);
   return `<h1>Exercise library</h1><p class="muted">Each move has simple steps and a “Watch how” video button.</p>
   <div class="filter" role="group" aria-label="Filter">
-   ${[['all','All'],['strength','💪 Strength'],['grip','✊ Grip & Balance'],['stretch','🧘 Yoga & Stretch']].map(([k,l])=>`<button data-cat="${k}" aria-pressed="${LIBCAT===k}">${l}</button>`).join('')}
+   ${[['all','All'],['strength','💪 Strength'],['grip','✊ Grip & Balance'],['stretch','🧘 Mobility & Yoga']].map(([k,l])=>`<button data-cat="${k}" aria-pressed="${LIBCAT===k}">${l}</button>`).join('')}
   </div>
   <div class="grid2">${list.map(([k,e])=>exCard(e)).join('')}</div>
   <h2>🎬 Full follow-along classes</h2>
@@ -697,8 +711,9 @@ function viewMoves(){
 }
 function exCard(e){
   return `<article class="card ex"><div class="ic ${CATS[e.cat].cls}">${e.emoji}</div><div style="flex:1">
-   <h3>${esc(e.name)}</h3><div class="muted small" style="font-weight:800">${esc(e.dose)}</div>
+   <h3>${esc(e.name)}${e.optional?' <span class="tag">Optional</span>':''}</h3><div class="muted small" style="font-weight:800">${esc(e.dose)}</div>
    <ol>${e.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>
+   ${needsBreath(e)?`<div class="breathe">🌬️ <b>Breathe out as you lift or push.</b> Never hold your breath.</div>`:''}
    ${e.tip?`<div class="safety">👉 ${esc(e.tip)}</div>`:''}
    ${e.easier||e.harder?`<div class="small muted">${e.easier?`<b>Easier:</b> ${esc(e.easier)} `:''}${e.harder?`<b>Harder:</b> ${esc(e.harder)}`:''}</div>`:''}
    <a class="vid" href="${vlink(e)}" target="_blank" rel="noopener">▶ Watch how</a></div></article>`;
@@ -725,13 +740,16 @@ function drawPlayer(){
     <div class="progressbar" aria-label="Move ${P.i+1} of ${n}"><i style="width:${(P.i/n)*100}%"></i></div>
     <div class="muted small" style="text-align:center;font-weight:800">Move ${P.i+1} of ${n}</div>
     <div class="bigemoji" aria-hidden="true">${ex.emoji}</div>
-    <h1 style="text-align:center">${esc(ex.name)}</h1>
+    <h1 style="text-align:center">${esc(ex.name)}${ex.optional?' <span class="tag">Optional</span>':''}</h1>
     <div class="dose">${esc(ex.dose)}</div>
+    ${s.cat==='strength'&&P.i<=1?`<div class="breathe">🗣️ <b>Talk test:</b> you should be able to talk in short sentences. If you can’t, slow down or rest.</div>`:''}
     ${ex.timer?`<div class="timer" id="tm">${fmt(P.left)}</div>
       <button class="btn teal" data-act="timer" style="margin-bottom:12px">${P.running?'⏸ Pause':'⏱ Start timer'}</button>`:''}
     <ol class="steps">${ex.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
+    ${needsBreath(ex)?`<div class="breathe">🌬️ <b>Breathe out as you lift or push.</b> Never hold your breath.</div>`:''}
     ${ex.tip?`<div class="safety">👉 ${esc(ex.tip)}</div>`:''}
     ${ex.easier?`<p class="small"><b>Easier:</b> ${esc(ex.easier)}</p>`:''}
+    ${ex.harder?`<p class="small"><b>Too easy?</b> ${esc(ex.harder)}</p>`:''}
     <a class="btn ghost" style="margin:12px 0;text-decoration:none" href="${vlink(ex)}" target="_blank" rel="noopener">▶ Watch how it’s done</a>
     <button class="btn" data-act="next">${P.i===n-1?'Finish 🎉':'Done! Next move ›'}</button>
     <div class="row" style="margin-top:10px">
@@ -909,7 +927,7 @@ function openSettings(){
      <label class="f">Theme</label><div class="row">${Object.entries(THEMES).map(([k,t])=>`<button class="btn ghost" data-pt="${i}:${k}" style="min-height:56px;font-size:.9rem;${p.theme===k?'border-color:var(--coral);background:var(--coral-soft)':''}">${t.icon} ${t.label}</button>`).join('')}</div></div>`).join('')}
    <h2>Weekly goals</h2>
    <p class="small muted">Defaults follow the CDC’s advice for adults 65+: strength at least 2 days a week, plus balance work and regular walking.</p>
-   ${[['walk','🚶 Walking days'],['strength','💪 Strong Days'],['stretch','🧘 Yoga & Stretch'],['grip','✊ Grip & Balance']].map(([k,l])=>`<div class="card stat" style="align-items:center"><span style="font-weight:800">${l}</span><span class="stepper"><button data-g="${k}" data-d="-1" aria-label="Less">−</button><output id="g-${k}">${g[k]}</output><button data-g="${k}" data-d="1" aria-label="More">+</button></span></div>`).join('')}
+   ${[['walk','🚶 Walking days'],['strength','💪 Strong Days'],['stretch','🧘 Mobility & Yoga'],['grip','✊ Grip & Balance']].map(([k,l])=>`<div class="card stat" style="align-items:center"><span style="font-weight:800">${l}</span><span class="stepper"><button data-g="${k}" data-d="-1" aria-label="Less">−</button><output id="g-${k}">${g[k]}</output><button data-g="${k}" data-d="1" aria-label="More">+</button></span></div>`).join('')}
    <h2>Text size</h2>
    <div class="row">${[['normal','A'],['large','A+'],['xl','A++']].map(([k,l],i)=>`<button class="btn ghost" data-size="${k}" style="font-size:${1+i*.2}rem;${(S.size||'normal')===k?'border-color:var(--coral);background:var(--coral-soft)':''}">${l}</button>`).join('')}</div>
    <h2>Look</h2>

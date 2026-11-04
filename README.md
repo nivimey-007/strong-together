@@ -11,7 +11,7 @@ A friendly, phone-first fitness tracker for two older adults. It covers strength
 - Settings for names, ages, weekly goals, light/dark theme, and backup/restore to a file.
 
 ## Default goals (editable)
-Walk 6 days · Strong Day 2× · Yoga & Stretch 3× · Grip & Balance 5× per week. The strength minimum follows the CDC guidance for adults 65+: [muscle strengthening ≥2 days/week plus balance activities](https://www.cdc.gov/physical-activity-basics/guidelines/older-adults.html).
+Walk 7 days (they already walk daily, so these are easy points) · Strong Day 3× · Mobility & Yoga 3× · Grip & Balance 5× per week. Strength is set above the CDC minimum for adults 65+, which is [muscle strengthening ≥2 days/week plus balance activities](https://www.cdc.gov/physical-activity-basics/guidelines/older-adults.html).
 
 ## Putting it online
 Hosted with **GitHub Pages** straight from the `main` branch, with no build step (`.nojekyll` makes Pages serve the files exactly as they are). Every push to `main` redeploys in about a minute.
