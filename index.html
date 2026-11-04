@@ -144,6 +144,7 @@ nav.tabs button[aria-current="page"]{color:var(--coral-ink);background:var(--cor
 .ex ol{margin:.4rem 0 .4rem;padding-left:1.2rem}
 .ex li{margin:.15rem 0}
 .vid{display:inline-flex;align-items:center;gap:8px;background:#ff0033;color:#fff;text-decoration:none;font-weight:900;border-radius:14px;padding:10px 16px;min-height:52px;margin-top:6px}
+.habit{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:0 0 14px;font-size:.9rem;box-shadow:var(--shadow)}
 .breathe{background:var(--teal-soft);border-radius:14px;padding:10px 12px;font-size:.88rem;margin:.5rem 0}
 .safety{background:var(--sun-soft);border-radius:14px;padding:10px 12px;font-size:.88rem;margin:.5rem 0}
 /* player */
@@ -584,6 +585,92 @@ function feelTip(){
   if(last.length && last[last.length-1].feel==='tough') return `💡 Last Strong Day felt tough. Use the “easier” options today. Showing up is what counts.`;
   return '';
 }
+/* ---------------- Kitchen Corner: one recipe + one piece of science a week ----------------
+   Every recipe is built around protein for muscle and is cooked without added salt. */
+const SCIENCE = {
+  meal:{h:'Why 25–30 g of protein per meal?', b:'Older muscle shows “anabolic resistance”: it needs a bigger dose of protein at one sitting to switch on muscle building. An expert group (PROT-AGE) puts the threshold at about 25–30 g of protein per meal, with about 2.5–2.8 g of leucine. Spreading protein evenly across meals beats one big dinner.', src:'PROT-AGE, J Am Med Dir Assoc 2013', url:'https://experts.mcmaster.ca/scholarly-works/55421'},
+  daily:{h:'How much protein a day?', b:'The PROT-AGE group recommends at least 1.0–1.2 g of protein per kg of body weight a day for people over 65, and 1.2 g or more for those who exercise. For someone weighing 70 kg (154 lb) that’s roughly 70–85 g. The main exception is serious kidney disease, where a doctor may advise less.', src:'PROT-AGE, J Am Med Dir Assoc 2013', url:'https://experts.mcmaster.ca/scholarly-works/55421'},
+  leucine:{h:'Leucine: the “on switch”', b:'Of all the amino acids, leucine is the main signal that tells muscle to start building. A 2024 review reports that adults over 60 need about 2.8 g of leucine in a meal (around 30 g of protein) to trigger muscle protein synthesis, while younger adults respond to smaller amounts. Dairy, eggs, fish and soy are rich sources.', src:'Review, 2024 (PMC)', url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC11099237'},
+  thirst:{h:'Thirst fades with age', b:'In a classic study, healthy men aged 67–75 went 24 hours without water. Their blood became more concentrated than younger men’s, yet they felt less thirsty and drank less afterwards. The lesson: drink by routine (a glass with each meal and each exercise session), not by thirst.', src:'Phillips et al., NEJM 1984', url:'https://pubmed.ncbi.nlm.nih.gov/6472364/'},
+  sleep:{h:'Protein before bed', b:'In a trial with men averaging about 72 years old, 40 g of casein (the slow milk protein in cottage cheese and Greek yogurt) before sleep raised overnight muscle building compared with a placebo. Whether that adds up to more muscle over months isn’t proven yet, but a protein snack at bedtime is an easy, low-risk habit.', src:'Kouw et al., J Nutr 2017', url:'https://pubmed.ncbi.nlm.nih.gov/28855419/'},
+  creatine:{h:'Creatine isn’t just for athletes', b:'Meta-analyses of trials in older adults find that creatine taken alongside strength training adds roughly 1 kg more lean mass than training alone, with stronger effects on some strength measures. It’s inexpensive, but ask your doctor first, especially with kidney concerns or several medications.', src:'Chilibeck et al., 2017 meta-analysis', url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC5679696'},
+  sodium:{h:'Salt and blood pressure', b:'The American Heart Association’s ideal limit is 1,500 mg of sodium a day, and no more than 2,300 mg. Most sodium comes from packaged and restaurant food, not the salt shaker. Acid (lemon, vinegar), garlic, herbs and spices make food taste brighter without it.', src:'American Heart Association advisory', url:'https://www.eurekalert.org/pub_releases/2011-01/aha-pri011311.php'},
+  afterwork:{h:'Eat protein after a Strong Day', b:'Strength exercise makes muscle use protein more efficiently and appears to lower the amount needed per meal to start muscle building. So a protein-rich meal or snack in the hours after a Strong Day gets extra value.', src:'Layman et al., Am J Clin Nutr 2015', url:'https://researchexperts.utmb.edu/en/publications/defining-meal-requirements-for-protein-to-optimize-metabolic-role/'}
+};
+const RECIPES = [
+  {t:'Berry Power Yogurt Bowl', e:'🫐', serves:'1', protein:'about 25 g', note:'meal',
+    ing:['1 cup (225 g) plain Greek yogurt','½ cup berries, fresh or frozen','1 tbsp ground flaxseed','1 tbsp chopped walnuts','A drizzle of honey (optional)'],
+    steps:['Spoon the yogurt into a bowl.','Top with berries, flax and walnuts.','Drizzle with honey if you like.']},
+  {t:'Lemon-Dill Sheet-Pan Salmon', e:'🐟', serves:'2', protein:'about 28 g each', note:'afterwork',
+    ing:['2 salmon fillets (about 4 oz / 120 g each)','2 cups small potatoes, halved','2 cups green beans','1 lemon, sliced','2 tbsp olive oil','Fresh or dried dill, black pepper, garlic powder'],
+    steps:['Heat the oven to 425°F (220°C).','Toss potatoes with half the oil and roast 15 minutes.','Add green beans and salmon to the pan, brush with the rest of the oil, top with lemon slices, dill, pepper and garlic.','Roast 12–15 minutes more, until the salmon flakes.']},
+  {t:'Cottage Cheese Veggie Scramble', e:'🍳', serves:'1', protein:'about 25 g', note:'leucine',
+    ing:['2 eggs','½ cup low-sodium cottage cheese','A handful of spinach','¼ cup diced peppers or tomatoes','Black pepper, chives'],
+    steps:['Soften the vegetables in a non-stick pan for 2 minutes.','Whisk the eggs, add to the pan and stir gently.','When nearly set, fold in the cottage cheese and spinach until warm.','Finish with pepper and chives.']},
+  {t:'Chicken & White Bean Soup', e:'🍲', serves:'4', protein:'about 30 g each', note:'daily',
+    ing:['1 lb (450 g) chicken breast, diced','1 can no-salt-added white beans, rinsed','4 cups low-sodium chicken broth','1 onion, 2 carrots, 2 celery stalks, chopped','2 cloves garlic','Thyme, bay leaf, black pepper, lemon juice'],
+    steps:['Soften onion, carrot and celery in a little olive oil, 5 minutes. Add garlic.','Add chicken, broth, thyme and bay leaf. Simmer 15 minutes.','Stir in beans, heat through, then add a squeeze of lemon and pepper.']},
+  {t:'Peanut Butter Overnight Oats', e:'🥣', serves:'1', protein:'about 27 g', note:'meal',
+    ing:['½ cup rolled oats','¾ cup milk','½ cup plain Greek yogurt','1 tbsp unsalted peanut butter','½ banana, sliced; cinnamon'],
+    steps:['Stir oats, milk, yogurt, peanut butter and cinnamon in a jar.','Cover and refrigerate overnight.','Top with banana in the morning. Eat cold or warmed.']},
+  {t:'Bedtime Cottage Cheese & Pineapple', e:'🍍', serves:'1', protein:'about 25 g', note:'sleep',
+    ing:['1 cup low-sodium cottage cheese','½ cup pineapple chunks (or berries)','Cinnamon, a few chopped almonds'],
+    steps:['Spoon cottage cheese into a bowl.','Top with fruit, cinnamon and almonds.','Enjoy about an hour before bed.']},
+  {t:'Tuna & White Bean Salad', e:'🥗', serves:'2', protein:'about 30 g each', note:'leucine',
+    ing:['2 cans no-salt-added tuna, drained','1 can no-salt-added white beans, rinsed','½ red onion, finely chopped','Cherry tomatoes, cucumber, parsley','2 tbsp olive oil, juice of 1 lemon, black pepper'],
+    steps:['Whisk oil, lemon and pepper in a bowl.','Add everything else and toss gently.','Serve on greens or with whole-grain toast.']},
+  {t:'Smoky Turkey & Black Bean Chili', e:'🌶️', serves:'4', protein:'about 30 g each', note:'sodium',
+    ing:['1 lb (450 g) lean ground turkey','1 can no-salt-added black beans, rinsed','1 can no-salt-added crushed tomatoes','1 onion, 1 pepper, 2 cloves garlic','Cumin, smoked paprika, chili powder, oregano','Lime juice and Greek yogurt to serve'],
+    steps:['Brown the turkey with onion and pepper. Add garlic and spices for 1 minute.','Add tomatoes and beans; simmer 20 minutes.','Finish with lime juice. Top with a spoon of Greek yogurt.']},
+  {t:'Ginger Tofu Vegetable Stir-Fry', e:'🥢', serves:'2', protein:'about 22 g each', note:'daily',
+    ing:['1 block (14 oz) extra-firm tofu, cubed','4 cups mixed vegetables (broccoli, peppers, snap peas)','1 tbsp grated ginger, 2 cloves garlic','1 tbsp low-sodium soy sauce + 1 tbsp rice vinegar','1 tbsp sesame or olive oil; brown rice to serve'],
+    steps:['Pat tofu dry and brown it in the oil, 8 minutes. Set aside.','Stir-fry vegetables with ginger and garlic, 4 minutes.','Return tofu, add soy and vinegar, toss and serve over rice.']},
+  {t:'Chicken Kebabs with Garlic Yogurt', e:'🍢', serves:'2', protein:'about 32 g each', note:'afterwork',
+    ing:['10 oz (300 g) chicken breast, in chunks','Peppers, zucchini, red onion in chunks','1 tbsp olive oil, lemon zest, oregano, pepper','Sauce: ½ cup Greek yogurt, grated garlic, lemon, dill'],
+    steps:['Toss chicken and vegetables with oil, zest, oregano and pepper.','Thread onto skewers. Grill or broil 10–12 minutes, turning.','Stir the sauce together and serve on the side.']},
+  {t:'Lentil & Vegetable Stew', e:'🫘', serves:'4', protein:'about 18 g each (more with yogurt on top)', note:'thirst',
+    ing:['1 cup dry green or brown lentils','1 can no-salt-added diced tomatoes','4 cups low-sodium vegetable broth','Onion, carrot, celery, 2 cloves garlic','Cumin, turmeric, smoked paprika; spinach','Greek yogurt to serve'],
+    steps:['Soften onion, carrot and celery; add garlic and spices.','Add lentils, tomatoes and broth. Simmer 25–30 minutes.','Stir in spinach. Serve with a spoon of Greek yogurt for extra protein.']},
+  {t:'Garlic Shrimp & Spinach Pasta', e:'🍤', serves:'2', protein:'about 30 g each', note:'creatine',
+    ing:['8 oz (225 g) shrimp, peeled','4 oz (115 g) whole-wheat pasta','3 cloves garlic, chili flakes','2 cups spinach, juice of ½ lemon','1 tbsp olive oil, 2 tbsp grated Parmesan'],
+    steps:['Cook pasta without salt in the water; save ½ cup of the water.','Sauté garlic and chili in oil 30 seconds, add shrimp, cook 3 minutes.','Add pasta, spinach, lemon and a splash of pasta water. Toss and top with Parmesan.']}
+];
+const HABITS = {
+  base:['Have a glass of water before your walk. Thirst fades with age, so drink by the clock.','Protein at breakfast today? Eggs, Greek yogurt or cottage cheese all count.','Had a Strong Day? A protein-rich snack in the next few hours helps your muscles.','Taste before you salt. Lemon, garlic and herbs add flavor without the sodium.','Add a handful of beans or lentils to a soup or salad today.','Aim for two different colors of vegetables at dinner.','A protein snack at bedtime, like Greek yogurt or cottage cheese, feeds muscles overnight.'],
+  quilt:['Keep a glass of water next to the sewing machine. Sip at the end of each seam.','Every time you change the bobbin, stand up and stretch.'],
+  music:['Keep a glass of water by the music stand. Sip between pieces.','Warm up your fingers with Finger Scales before you play.']
+};
+const weekNo = () => Math.floor((weekStart() - new Date(2026,0,5)) / (7*864e5));
+function kitchenCard(){
+  if(S.kitchen===false) return '';
+  const i=((weekNo()%RECIPES.length)+RECIPES.length)%RECIPES.length, r=RECIPES[i], isNew=(new Date().getDay()+6)%7<2;
+  return `<button class="tile" data-recipe="${i}" style="background:var(--card)"><span class="ic c-walk">${r.e}</span>
+    <span><span class="t">${esc(r.t)}</span>${isNew?'<span class="tag">New this week</span>':''}<br><span class="s">This week in the kitchen · protein: ${esc(r.protein)} · plus a bit of science</span></span><span class="go">›</span></button>`;
+}
+function habitLine(){
+  const p = S.active==='both' ? null : person(S.active);
+  const pool = HABITS.base.concat(p && HABITS[p.theme] ? HABITS[p.theme] : []);
+  const d=new Date(); return pool[(d.getDate()+d.getMonth()*31) % pool.length];
+}
+function openRecipe(i){
+  const r=RECIPES[i], sc=SCIENCE[r.note], cur=((weekNo()%RECIPES.length)+RECIPES.length)%RECIPES.length;
+  const earlier=[1,2,3].map(k=>((cur-k)%RECIPES.length+RECIPES.length)%RECIPES.length).filter(k=>k!==i);
+  document.body.style.overflow='hidden';
+  $('#overlay').innerHTML = `<div class="player"><div class="wrap">
+    <div class="row" style="align-items:center"><div style="font-weight:900">🍽️ Kitchen Corner</div><button class="btn ghost" style="flex:0 0 auto;width:auto;min-height:52px;padding:8px 16px;font-size:.9rem" id="rx">✕ Close</button></div>
+    <div class="bigemoji" aria-hidden="true">${r.e}</div><h1 style="text-align:center">${esc(r.t)}</h1>
+    <p class="muted" style="text-align:center;font-weight:800">Serves ${esc(r.serves)} · protein: ${esc(r.protein)} · no added salt</p>
+    <div class="grid2"><div class="card"><h3 style="margin:0 0 .4rem;font-weight:900">You’ll need</h3><ul style="margin:0;padding-left:1.2rem">${r.ing.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+    <div class="card"><h3 style="margin:0 0 .4rem;font-weight:900">Method</h3><ol style="margin:0;padding-left:1.2rem">${r.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div></div>
+    <div class="card" style="background:var(--violet-soft);border:0"><div class="small" style="font-weight:900;letter-spacing:.04em;text-transform:uppercase">🔬 Science corner</div>
+      <h3 style="margin:.3rem 0;font-weight:900">${esc(sc.h)}</h3><p>${esc(sc.b)}</p>
+      <a class="small" href="${sc.url}" target="_blank" rel="noopener">Source: ${esc(sc.src)} ↗</a></div>
+    ${earlier.length?`<h2>Earlier weeks</h2>${earlier.map(k=>`<button class="tile" data-recipe="${k}"><span class="ic c-walk">${RECIPES[k].e}</span><span><span class="t">${esc(RECIPES[k].t)}</span><br><span class="s">Protein: ${esc(RECIPES[k].protein)}</span></span><span class="go">›</span></button>`).join('')}`:''}
+  </div></div>`;
+  $('#rx').onclick=()=>{ closeOverlay(); render(); };
+  $('#overlay').querySelectorAll('[data-recipe]').forEach(b=>b.onclick=()=>{ openRecipe(+b.dataset.recipe); $('.player').scrollTop=0; });
+}
+
 function welcomeCard(){
   if(S.welcomed) return '';
   return `<div class="card" style="border:2px solid var(--coral)">
@@ -624,6 +711,7 @@ function viewToday(){
     <p>${cheer}</p>
   </section>
   ${welcomeCard()}
+  <div class="habit">💧 <b>Today’s habit:</b> ${esc(habitLine())}</div>
   ${installCard()}
   ${tip?`<div class="card" style="background:var(--sun-soft)">${tip}</div>`:''}
   <div class="daypick" role="group" aria-label="Which day are you logging?"><span class="small muted" style="flex:0 0 auto;font-weight:800">Logging for</span>
@@ -644,6 +732,7 @@ function viewToday(){
     <span class="ic ${CATS[s.cat].cls}">${s.emoji}</span>
     <span><span class="t">${s.title}</span>${k===sug?'<span class="tag">Suggested today</span>':''}${doneToday(k)?'<span class="tag" style="background:#dcfce7;color:#14532d">Done ✓</span>':''}<br><span class="s">${s.blurb} · about ${s.mins} min</span></span>
     <span class="go">›</span></button>`;}).join('')}</div>
+  ${S.kitchen===false?'':`<h2>Kitchen Corner</h2>${kitchenCard()}`}
   ${hobby.length?`<h2>Just for you</h2><div class="grid2">${hobby.map(k=>{ const s=SESSIONS[k]; return `<button class="tile ${doneToday(k)?'done':''}" data-start="${k}">
     <span class="ic ${CATS[s.cat].cls}">${s.emoji}</span>
     <span><span class="t">${s.title}</span><span class="tag">For ${forWho(k)}</span>${doneToday(k)?'<span class="tag" style="background:#dcfce7;color:#14532d">Done ✓</span>':''}<br><span class="s">${s.blurb} · about ${s.mins} min · counts as ${CATS[s.cat].label}</span></span>
@@ -928,6 +1017,8 @@ function openSettings(){
    <h2>Weekly goals</h2>
    <p class="small muted">Defaults follow the CDC’s advice for adults 65+: strength at least 2 days a week, plus balance work and regular walking.</p>
    ${[['walk','🚶 Walking days'],['strength','💪 Strong Days'],['stretch','🧘 Mobility & Yoga'],['grip','✊ Grip & Balance']].map(([k,l])=>`<div class="card stat" style="align-items:center"><span style="font-weight:800">${l}</span><span class="stepper"><button data-g="${k}" data-d="-1" aria-label="Less">−</button><output id="g-${k}">${g[k]}</output><button data-g="${k}" data-d="1" aria-label="More">+</button></span></div>`).join('')}
+   <h2>Kitchen Corner</h2>
+   <div class="row"><button class="btn ghost" data-kitchen="on" style="${S.kitchen!==false?'border-color:var(--coral);background:var(--coral-soft)':''}">🍲 Show weekly recipe</button><button class="btn ghost" data-kitchen="off" style="${S.kitchen===false?'border-color:var(--coral);background:var(--coral-soft)':''}">Hide it</button></div>
    <h2>Text size</h2>
    <div class="row">${[['normal','A'],['large','A+'],['xl','A++']].map(([k,l],i)=>`<button class="btn ghost" data-size="${k}" style="font-size:${1+i*.2}rem;${(S.size||'normal')===k?'border-color:var(--coral);background:var(--coral-soft)':''}">${l}</button>`).join('')}</div>
    <h2>Look</h2>
@@ -943,6 +1034,7 @@ function openSettings(){
   $('#overlay').querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{ const k=b.dataset.g; S.goals[k]=Math.max(0,Math.min(7,S.goals[k]+Number(b.dataset.d))); $('#g-'+k).textContent=S.goals[k]; save(); });
   $('#overlay').querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>{ commit(); S.theme=b.dataset.theme; save(); render(); openSettings(); });
   $('#overlay').querySelectorAll('[data-pt]').forEach(b=>b.onclick=()=>{ commit(); const [i,k]=b.dataset.pt.split(':'); S.people[+i].theme=k; save(); render(); openSettings(); });
+  $('#overlay').querySelectorAll('[data-kitchen]').forEach(b=>b.onclick=()=>{ commit(); S.kitchen=b.dataset.kitchen==='on'; save(); render(); openSettings(); });
   $('#overlay').querySelectorAll('[data-size]').forEach(b=>b.onclick=()=>{ commit(); S.size=b.dataset.size; save(); render(); openSettings(); });
   $('#exp').onclick=async()=>{ commit();
     const name='strong-together-'+today()+'.json', json=JSON.stringify(S,null,1);
@@ -989,6 +1081,7 @@ function bind(root){
   root.querySelectorAll('[data-who]').forEach(b=>b.onclick=()=>{ S.active=b.dataset.who; save(); render(); });
   root.querySelectorAll('[data-start]').forEach(b=>b.onclick=()=>startSession(b.dataset.start));
   root.querySelectorAll('[data-walk]').forEach(b=>b.onclick=()=>{ addLog('walk',{minutes:Number(b.dataset.walk)}); render(); toast(`Walk logged for ${S.active==='both'?'both of you':person(S.active).name}! 🚶`); });
+  root.querySelectorAll('[data-recipe]').forEach(b=>b.onclick=()=>openRecipe(+b.dataset.recipe));
   root.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{ LOGDAY=Number(b.dataset.day); render(); });
   root.querySelectorAll('[data-quick]').forEach(b=>b.onclick=()=>{ const k=b.dataset.quick; addLog(k,{quick:true}); render(); toast(`${SESSIONS[k].title} ticked off for ${S.active==='both'?'both of you':person(S.active).name}! ✓`); });
   root.querySelectorAll('[data-act="welcomed"]').forEach(b=>b.onclick=()=>{ S.welcomed=true; save(); render(); });

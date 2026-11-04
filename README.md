@@ -24,6 +24,9 @@ All content is at the top of the `<script>` in `index.html`:
 - `SESSIONS`: which moves go in each session.
 - `CLASSES`: longer follow-along videos (add `video:` for an exact link).
 
+## Kitchen Corner
+A new recipe every Monday (12 rotating), each with about 20–30 g of protein per serving and no added salt (low-sodium for blood pressure). Each recipe comes with a short "Science corner" note with a source link: protein per meal and per day for older adults, leucine, thirst with age, protein before bed, creatine, sodium, and protein after strength training. There's also a one-line daily habit on the Today screen, matched to each person's theme. Settings can hide the recipe.
+
 ## iPhone & iPad
 - **Install from Safari:** Share (or ••• → Share) → Add to Home Screen. The app shows these steps itself until it's installed. Always open it from the icon: iOS keeps a home-screen app's data separate from Safari's, and protects it from Safari's automatic clean-up of website data.
 - **One person logs for both.** Tap Dad / Mom / Both at the top. **Yesterday** backfills a missed day. **Did it without the app?** ticks off a session without going through the guide.
