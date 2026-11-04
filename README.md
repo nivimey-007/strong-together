@@ -24,6 +24,9 @@ All content is at the top of the `<script>` in `index.html`:
 - `SESSIONS`: which moves go in each session.
 - `CLASSES`: longer follow-along videos (add `video:` for an exact link).
 
+## Dumbbell weights
+Arm Curls, Supported Row and Overhead Press use dumbbells; Sit-to-Stand can add one later. Each person has their own weight per exercise (stored in lb, shown in lb and kg), adjusted with − / + during a Strong Day. Progression rule: 2 rounds of 8–12; when 12 feels easy on both rounds, go up one step (0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20 lb). Starting defaults: Dad 5 lb curls/rows and 3 lb press, Mom 3 lb and 2 lb. The weights used are saved with each Strong Day, and Progress shows the increase since the first one.
+
 ## Why this works
 Every exercise has a collapsible **Why this works** note, in the library and during sessions: which muscles it trains and what that does in daily life. They are general exercise physiology; a source is linked where a specific study is cited (e.g. PURE for grip strength). Cat-Cow and Seated Twist include an osteoporosis caution.
 

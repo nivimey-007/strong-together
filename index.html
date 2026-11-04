@@ -155,6 +155,10 @@ nav.tabs button[aria-current="page"]{color:var(--coral-ink);background:var(--cor
 .why[open] summary::after{transform:rotate(180deg)}
 .why p{margin:.2rem 0 .6rem}
 .why a{display:inline-block;margin-bottom:.6rem}
+.weights{margin:.6rem 0}
+.wrow{display:flex;align-items:center;gap:10px;margin:8px 0;flex-wrap:wrap}
+.wname{font-weight:800;flex:1;min-width:4em}
+.weights output{min-width:7.5em;font-size:1rem}
 .breathe{background:var(--teal-soft);border-radius:14px;padding:10px 12px;font-size:.88rem;margin:.5rem 0}
 .safety{background:var(--sun-soft);border-radius:14px;padding:10px 12px;font-size:.88rem;margin:.5rem 0}
 /* player */
@@ -265,18 +269,22 @@ const EXERCISES = {
   march:{name:'Seated Marching', emoji:'🥁', cat:'strength', dose:'1 minute', timer:60,
     steps:['Sit tall near the front of a sturdy chair.','Lift one knee, then the other, like marching.','Swing your arms too. Keep breathing!'],
     tip:'A warm-up. Go at your own pace.', q:'seated marching warm up seniors'},
-  chairStand:{name:'Sit-to-Stand', emoji:'🪑', cat:'strength', dose:'2 rounds of 8',
+  chairStand:{name:'Sit-to-Stand', emoji:'🪑', cat:'strength', dose:'2 rounds of 8–12', weighted:true, bodyweight:true,
     steps:['Sit near the front of a sturdy chair, feet flat and hip-width apart.','Lean forward a little ("nose over toes") and stand up. Use your hands on the armrests if you need to.','Sit back down slowly. Count 1-2-3 on the way down.','After the last one, stand still for a few seconds before you walk off.'],
-    tip:'Put the chair against a wall so it can’t slide. Getting up fast can make you light-headed, especially with blood pressure pills, so take your time.', easier:'Use your hands to push up.', harder:'Cross your arms over your chest.',
+    tip:'Put the chair against a wall so it can’t slide. Getting up fast can make you light-headed, especially with blood pressure pills, so take your time.', easier:'Use your hands to push up.', harder:'Cross your arms over your chest. Once 12 is easy, hold one dumbbell against your chest with both hands.',
     q:'sit to stand exercise for seniors physical therapist'},
   wallPush:{name:'Wall Push-Ups', emoji:'🧱', cat:'strength', dose:'2 rounds of 8',
     steps:['Stand an arm’s length from a wall. Hands flat on the wall at shoulder height.','Bend your elbows and bring your chest toward the wall.','Push back out. Keep your body straight like a plank.'],
     tip:'Wear shoes with grip so your feet don’t slip.', easier:'Stand closer to the wall.', harder:'Step your feet a little further back.',
     q:'wall push ups for seniors'},
-  curls:{name:'Arm Curls', emoji:'🥫', cat:'strength', dose:'2 rounds of 10',
-    steps:['Sit tall holding a soup can or water bottle in each hand, palms up.','Bend your elbows and bring the weights up to your shoulders.','Lower slowly. Keep your elbows by your sides.'],
-    tip:'Start light. Two cans are plenty to begin.', easier:'No weights, just make tight fists.', harder:'Use 1–2 kg (2–5 lb) dumbbells.',
+  curls:{name:'Arm Curls', emoji:'💪', cat:'strength', dose:'2 rounds of 8–12', weighted:true,
+    steps:['Sit tall holding a dumbbell in each hand, palms facing up.','Bend your elbows and bring the weights up toward your shoulders.','Lower slowly, counting 1-2-3. Keep your elbows by your sides.'],
+    tip:'Pick a weight where the last 2 reps of each round take real effort but your form stays smooth.', easier:'Go down one weight, or use no weight.', harder:'Go up one weight when 12 reps feel easy on both rounds.',
     q:'seated bicep curls seniors'},
+  row:{name:'Supported Row', emoji:'🚣', cat:'strength', dose:'8–12 each arm', sides:true, weighted:true,
+    steps:['Stand at the kitchen counter. Put one hand on it and hold a dumbbell in the other, arm hanging down.','Lean forward slightly from your hips, keeping your back flat (not rounded).','Pull your elbow back toward your hip, squeezing your shoulder blade. Lower slowly. Swap arms.'],
+    tip:'Keep the counter hand planted and your back flat. The pull comes from the shoulder blade, not the wrist.', easier:'Go down one weight, or stand more upright.', harder:'Go up one weight when 12 reps feel easy.',
+    q:'single arm dumbbell row supported counter'},
   heelRaise:{name:'Heel Raises', emoji:'🦶', cat:'strength', dose:'2 rounds of 10',
     steps:['Stand behind a chair or at the kitchen counter, holding on.','Rise up onto your toes as high as feels comfortable.','Lower slowly back down.'],
     tip:'Always hold on. These build strong ankles for steadier walking.', easier:'Do it seated.', harder:'Hold the top for 2 seconds.',
@@ -289,9 +297,9 @@ const EXERCISES = {
     steps:['Sit tall in a chair.','Straighten one leg out in front until it’s level, toes pointing up.','Hold for 2 seconds, then lower slowly. Swap legs.'],
     tip:'Great for knees and for getting up from low chairs.', harder:'Hold for 5 seconds.',
     q:'seated knee extension exercise seniors'},
-  overhead:{name:'Overhead Press', emoji:'🙌', cat:'strength', dose:'2 rounds of 8', optional:true,
-    steps:['Sit tall holding a can or bottle in each hand at shoulder height.','Push your arms up toward the ceiling.','Lower slowly back to your shoulders.'],
-    tip:'Optional. Lifting overhead raises blood pressure more than other moves. Skip it if your shoulders hurt or your doctor hasn’t said it’s fine. Start without weights.', easier:'No weights.',
+  overhead:{name:'Overhead Press', emoji:'🙌', cat:'strength', dose:'2 rounds of 8–12', optional:true, weighted:true,
+    steps:['Sit tall holding a dumbbell in each hand at shoulder height, palms facing forward.','Push your arms up toward the ceiling without locking your elbows.','Lower slowly back to your shoulders.'],
+    tip:'Optional. Lifting overhead raises blood pressure more than other moves. Skip it if your shoulders hurt or your doctor hasn’t said it’s fine. Use a lighter weight than for curls.', easier:'No weights.', harder:'Go up one weight when 12 reps feel easy on both rounds.',
     q:'seated overhead press seniors light weights'},
 
   ballSqueeze:{name:'Ball Squeeze', emoji:'🎾', cat:'grip', dose:'10 squeezes each hand', sides:true,
@@ -392,6 +400,7 @@ const WHY = {
   chairStand:'Trains the quadriceps and gluteus maximus in exactly the movement of rising from a chair, a car seat or the toilet. The fast, powerful fibres in these muscles decline fastest with age, and sit-to-stand ability is one of the best everyday markers of independence. It’s why the CDC uses a 30-second chair stand as a screening test.',
   wallPush:'Works the chest (pectoralis major), front of the shoulders and triceps: the pushing muscles you use to get out of bed, up off the floor, or to catch yourself if you stumble. The angle to the wall sets the load, so stepping your feet back is an easy way to progress.',
   curls:'Biceps and forearm muscles for carrying: groceries, a kettle, a grandchild. The forearm work also feeds directly into grip strength.',
+  row:'Works the upper back: latissimus dorsi, rhomboids and middle trapezius. These are the pulling muscles for opening heavy doors, starting a lawnmower or pulling yourself up, and they hold the shoulders back against a forward-rounded posture. Most daily life is pushing and reaching forward, so pulling work restores the balance.',
   heelRaise:'The calf muscles (gastrocnemius and soleus) provide most of the push-off in each walking step and make the first, fastest corrections when you sway. Stronger calves mean a longer, steadier stride.',
   sideLeg:'The hip abductors (gluteus medius and minimus) keep your pelvis level whenever you stand on one leg, which happens with every step. When they’re weak the body sways side to side, a common contributor to falls.',
   kneeExt:'Isolates the quadriceps, the main stabiliser of the knee. Strong quads take load off the joint itself and make stairs easier, and isolating them works even on days standing moves feel sore.',
@@ -430,9 +439,24 @@ function whyBlock(id){
   return `<details class="why"><summary>🔬 Why this works</summary><p>${esc(text)}</p>${w.url?`<a class="small" href="${w.url}" target="_blank" rel="noopener">Source: ${esc(w.src)} ↗</a>`:''}</details>`;
 }
 
+/* Dumbbell weights, per person and per exercise, stored in pounds. */
+const LADDER = [0,1,2,3,4,5,6,8,10,12,15,20];
+const DEFAULT_LB = {dad:{curls:5,row:5,overhead:3,chairStand:0}, mom:{curls:3,row:3,overhead:2,chairStand:0}};
+const fmtW = lb => lb===0 ? 'No weight' : `${lb} lb · ${(lb*0.4536).toFixed(1).replace(/\.0$/,'')} kg`;
+function getW(pid, ex){ S.weights=S.weights||{}; const w=(S.weights[pid]||{})[ex]; return w!=null ? w : ((DEFAULT_LB[pid]||DEFAULT_LB.mom)[ex] ?? 0); }
+function setW(pid, ex, lb){ S.weights=S.weights||{}; S.weights[pid]=S.weights[pid]||{}; S.weights[pid][ex]=lb; save(); }
+function stepW(lb, d){ let i=LADDER.indexOf(lb); if(i<0) i=LADDER.findIndex(x=>x>lb)-(d>0?1:0); return LADDER[Math.max(0,Math.min(LADDER.length-1,i+d))]; }
+function snapW(){ const o={}; for(const pid of whoIds()){ o[pid]={}; for(const k of Object.keys(EXERCISES)) if(EXERCISES[k].weighted) o[pid][k]=getW(pid,k); } return o; }
+function weightBlock(exId){
+  const ex=EXERCISES[exId]; if(!ex.weighted) return '';
+  return `<div class="card weights"><div style="font-weight:900;margin-bottom:6px">🏋️ Weight${S.active==='both'?'s':''}</div>
+    ${whoIds().map(pid=>{ const p=person(pid), w=getW(pid,exId); return `<div class="wrow">${avatar(p)}<span class="wname">${esc(p.name)}</span>
+      <span class="stepper"><button data-w="${pid}:${exId}:-1" aria-label="Lighter">−</button><output>${fmtW(w)}</output><button data-w="${pid}:${exId}:1" aria-label="Heavier">+</button></span></div>`; }).join('')}
+    <div class="small muted" style="margin-top:6px">${ex.bodyweight?'Most people start with no weight here.':'Rule of thumb: when 12 reps feel easy on both rounds, tap + next time.'} No dumbbells yet? A full 500 ml water bottle is about 1 lb.</div></div>`;
+}
 const SESSIONS = {
-  strength:{title:'Strong Day', emoji:'💪', cat:'strength', mins:15, blurb:'Legs, arms and core: the muscles that get you up and about.',
-    list:['march','chairStand','wallPush','curls','heelRaise','sideLeg','kneeExt','overhead','ballSqueeze']},
+  strength:{title:'Strong Day', emoji:'💪', cat:'strength', mins:18, blurb:'Legs, arms and core: the muscles that get you up and about.',
+    list:['march','chairStand','wallPush','row','curls','heelRaise','sideLeg','kneeExt','overhead','ballSqueeze']},
   stretch:{title:'Mobility & Yoga', emoji:'🧘', cat:'stretch', mins:14, blurb:'Loosen hips, shoulders and back, then gentle chair yoga.',
     list:['armCircle','legSwing','hipCircle','shoulderRoll','neck','catCow','sideBend','twist','hamstring','calf','breathing']},
   grip:{title:'Grip & Balance', emoji:'✊', cat:'grip', mins:6, blurb:'Five quick minutes for strong hands and steady feet.',
@@ -922,6 +946,7 @@ function drawPlayer(){
     ${ex.tip?`<div class="safety">👉 ${esc(ex.tip)}</div>`:''}
     ${ex.easier?`<p class="small"><b>Easier:</b> ${esc(ex.easier)}</p>`:''}
     ${ex.harder?`<p class="small"><b>Too easy?</b> ${esc(ex.harder)}</p>`:''}
+    ${weightBlock(s.list[P.i])}
     ${whyBlock(s.list[P.i])}
     <a class="btn ghost" style="margin:12px 0;text-decoration:none" href="${vlink(ex)}" target="_blank" rel="noopener">▶ Watch how it’s done</a>
     <button class="btn" data-act="next">${P.i===n-1?'Finish 🎉':'Done! Next move ›'}</button>
@@ -935,6 +960,7 @@ function drawPlayer(){
 const fmt = s => s==null?'':(Math.floor(s/60)+':'+pad(s%60));
 function bindPlayer(){
   const o=$('#overlay');
+  o.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{ const [pid,ex,d]=b.dataset.w.split(':'); setW(pid,ex,stepW(getW(pid,ex),+d)); const y=$('.player').scrollTop; drawPlayer(); $('.player').scrollTop=y; });
   o.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{
     const a=b.dataset.act;
     if(a==='close'){ if(P.i===0) closePlayer(); else ask('Stop this session? It won’t be counted.','Yes, stop',closePlayer); }
@@ -948,7 +974,7 @@ function bindPlayer(){
       TIMER=setInterval(()=>{ P.left--; const t=$('#tm'); if(t) t.textContent=fmt(Math.max(0,P.left));
         if(P.left<=0){ stopTimer(); beep(); buzz(); const t2=$('#tm'); if(t2) t2.textContent='Done! ✓'; b.textContent='↺ Again'; } },1000);
     }
-    if(a.startsWith('feel:')){ const feel=a.split(':')[1]; addLog(P.s.cat,{feel, session:P.key}); const k=P.key; P=null; closeOverlay(); render();
+    if(a.startsWith('feel:')){ const feel=a.split(':')[1]; addLog(P.s.cat,{feel, session:P.key, ...(P.s.cat==='strength'?{weights:snapW()}:{})}); const k=P.key; P=null; closeOverlay(); render();
       toast(`${SESSIONS[k].title} done! +${POINTS[SESSIONS[k].cat]+(S.active==='both'?POINTS.together:0)} points`); }
   });
 }
@@ -989,6 +1015,12 @@ function viewProgress(){
       ${T.length>1?lineChart(T):''}`; }).join('')}
     <button class="btn ${K.k==='chair'?'teal':K.k==='grip'?'violet':'sun'}" data-test="${K.k}" style="margin-top:10px">Start check-in</button>
   </section>`).join('')}
+  <h2>Dumbbell weights</h2>
+  <div class="card">${S.people.map(p=>`<div style="font-weight:900;margin:4px 0 6px">${avatar(p)} ${esc(p.name)}</div>
+    ${Object.keys(EXERCISES).filter(k=>EXERCISES[k].weighted).map(k=>{ const hist=logsFor(p.id).filter(l=>l.weights&&l.weights[p.id]&&l.weights[p.id][k]!=null); const first=hist.length?hist[0].weights[p.id][k]:null, now=getW(p.id,k);
+      const up = first!=null && now>first;
+      return `<div class="stat small" style="margin:4px 0 4px 8px"><span>${esc(EXERCISES[k].name)}</span><span><b style="font-size:1rem">${fmtW(now)}</b>${up?` <span style="color:var(--ok);font-weight:900">▲ from ${first} lb</span>`:''}</span></div>`; }).join('')}`).join('<hr style="border:0;border-top:1px solid var(--line);margin:10px 0">')}
+  <p class="small muted" style="margin:8px 0 0">Change weights during a Strong Day with the − and + buttons. ▲ shows progress since the first Strong Day.</p></div>
   <h2>Last 6 weeks</h2>
   <div class="card">${ids.map(id=>`<div style="margin-bottom:14px"><div style="font-weight:900;margin-bottom:6px">${avatar(person(id))} ${esc(person(id).name)}</div>${weekBars(id,weeks)}</div>`).join('')}
   <p class="small muted" style="margin:0">Each bar is a week. ⭐ means every goal was hit.</p></div>
