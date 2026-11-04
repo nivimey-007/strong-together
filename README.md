@@ -33,7 +33,7 @@ A new recipe every Monday (12 rotating), each with about 20–30 g of protein pe
 ## iPhone & iPad
 - **Install from Safari:** Share (or ••• → Share) → Add to Home Screen. The app shows these steps itself until it's installed. Always open it from the icon: iOS keeps a home-screen app's data separate from Safari's, and protects it from Safari's automatic clean-up of website data.
 - **One person logs for both.** Tap Dad / Mom / Both at the top. **Yesterday** backfills a missed day. **Did it without the app?** ticks off a session without going through the guide.
-- **Text size** (A / A+ / A++) is in Settings. On iPad the layout widens to two and three columns.
+- **Text size** (A / A+ / A++), **High contrast** (darker text, thicker outlines, bolder type; light and dark) and a **color** for each person (8 choices) are in Settings. On iPad the layout widens to two and three columns.
 - The screen stays awake during sessions and check-ins (Wake Lock, iOS 16.4+). Timer beeps follow the ring/silent switch.
 
 ## Known limitations

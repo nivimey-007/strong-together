@@ -70,7 +70,10 @@ p{margin:.3rem 0 .8rem}
 .who{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
 .who button{background:var(--card);border:3px solid var(--line);border-radius:20px;padding:12px 6px;font-weight:800;min-height:84px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
 .who button .e{font-size:1.7rem;line-height:1}
-.av{display:inline-grid;place-items:center;border-radius:50%;color:#fff;font-weight:900;line-height:1;vertical-align:middle;flex:none;font-size:.62em}
+.av{display:inline-grid;place-items:center;border-radius:50%;color:#fff;font-weight:900;line-height:1;vertical-align:middle;flex:none;font-size:.62em;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+.swatches{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.swatch{aspect-ratio:1;max-width:72px;width:100%;justify-self:center;border-radius:50%;border:4px solid transparent;background-origin:border-box;background-clip:border-box;box-shadow:0 0 0 2px var(--line)}
+.swatch[aria-pressed="true"]{border-color:var(--card);background-clip:padding-box;box-shadow:0 0 0 4px var(--ink)}
 .who .av{font-size:1.15rem}
 .av-e{line-height:1;vertical-align:middle}
 .who button[aria-pressed="true"]{border-color:var(--coral);background:var(--coral-soft)}
@@ -192,6 +195,22 @@ input[type=text],input[type=number]{width:100%;font:inherit;font-size:1.1rem;pad
 .toast{position:fixed;left:50%;bottom:calc(110px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:14px 22px;border-radius:999px;font-weight:900;z-index:80;box-shadow:var(--shadow);max-width:90vw;text-align:center}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:90}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+/* High contrast: darker text, stronger outlines, bolder type. Light and dark variants. */
+html[data-contrast="high"]{--ink:#000;--muted:#2b2f3c;--line:#4b5061;--coral-ink:#8a2c00;--card:#fff;--bg:#fff7ef}
+@media (prefers-color-scheme: dark){ html[data-contrast="high"]:not([data-theme="light"]){--ink:#fff;--muted:#e6e8f0;--line:#c3c7d4;--coral-ink:#ffc4a8;--card:#15171f;--bg:#000} }
+html[data-contrast="high"][data-theme="dark"]{--ink:#fff;--muted:#e6e8f0;--line:#c3c7d4;--coral-ink:#ffc4a8;--card:#15171f;--bg:#000}
+html[data-contrast="high"] body{font-weight:700}
+html[data-contrast="high"] .card,html[data-contrast="high"] .tile,html[data-contrast="high"] .goal,html[data-contrast="high"] .badge,html[data-contrast="high"] .habit{border:2px solid var(--line);box-shadow:none}
+html[data-contrast="high"] .btn.ghost,html[data-contrast="high"] .who button,html[data-contrast="high"] .daypick button,html[data-contrast="high"] .filter button,html[data-contrast="high"] .feel button{border-width:3px;border-color:var(--line)}
+html[data-contrast="high"] .who button[aria-pressed="true"],html[data-contrast="high"] .daypick button[aria-pressed="true"],html[data-contrast="high"] .filter button[aria-pressed="true"]{border-color:var(--ink);outline:2px solid var(--ink)}
+html[data-contrast="high"] .chip,html[data-contrast="high"] .quick button{border:2px solid var(--line)}
+html[data-contrast="high"] .btn{box-shadow:0 0 0 2px var(--ink)}
+html[data-contrast="high"] .safety,html[data-contrast="high"] .breathe,html[data-contrast="high"] .why{border:2px solid var(--line)}
+html[data-contrast="high"] nav.tabs{border-top:3px solid var(--ink)}
+html[data-contrast="high"] nav.tabs button{color:var(--ink)}
+html[data-contrast="high"] .patch.empty{border-color:var(--muted)}
+html[data-contrast="high"] .tag{background:var(--ink);color:var(--card)}
+html[data-contrast="high"] :focus-visible{outline:4px solid var(--ink)}
 html[data-size="large"]{font-size:23px}
 html[data-size="xl"]{font-size:26px}
 @media (max-width:380px){html{font-size:18px} html[data-size="large"]{font-size:21px} html[data-size="xl"]{font-size:23px}}
@@ -479,7 +498,7 @@ function load(){
   try{ const raw = localStorage.getItem(KEY); S = raw ? Object.assign(structuredClone(DEFAULT), JSON.parse(raw)) : structuredClone(DEFAULT); }
   catch(e){ S = structuredClone(DEFAULT); }
   if(S.goals && S.goals.walk===6 && S.goals.strength===2 && S.goals.stretch===3 && S.goals.grip===5) S.goals={walk:7,strength:3,stretch:3,grip:5};
-  for(const p of S.people){ if(['👴','👵','🧓','👴🏻','👵🏻'].includes(p.emoji)) p.emoji=''; if(!p.theme) p.theme = p.id==='dad'?'music':p.id==='mom'?'quilt':'garden'; }
+  for(const p of S.people){ if(['👴','👵','🧓','👴🏻','👵🏻'].includes(p.emoji)) p.emoji=''; if(!p.theme) p.theme = p.id==='dad'?'music':p.id==='mom'?'quilt':'garden'; if(p.color==null) p.color = p.id==='mom'?1:0; }
 }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ toast('Couldn’t save on this device'); } }
 
@@ -496,11 +515,21 @@ const DAYN = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 const $ = (s,el=document) => el.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const person = id => S.people.find(p=>p.id===id);
-const AV_COLORS = ['linear-gradient(135deg,#ff7a45,#ff4f8b)','linear-gradient(135deg,#7a5af8,#0f9d8a)'];
+const PALETTE = [
+  {n:'Coral',  g:'linear-gradient(135deg,#ff6a3d,#e83e7a)'},
+  {n:'Violet', g:'linear-gradient(135deg,#6d4af0,#0f8f7e)'},
+  {n:'Ocean',  g:'linear-gradient(135deg,#0284c7,#1d4ed8)'},
+  {n:'Forest', g:'linear-gradient(135deg,#15803d,#0f766e)'},
+  {n:'Sunset', g:'linear-gradient(135deg,#ea580c,#dc2626)'},
+  {n:'Berry',  g:'linear-gradient(135deg,#db2777,#7c3aed)'},
+  {n:'Plum',   g:'linear-gradient(135deg,#7e22ce,#c026d3)'},
+  {n:'Teal',   g:'linear-gradient(135deg,#0d9488,#0e7490)'}
+];
+const colorOf = p => PALETTE[(p.color ?? Math.max(0,S.people.indexOf(p))) % PALETTE.length];
 function avatar(p, size='1.6em'){
   if(p.emoji) return `<span class="av-e" style="font-size:${size}" aria-hidden="true">${esc(p.emoji)}</span>`;
   const i=Math.max(0,S.people.indexOf(p)); const letter=(p.name.trim()[0]||'?').toUpperCase();
-  return `<span class="av" style="width:${size};height:${size};background:${AV_COLORS[i%2]}" aria-hidden="true">${esc(letter)}</span>`;
+  return `<span class="av" style="width:${size};height:${size};background:${colorOf(p).g}" aria-hidden="true">${esc(letter)}</span>`;
 }
 const whoIds = () => S.active==='both' ? S.people.map(p=>p.id) : [S.active];
 const focusId = () => S.active==='both' ? S.people[0].id : S.active;
@@ -603,6 +632,7 @@ function render(){
   document.documentElement.dataset.theme = S.theme==='auto' ? '' : S.theme;
   if(S.theme==='auto') delete document.documentElement.dataset.theme;
   if(S.size && S.size!=='normal') document.documentElement.dataset.size=S.size; else delete document.documentElement.dataset.size;
+  if(S.contrast) document.documentElement.dataset.contrast='high'; else delete document.documentElement.dataset.contrast;
   document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-current', b.dataset.tab===TAB?'page':'false'));
   const app=$('#app');
   app.innerHTML = header() + ({today:viewToday, moves:viewMoves, progress:viewProgress, trophies:viewTrophies}[TAB])();
@@ -1046,7 +1076,7 @@ function viewTrophies(){
   ${S.people.map(p=>{ const LV=themeOf(p).levels, pts=points(p.id), lv=Math.min(LV.length-1, Math.floor(pts/LEVEL_SIZE)), into=pts-lv*LEVEL_SIZE; const got=S.seen[p.id]||{};
     return `<section class="card"><div class="stat"><span style="font-weight:900;font-size:1.15rem">${avatar(p)} ${esc(p.name)}</span><span><b>${pts}</b> pts</span></div>
       <div style="margin:6px 0 4px;font-weight:900">${themeOf(p).icon} ${LV[lv]} <span class="small muted">· level ${lv+1} of ${LV.length}</span></div>
-      <div class="level"><i style="width:${lv===LV.length-1?100:(into/LEVEL_SIZE)*100}%"></i></div>
+      <div class="level"><i style="width:${lv===LV.length-1?100:(into/LEVEL_SIZE)*100}%;background:${colorOf(p).g}"></i></div>
       <div class="small muted" style="margin:4px 0 14px">${lv<LV.length-1?`${LEVEL_SIZE-into} points to ${LV[lv+1]}`:'Top level!'} · 🔥 ${streak(p.id)}-day streak</div>
       <div class="badges">${BADGES.map(b=>`<div class="badge ${got[b.id]?'':'locked'}"><div class="e">${b.e}</div><div class="n">${b.n}</div><div class="w">${got[b.id]?'Earned '+parse(got[b.id]).toLocaleDateString(undefined,{month:'short',day:'numeric'}):b.w}</div></div>`).join('')}</div>
     </section>`; }).join('')}`;
@@ -1067,12 +1097,16 @@ function openSettings(){
    ${S.people.map((p,i)=>`<div class="card"><label class="f" for="pn${i}">Name</label><input id="pn${i}" type="text" value="${esc(p.name)}">
      <div class="row"><div><label class="f" for="pa${i}">Age</label><input id="pa${i}" type="number" inputmode="numeric" value="${p.age}"></div>
      <div><label class="f" for="pe${i}">Picture <span class="muted small">(optional emoji; leave blank for initial)</span></label><input id="pe${i}" type="text" value="${esc(p.emoji)}" maxlength="8" placeholder="${esc((p.name.trim()[0]||'').toUpperCase())}"></div></div>
+     <label class="f">Color</label><div class="swatches" role="group" aria-label="${esc(p.name)}’s color">${PALETTE.map((c,j)=>`<button class="swatch" data-pc="${i}:${j}" aria-label="${c.n}" aria-pressed="${colorOf(p)===c}" style="background-image:${c.g}"></button>`).join('')}</div>
      <label class="f">Theme</label><div class="row">${Object.entries(THEMES).map(([k,t])=>`<button class="btn ghost" data-pt="${i}:${k}" style="min-height:56px;font-size:.9rem;${p.theme===k?'border-color:var(--coral);background:var(--coral-soft)':''}">${t.icon} ${t.label}</button>`).join('')}</div></div>`).join('')}
    <h2>Weekly goals</h2>
    <p class="small muted">Defaults follow the CDC’s advice for adults 65+: strength at least 2 days a week, plus balance work and regular walking.</p>
    ${[['walk','🚶 Walking days'],['strength','💪 Strong Days'],['stretch','🧘 Mobility & Yoga'],['grip','✊ Grip & Balance']].map(([k,l])=>`<div class="card stat" style="align-items:center"><span style="font-weight:800">${l}</span><span class="stepper"><button data-g="${k}" data-d="-1" aria-label="Less">−</button><output id="g-${k}">${g[k]}</output><button data-g="${k}" data-d="1" aria-label="More">+</button></span></div>`).join('')}
    <h2>Kitchen Corner</h2>
    <div class="row"><button class="btn ghost" data-kitchen="on" style="${S.kitchen!==false?'border-color:var(--coral);background:var(--coral-soft)':''}">🍲 Show weekly recipe</button><button class="btn ghost" data-kitchen="off" style="${S.kitchen===false?'border-color:var(--coral);background:var(--coral-soft)':''}">Hide it</button></div>
+   <h2>Contrast</h2>
+   <p class="small muted">High contrast uses darker text, thicker outlines and bolder buttons. Helpful outdoors or in bright light.</p>
+   <div class="row"><button class="btn ghost" data-contrast="normal" style="${!S.contrast?'border-color:var(--coral);background:var(--coral-soft)':''}">Standard</button><button class="btn ghost" data-contrast="high" style="font-weight:900;${S.contrast?'border-color:var(--coral);background:var(--coral-soft)':''}">◐ High contrast</button></div>
    <h2>Text size</h2>
    <div class="row">${[['normal','A'],['large','A+'],['xl','A++']].map(([k,l],i)=>`<button class="btn ghost" data-size="${k}" style="font-size:${1+i*.2}rem;${(S.size||'normal')===k?'border-color:var(--coral);background:var(--coral-soft)':''}">${l}</button>`).join('')}</div>
    <h2>Look</h2>
@@ -1089,6 +1123,8 @@ function openSettings(){
   $('#overlay').querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>{ commit(); S.theme=b.dataset.theme; save(); render(); openSettings(); });
   $('#overlay').querySelectorAll('[data-pt]').forEach(b=>b.onclick=()=>{ commit(); const [i,k]=b.dataset.pt.split(':'); S.people[+i].theme=k; save(); render(); openSettings(); });
   $('#overlay').querySelectorAll('[data-kitchen]').forEach(b=>b.onclick=()=>{ commit(); S.kitchen=b.dataset.kitchen==='on'; save(); render(); openSettings(); });
+  $('#overlay').querySelectorAll('[data-pc]').forEach(b=>b.onclick=()=>{ commit(); const [i,j]=b.dataset.pc.split(':'); S.people[+i].color=+j; save(); render(); openSettings(); });
+  $('#overlay').querySelectorAll('[data-contrast]').forEach(b=>b.onclick=()=>{ commit(); S.contrast=b.dataset.contrast==='high'; save(); render(); openSettings(); });
   $('#overlay').querySelectorAll('[data-size]').forEach(b=>b.onclick=()=>{ commit(); S.size=b.dataset.size; save(); render(); openSettings(); });
   $('#exp').onclick=async()=>{ commit();
     const name='strong-together-'+today()+'.json', json=JSON.stringify(S,null,1);
