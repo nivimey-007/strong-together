@@ -147,7 +147,6 @@ nav.tabs button[aria-current="page"]{color:var(--coral-ink);background:var(--cor
 .ex ol{margin:.4rem 0 .4rem;padding-left:1.2rem}
 .ex li{margin:.15rem 0}
 .vid{display:inline-flex;align-items:center;gap:8px;background:#ff0033;color:#fff;text-decoration:none;font-weight:900;border-radius:14px;padding:10px 16px;min-height:52px;margin-top:6px}
-.habit{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin:0 0 14px;font-size:.9rem;box-shadow:var(--shadow)}
 .why{background:var(--violet-soft);border-radius:14px;padding:4px 12px;margin:.6rem 0;font-size:.9rem}
 .why summary{cursor:pointer;font-weight:900;min-height:44px;display:flex;align-items:center;list-style:none}
 .why summary::-webkit-details-marker{display:none}
@@ -204,7 +203,7 @@ html[data-contrast="high"]{--ink:#000;--muted:#2b2f3c;--line:#4b5061;--coral-ink
 @media (prefers-color-scheme: dark){ html[data-contrast="high"]:not([data-theme="light"]){--ink:#fff;--muted:#e6e8f0;--line:#c3c7d4;--coral-ink:#ffc4a8;--card:#15171f;--bg:#000} }
 html[data-contrast="high"][data-theme="dark"]{--ink:#fff;--muted:#e6e8f0;--line:#c3c7d4;--coral-ink:#ffc4a8;--card:#15171f;--bg:#000}
 html[data-contrast="high"] body{font-weight:700}
-html[data-contrast="high"] .card,html[data-contrast="high"] .tile,html[data-contrast="high"] .goal,html[data-contrast="high"] .badge,html[data-contrast="high"] .habit{border:2px solid var(--line);box-shadow:none}
+html[data-contrast="high"] .card,html[data-contrast="high"] .tile,html[data-contrast="high"] .goal,html[data-contrast="high"] .badge{border:2px solid var(--line);box-shadow:none}
 html[data-contrast="high"] .btn.ghost,html[data-contrast="high"] .who button,html[data-contrast="high"] .daypick button,html[data-contrast="high"] .filter button,html[data-contrast="high"] .feel button{border-width:3px;border-color:var(--line)}
 html[data-contrast="high"] .who button[aria-pressed="true"],html[data-contrast="high"] .daypick button[aria-pressed="true"],html[data-contrast="high"] .filter button[aria-pressed="true"]{border-color:var(--ink);outline:2px solid var(--ink)}
 html[data-contrast="high"] .chip,html[data-contrast="high"] .quick button{border:2px solid var(--line)}
@@ -741,22 +740,12 @@ const RECIPES = [
     ing:['8 oz (225 g) shrimp, peeled','4 oz (115 g) whole-wheat pasta','3 cloves garlic, chili flakes','2 cups spinach, juice of ½ lemon','1 tbsp olive oil, 2 tbsp grated Parmesan'],
     steps:['Cook pasta without salt in the water; save ½ cup of the water.','Sauté garlic and chili in oil 30 seconds, add shrimp, cook 3 minutes.','Add pasta, spinach, lemon and a splash of pasta water. Toss and top with Parmesan.']}
 ];
-const HABITS = {
-  base:['Have a glass of water before your walk. Thirst fades with age, so drink by the clock.','Protein at breakfast today? Eggs, Greek yogurt or cottage cheese all count.','Had a Strong Day? A protein-rich snack in the next few hours helps your muscles.','Taste before you salt. Lemon, garlic and herbs add flavor without the sodium.','Add a handful of beans or lentils to a soup or salad today.','Aim for two different colors of vegetables at dinner.','A protein snack at bedtime, like Greek yogurt or cottage cheese, feeds muscles overnight.'],
-  quilt:['Keep a glass of water next to the sewing machine. Sip at the end of each seam.','Every time you change the bobbin, stand up and stretch.'],
-  music:['Keep a glass of water by the music stand. Sip between pieces.','Warm up your fingers with Finger Scales before you play.']
-};
 const weekNo = () => Math.floor((weekStart() - new Date(2026,0,5)) / (7*864e5));
 function kitchenCard(){
   if(S.kitchen===false) return '';
   const i=((weekNo()%RECIPES.length)+RECIPES.length)%RECIPES.length, r=RECIPES[i], isNew=(new Date().getDay()+6)%7<2;
   return `<button class="tile" data-recipe="${i}" style="background:var(--card)"><span class="ic c-walk">${r.e}</span>
     <span><span class="t">${esc(r.t)}</span>${isNew?'<span class="tag">New this week</span>':''}<br><span class="s">This week in the kitchen · protein: ${esc(r.protein)} · plus a bit of science</span></span><span class="go">›</span></button>`;
-}
-function habitLine(){
-  const p = S.active==='both' ? null : person(S.active);
-  const pool = HABITS.base.concat(p && HABITS[p.theme] ? HABITS[p.theme] : []);
-  const d=new Date(); return pool[(d.getDate()+d.getMonth()*31) % pool.length];
 }
 function openRecipe(i){
   const r=RECIPES[i], sc=SCIENCE[r.note], cur=((weekNo()%RECIPES.length)+RECIPES.length)%RECIPES.length;
@@ -817,7 +806,6 @@ function viewToday(){
     <p>${cheer}</p>
   </section>
   ${welcomeCard()}
-  <div class="habit">💧 <b>Today’s habit:</b> ${esc(habitLine())}</div>
   ${installCard()}
   ${tip?`<div class="card" style="background:var(--sun-soft)">${tip}</div>`:''}
   <div class="daypick" role="group" aria-label="Which day are you logging?"><span class="small muted" style="flex:0 0 auto;font-weight:800">Logging for</span>
