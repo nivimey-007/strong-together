@@ -158,6 +158,20 @@ nav.tabs button[aria-current="page"]{color:var(--coral-ink);background:var(--cor
 .wrow{display:flex;align-items:center;gap:10px;margin:8px 0;flex-wrap:wrap}
 .wname{font-weight:800;flex:1;min-width:4em}
 .weights output{min-width:7.5em;font-size:1rem}
+.spk{flex:0 0 auto;width:58px;min-height:52px;padding:0;font-size:1.4rem;margin-left:auto}
+.voicebar{margin:4px 0 12px}
+.voicebar .btn{min-height:56px;font-size:.95rem}
+.coaches{display:grid;grid-template-columns:1fr;gap:10px}
+@media (min-width:600px){ .coaches{grid-template-columns:1fr 1fr} }
+.coachcard{min-width:0;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px;text-align:left;display:flex;flex-direction:column;gap:4px}
+.coachcard[aria-pressed="true"]{border-color:var(--coral);background:var(--coral-soft)}
+.coachcard .cn{font-weight:900;font-size:1.05rem}
+.coachcard .ca{font-size:.8rem;color:var(--muted)}
+.win{display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:var(--bg);border:2px solid var(--line);border-radius:14px;padding:10px 12px;margin:6px 0;min-height:60px;font-weight:700}
+.win .we{font-size:1.5rem;flex:none}
+.win .wt{display:flex;flex-direction:column;font-size:.9rem;min-width:0}
+.win .wd{font-size:.75rem;color:var(--ok);font-weight:900}
+.win.got{border-color:var(--ok);background:var(--teal-soft)}
 .breathe{background:var(--teal-soft);border-radius:14px;padding:10px 12px;font-size:.88rem;margin:.5rem 0}
 .safety{background:var(--sun-soft);border-radius:14px;padding:10px 12px;font-size:.88rem;margin:.5rem 0}
 /* player */
@@ -354,6 +368,32 @@ const EXERCISES = {
     steps:['Sit comfortably with one hand on your belly.','Breathe in slowly through your nose and feel your belly rise.','Breathe out slowly through your mouth. Relax your shoulders.'],
     tip:'A calm finish to the session.', q:'belly breathing relaxation seniors'},
 
+  /* Jar opening: forearm rotation with leverage */
+  jarTwist:{name:'Hammer Turns', emoji:'🔨', cat:'grip', dose:'10 each hand', sides:true,
+    steps:['Sit with your forearm resting on your thigh or a table, hand just past the edge.','Hold a hammer, or a dumbbell by one end, pointing straight up.','Slowly turn your palm down, then up, like closing and opening a jar. Only your forearm moves.'],
+    tip:'Slow and controlled. Stop the turn before it pulls on your wrist.', easier:'Hold it closer to the heavy end.', harder:'Hold it further from the heavy end.',
+    q:'hammer pronation supination forearm exercise'},
+
+  /* Getting up from the floor: practised in stages, always with someone home */
+  floorPrep:{name:'Before You Start', emoji:'🛡️', cat:'strength', dose:'Check all four', info:true,
+    steps:['Someone else is home and nearby, at least for the first few sessions.','A soft surface for your knees: carpet, a rug or a folded blanket.','A sturdy chair or sofa that can’t slide, ideally against a wall.','You feel well today: no dizziness, and no hip or knee pain.'],
+    tip:'If any of the four is missing, do this session another day.', q:'how to get up from the floor safely older adults physiotherapist'},
+  kneelDown:{name:'Kneel at the Sofa', emoji:'🛋️', cat:'strength', dose:'3 times',
+    steps:['Stand facing the sofa or chair seat, with a cushion on the floor in front of you.','Hold the seat with both hands and lower one knee, then the other, onto the cushion.','To come up, bring one foot forward flat on the floor, push through that leg and your hands, and stand.'],
+    tip:'Go slowly and keep both hands on the seat the whole time.', easier:'Only go down onto one knee.', harder:'Use one hand on the seat.',
+    q:'kneel down and get up using chair older adults'},
+  halfKneel:{name:'Half-Kneel to Stand', emoji:'🧎', cat:'strength', dose:'3 each side', sides:true,
+    steps:['Kneel on the cushion facing the chair, both hands on the seat.','Bring one foot forward, flat on the floor, so you’re half-kneeling.','Lean forward, push through your front heel and your hands, and stand up. Turn and sit on the chair to rest.'],
+    tip:'This is the key move for getting up after a fall.', easier:'Put a firm cushion on the chair seat to make it higher.', harder:'Use one hand on the seat.',
+    q:'half kneeling to standing chair assisted older adults'},
+  floorToChair:{name:'Floor to Chair', emoji:'⬆️', cat:'strength', dose:'1–2 times',
+    steps:['Sit on the floor beside the chair. Roll onto your side, then up onto your hands and knees.','Crawl to the chair and put both hands on the seat.','Bring one foot forward into a half-kneel, push up to standing, then turn and sit down to rest.'],
+    tip:'Only once the first two moves feel easy, and always with someone home.', easier:'Start from kneeling instead of sitting.', harder:'Use a lower support, like the bottom stair.',
+    q:'how to get up from the floor after a fall NHS'},
+  fallPlan:{name:'If You Ever Fall', emoji:'📋', cat:'strength', dose:'Read it together', info:true,
+    steps:['Stay still for a moment. Breathe, and check whether you’re hurt. Don’t rush to get up.','Not hurt? Roll onto your side, get onto your hands and knees, crawl to a sturdy chair, and get up the way you practised today. Then sit and rest.','Hurt, especially your head, back, neck or hip, or can’t get up? Don’t try. Call for help, keep warm, and shift position gently while you wait.'],
+    tip:'Keep a phone where you could reach it from the floor. An Apple Watch or a medical alert pendant can call for help automatically after a hard fall.', q:'what to do if you fall older adults NHS'},
+
   /* Mobility: moving joints through their range, standing at the counter */
   legSwing:{name:'Leg Swings', emoji:'🦵', cat:'stretch', dose:'10 each leg', sides:true,
     steps:['Stand side-on to the kitchen counter and hold it with one hand.','Swing the outside leg gently forward and back, like a pendulum.','Keep it small and easy at first. Turn around for the other leg.'],
@@ -400,6 +440,12 @@ const WHY = {
   wallPush:'Works the chest (pectoralis major), front of the shoulders and triceps: the pushing muscles you use to get out of bed, up off the floor, or to catch yourself if you stumble. The angle to the wall sets the load, so stepping your feet back is an easy way to progress.',
   curls:'Biceps and forearm muscles for carrying: groceries, a kettle, a grandchild. The forearm work also feeds directly into grip strength.',
   row:'Works the upper back: latissimus dorsi, rhomboids and middle trapezius. These are the pulling muscles for opening heavy doors, starting a lawnmower or pulling yourself up, and they hold the shoulders back against a forward-rounded posture. Most daily life is pushing and reaching forward, so pulling work restores the balance.',
+  jarTwist:'Works the forearm rotators (pronators and supinators) and the wrist stabilisers: exactly the twist that opens a jar or turns a stiff tap. Holding further from the weight increases leverage, so you can make it harder without buying anything. A practical extra: a rubber jar gripper or a rubber glove adds a lot of friction.',
+  floorPrep:'Getting up from the floor is a skill that can be practised, but practice falls are the thing to avoid. These checks remove the main risks before you start.',
+  kneelDown:'The last step of getting up from the floor is rising from kneeling, so practice starts there and works backwards. Physiotherapists teach floor rises in stages like this, starting from the easiest end. It also trains the thighs and hips through a deep bend that daily life rarely asks for.',
+  halfKneel:'Half-kneeling is the position you push up from after any fall. Pushing up through the front leg is a single-leg strength move for the quadriceps and glutes, with your hands on the chair helping.',
+  floorToChair:{w:'This is the whole sequence the NHS recommends after a fall: roll onto your side, get onto hands and knees, crawl to a sturdy chair, and push up from a half-kneel. Many older adults who fall can’t get up even when they aren’t hurt, and practising the sequence in advance makes it familiar and less frightening.', src:'NHS: Falls', url:'https://www.nhs.uk/conditions/Falls'},
+  fallPlan:{w:'Getting up too quickly, or the wrong way, can make an injury worse. That’s why the plan starts with stopping to check, and why some situations call for help rather than getting up.', src:'NHS: Falls', url:'https://www.nhs.uk/conditions/Falls'},
   heelRaise:'The calf muscles (gastrocnemius and soleus) provide most of the push-off in each walking step and make the first, fastest corrections when you sway. Stronger calves mean a longer, steadier stride.',
   sideLeg:'The hip abductors (gluteus medius and minimus) keep your pelvis level whenever you stand on one leg, which happens with every step. When they’re weak the body sways side to side, a common contributor to falls.',
   kneeExt:'Isolates the quadriceps, the main stabiliser of the knee. Strong quads take load off the joint itself and make stairs easier, and isolating them works even on days standing moves feel sore.',
@@ -458,8 +504,10 @@ const SESSIONS = {
     list:['march','chairStand','wallPush','row','curls','heelRaise','sideLeg','kneeExt','overhead','ballSqueeze']},
   stretch:{title:'Mobility & Yoga', emoji:'🧘', cat:'stretch', mins:14, blurb:'Loosen hips, shoulders and back, then gentle chair yoga.',
     list:['armCircle','legSwing','hipCircle','shoulderRoll','neck','catCow','sideBend','twist','hamstring','calf','breathing']},
-  grip:{title:'Grip & Balance', emoji:'✊', cat:'grip', mins:6, blurb:'Five quick minutes for strong hands and steady feet.',
-    list:['ballSqueeze','towelWring','rubberBand','bagHold','oneLeg','heelToe']},
+  grip:{title:'Grip & Balance', emoji:'✊', cat:'grip', mins:7, blurb:'Strong hands for jars and handles, steady feet for paths and curbs.',
+    list:['ballSqueeze','towelWring','jarTwist','rubberBand','bagHold','oneLeg','heelToe']},
+  floor:{title:'Floor Confidence', emoji:'🛋️', cat:'strength', mins:8, weekly:true, blurb:'Practise getting up from the floor, step by step. Once a week, with someone home.',
+    list:['floorPrep','kneelDown','halfKneel','floorToChair','fallPlan']},
   hands:{title:'Musician’s Hands', emoji:'🎻', cat:'grip', mins:5, theme:'music', blurb:'Nimble fingers and loose wrists for strings and squeezebox.',
     list:['thumbScale','fingerLift','tendonGlide','wristStretch','rubberBand','shoulderRoll']},
   quilt:{title:'Quilter’s Break', emoji:'🧵', cat:'stretch', mins:5, theme:'quilt', blurb:'Neck, shoulders, wrists and eyes after time at the machine.',
@@ -556,7 +604,7 @@ function avatar(p, size='1.6em'){
 }
 const whoIds = () => S.active==='both' ? S.people.map(p=>p.id) : [S.active];
 const focusId = () => S.active==='both' ? S.people[0].id : S.active;
-const needsBreath = ex => ex.breath || (ex.cat==='strength' && ex.name!=='Seated Marching');
+const needsBreath = ex => ex.breath || (ex.cat==='strength' && !ex.info && ex.name!=='Seated Marching');
 const vlink = ex => ex.video && /^https?:/.test(ex.video) ? ex.video : yt(ex.q);
 function toast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2600); }
 function buzz(){ try{ navigator.vibrate && navigator.vibrate(60);}catch(e){} }
@@ -593,9 +641,21 @@ function weekCounts(id, ws=weekStart()){
   const c = t => L.filter(l=>l.type===t).length;
   return {walk:walkDays, strength:c('strength'), stretch:c('stretch'), grip:c('grip'), L};
 }
+/* Everyday wins: real-life milestones, ticked off with a date. Worth 25 points each. */
+const WINS = [
+  {id:'jar', e:'🫙', t:'Open a new jar without help'},
+  {id:'floor', e:'⬆️', t:'Get up from the floor using a chair'},
+  {id:'sofa', e:'🛋️', t:'Stand up from the sofa without using your hands'},
+  {id:'bags', e:'🛍️', t:'Carry two grocery bags up a flight of stairs'},
+  {id:'oneleg', e:'🦩', t:'Stand on one foot for 30 seconds by the counter, without holding on'},
+  {id:'accordion', e:'🪗', t:'Play the accordion standing up for a whole piece', theme:'music'},
+  {id:'quiltday', e:'🧵', t:'A full afternoon of quilting without a stiff neck', theme:'quilt'}
+];
+const winsFor = p => WINS.filter(w=>!w.theme || w.theme===p.theme);
 function points(id){
   let p=0; for(const l of logsFor(id)){ p+=POINTS[l.type]||0; if(l.together) p+=POINTS.together; }
   p += S.tests.filter(t=>t.who===id).length*POINTS.test;
+  p += Object.keys((S.wins||{})[id]||{}).length*25;
   return p;
 }
 function streak(id){
@@ -754,6 +814,7 @@ function openRecipe(i){
   $('#overlay').innerHTML = `<div class="player"><div class="wrap">
     <div class="row" style="align-items:center"><div style="font-weight:900">🍽️ Kitchen Corner</div><button class="btn ghost" style="flex:0 0 auto;width:auto;min-height:52px;padding:8px 16px;font-size:.9rem" id="rx">✕ Close</button></div>
     <div class="bigemoji" aria-hidden="true">${r.e}</div><h1 style="text-align:center">${esc(r.t)}</h1>
+    ${canSpeak()?`<button class="btn ghost" id="readr" style="margin:6px 0 10px">🔊 Read aloud with ${esc(coach().name)}</button>`:''}
     <p class="muted" style="text-align:center;font-weight:800">Serves ${esc(r.serves)} · protein: ${esc(r.protein)} · no added salt</p>
     <div class="grid2"><div class="card"><h3 style="margin:0 0 .4rem;font-weight:900">You’ll need</h3><ul style="margin:0;padding-left:1.2rem">${r.ing.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
     <div class="card"><h3 style="margin:0 0 .4rem;font-weight:900">Method</h3><ol style="margin:0;padding-left:1.2rem">${r.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div></div>
@@ -763,6 +824,7 @@ function openRecipe(i){
     ${earlier.length?`<h2>Earlier weeks</h2>${earlier.map(k=>`<button class="tile" data-recipe="${k}"><span class="ic c-walk">${RECIPES[k].e}</span><span><span class="t">${esc(RECIPES[k].t)}</span><br><span class="s">Protein: ${esc(RECIPES[k].protein)}</span></span><span class="go">›</span></button>`).join('')}`:''}
   </div></div>`;
   $('#rx').onclick=()=>{ closeOverlay(); render(); };
+  if($('#readr')) $('#readr').onclick=()=>say([r.t+'. Serves '+r.serves+'.','You’ll need: '+r.ing.map(spoken).join('. ')+'.','Method: '+r.steps.map(spoken).join(' ')].join(' '),{force:true});
   $('#overlay').querySelectorAll('[data-recipe]').forEach(b=>b.onclick=()=>{ openRecipe(+b.dataset.recipe); $('.player').scrollTop=0; });
 }
 
@@ -788,7 +850,7 @@ function installCard(){
 }
 function viewToday(){
   const id = focusId(), g=S.goals, sug = suggestedToday();
-  const doneToday = t => whoIds().every(pid=>logsFor(pid).some(l=>l.date===logDate() && (SESSIONS[t]&&SESSIONS[t].theme ? l.session===t : l.type===t)));
+  const doneToday = t => whoIds().every(pid=>logsFor(pid).some(l=>l.date===logDate() && (SESSIONS[t]&&(SESSIONS[t].theme||SESSIONS[t].weekly) ? l.session===t : l.type===t)));
   const dayWord = LOGDAY===0?'today':'yesterday';
   const st = streak(id);
   const hour = new Date().getHours();
@@ -797,8 +859,8 @@ function viewToday(){
   const cheer = pool[(new Date().getDate()*7+new Date().getMonth()) % pool.length];
   const tip = feelTip();
   const order = sug==='strength' ? ['strength','grip','stretch'] : ['stretch','grip','strength'];
-  const hobby = Object.keys(SESSIONS).filter(k=>SESSIONS[k].theme && whoIds().some(pid=>person(pid).theme===SESSIONS[k].theme));
-  const forWho = k => S.people.filter(p=>p.theme===SESSIONS[k].theme).map(p=>esc(p.name)).join(' & ');
+  const hobby = ['floor', ...Object.keys(SESSIONS).filter(k=>SESSIONS[k].theme && whoIds().some(pid=>person(pid).theme===SESSIONS[k].theme))];
+  const forWho = k => SESSIONS[k].weekly ? 'Once a week' : 'For '+S.people.filter(p=>p.theme===SESSIONS[k].theme).map(p=>esc(p.name)).join(' & ');
   return `
   <section class="card hero">
     <span class="pill">${st? `🔥 ${st}-day streak`:'✨ Fresh start'}</span>
@@ -829,7 +891,7 @@ function viewToday(){
   ${S.kitchen===false?'':`<h2>Kitchen Corner</h2>${kitchenCard()}`}
   ${hobby.length?`<h2>Just for you</h2><div class="grid2">${hobby.map(k=>{ const s=SESSIONS[k]; return `<button class="tile ${doneToday(k)?'done':''}" data-start="${k}">
     <span class="ic ${CATS[s.cat].cls}">${s.emoji}</span>
-    <span><span class="t">${s.title}</span><span class="tag">For ${forWho(k)}</span>${doneToday(k)?'<span class="tag" style="background:#dcfce7;color:#14532d">Done ✓</span>':''}<br><span class="s">${s.blurb} · about ${s.mins} min · counts as ${CATS[s.cat].label}</span></span>
+    <span><span class="t">${s.title}</span><span class="tag">${forWho(k)}</span>${doneToday(k)?'<span class="tag" style="background:#dcfce7;color:#14532d">Done ✓</span>':''}<br><span class="s">${s.blurb} · about ${s.mins} min · counts as ${CATS[s.cat].label}</span></span>
     <span class="go">›</span></button>`;}).join('')}</div>`:''}
   <h2>This week’s goals</h2>
   ${whoIds().map(pid=>{ const cc=weekCounts(pid); return `${S.active==='both'?`<div style="font-weight:900;margin:10px 0 8px">${avatar(person(pid))} ${esc(person(pid).name)}${goalsMet(pid)?' · ⭐ All done!':''}</div>`:''}
@@ -903,6 +965,110 @@ function exCard(e,k){
    <a class="vid" href="${vlink(e)}" target="_blank" rel="noopener">▶ Watch how</a></div></article>`;
 }
 
+/* ---------------- Voice coach: six spoken coaches ----------------
+   Uses the device's built-in voices (Web Speech API). Each coach asks for a
+   voice with a different accent, so iPhones and iPads can tell them apart. */
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const COACHES = [
+  {id:'maggie', name:'Maggie', g:'f', accent:'Irish', vibe:'Warm and brisk', names:['Moira'], lang:'en-IE', rate:1.0, pitch:1.05,
+    start:['Right, {who}. {session}. Let’s get going.','Hello, {who}. {session} today. Off we go.'],
+    next:['Grand. Next up:','Lovely work. Now:','On we go:','Good stuff. Next:'],
+    breathe:'Breathe out as you lift.', half:'That’s half.', round:'Good. Have a short rest.',
+    finish:['That’s it done. You should be proud of that.','All finished. Well done, the pair of you.'],
+    go:'Off you go.', end:'And stop. Well held.', ten:'Ten seconds left.',
+    sample:'Hello, I’m Maggie. Right then, let’s get those legs working.'},
+  {id:'arthur', name:'Arthur', g:'m', accent:'British', vibe:'Dry wit, likes the science', names:['Daniel','Arthur','Oliver','Google UK English Male','Microsoft Ryan'], lang:'en-GB', rate:.95, pitch:.92,
+    start:['Good day, {who}. Today’s programme: {session}.','Ah, {who}. {session}. Shall we?'],
+    next:['Splendid. Next:','Very good. Moving on to','Excellent form. Now:','Most satisfactory. Next:'],
+    breathe:'Exhale on the effort, if you please.', half:'Halfway there.', round:'Well done. A brief rest.',
+    finish:['Session complete. Your quadriceps send their regards.','Finished. A thoroughly respectable effort.'],
+    go:'Begin.', end:'Time. Admirably done.', ten:'Ten seconds remaining.',
+    sample:'Good day. I’m Arthur. Shall we begin? Your muscles won’t strengthen themselves.'},
+  {id:'sunny', name:'Sunny', g:'f', accent:'Australian', vibe:'Bubbly and energetic', names:['Karen','Catherine'], lang:'en-AU', rate:1.05, pitch:1.12,
+    start:['G’day, {who}! {session} time. Let’s do this.','Hi {who}! Ready for {session}? Let’s go.'],
+    next:['Good on you! Next one:','Beauty. Now:','Love it. Up next:','Nice work. Next:'],
+    breathe:'Breathe out as you push.', half:'Halfway, keep it going.', round:'Nice one. Quick breather.',
+    finish:['That’s a wrap! Great effort today.','Done and dusted. Top work.'],
+    go:'Go!', end:'Done! Great hold.', ten:'Ten more seconds.',
+    sample:'G’day, I’m Sunny! Ready to get moving?'},
+  {id:'hank', name:'Hank', g:'m', accent:'American', vibe:'Laid-back and easygoing', names:['Aaron','Fred','Evan','Nathan','Tom','Alex','Reed','Google US English Male','Microsoft Guy','Microsoft David'], lang:'en-US', rate:.9, pitch:.85,
+    start:['Hey, {who}. {session}. Nice and easy, no rush.','Alright, {who}. Let’s ease into {session}.'],
+    next:['Nice. Next up,','Lookin’ good. Now,','Alright. Here’s','Easy does it. Next,'],
+    breathe:'Breathe out on the way up.', half:'Halfway.', round:'Good stuff. Take a breather.',
+    finish:['And that’s the session. Good work today.','All done. That’s how it’s done.'],
+    go:'Go ahead.', end:'And done. Nice.', ten:'Ten seconds.',
+    sample:'Hey there, I’m Hank. We’ll take it nice and easy.'},
+  {id:'tessa', name:'Tessa', g:'f', accent:'South African', vibe:'Calm, like a yoga teacher', names:['Tessa'], lang:'en-ZA', rate:.88, pitch:1.0,
+    start:['Hello, {who}. Let’s begin {session}. Settle in.','Welcome, {who}. {session}. Let’s start slowly.'],
+    next:['Beautiful. When you’re ready:','Good. Next, gently:','Nicely done. Now:','Lovely. Moving on to'],
+    breathe:'Let the breath flow out as you lift.', half:'Halfway. Stay steady.', round:'Rest a moment. Breathe.',
+    finish:['Well done. Take a moment to notice how your body feels.','Finished. Carry that calm into your day.'],
+    go:'Begin, and breathe.', end:'And release.', ten:'Ten seconds. Keep breathing.',
+    sample:'Hello, I’m Tessa. Let’s move calmly and breathe together.'},
+  {id:'raj', name:'Raj', g:'m', accent:'Indian', vibe:'Encouraging, a stickler for form', names:['Rishi'], lang:'en-IN', rate:.95, pitch:1.0,
+    start:['Hello, {who}. Today’s session is {session}. Good form first.','Welcome, {who}. {session}. Quality before quantity.'],
+    next:['Very good. Next exercise:','Well done. Now we do','Excellent. Coming up:','Good form. Next:'],
+    breathe:'Remember: breathe out on the effort.', half:'Half done. Keep the form.', round:'Good. Short rest, then again.',
+    finish:['Session complete. Consistency is the secret. See you next time.','Well done. Every session builds on the last.'],
+    go:'Start now.', end:'Stop. Very well held.', ten:'Ten seconds more.',
+    sample:'Hello, I’m Raj. Good form first, then we build strength.'}
+];
+const MALE_HINT = /\b(daniel|arthur|oliver|aaron|fred|evan|nathan|tom|alex|reed|rishi|gordon|lee|ryan|guy|david|mark|male)\b/i;
+const isMale = v => MALE_HINT.test(v.name) && !/female/i.test(v.name);
+function coach(){ return COACHES.find(c=>c.id===S.voice) || COACHES[0]; }
+function voiceList(){ try{ return window.speechSynthesis ? speechSynthesis.getVoices() : []; }catch(e){ return []; } }
+try{ if(window.speechSynthesis) speechSynthesis.onvoiceschanged = ()=>{ if($('#voice-list')) openSettings(); }; }catch(e){}
+function pickVoice(c){
+  const vs=voiceList(); if(!vs.length) return {v:null, exact:false};
+  const byName = n => vs.find(v=>v.name.toLowerCase().startsWith(n.toLowerCase()));
+  for(const n of c.names){ const v=byName(n); if(v) return {v, exact:true}; }
+  const sameLang = vs.filter(v=>v.lang.replace('_','-').toLowerCase()===c.lang.toLowerCase());
+  const genderOk = v => c.g==='m' ? isMale(v) : !isMale(v);
+  const en = vs.filter(v=>/^en/i.test(v.lang));
+  const v = sameLang.find(genderOk) || en.find(genderOk) || sameLang[0] || en[0] || vs[0];
+  return {v:v||null, exact:false};
+}
+const canSpeak = () => !!(window.speechSynthesis && window.SpeechSynthesisUtterance);
+function say(text, {force=false, queue=false}={}){
+  if(!canSpeak() || (!S.speak && !force)) return;
+  try{
+    if(!queue) speechSynthesis.cancel();
+    const c=coach(), {v,exact}=pickVoice(c), u=new SpeechSynthesisUtterance(text);
+    if(v){ u.voice=v; u.lang=v.lang; } else u.lang=c.lang;
+    u.rate = c.rate * (S.voiceRate||0.92);
+    u.pitch = c.pitch * (!exact && c.g==='m' && v && !isMale(v) ? 0.8 : 1);
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function hush(){ try{ if(canSpeak()) speechSynthesis.cancel(); }catch(e){} clearTimeout(COUNT.t); COUNT.on=false; }
+const spoken = t => String(t).replace(/\s*\([^)]*\)/g,'').replace(/\b1 lb\b/g,'1 pound').replace(/\b1 oz\b/g,'1 ounce').replace(/–/g,' to ').replace(/½/g,'half').replace(/¼/g,'a quarter').replace(/°F \(220°C\)/,' degrees').replace(/\blb\b/g,'pounds').replace(/\bkg\b/g,'kilos').replace(/\boz\b/g,'ounces').replace(/\btbsp\b/g,'tablespoon').replace(/[“”"]/g,'');
+function whoSpoken(){ return S.active==='both' ? S.people.map(p=>p.name).join(' and ') : person(S.active).name; }
+function speakExercise(){
+  if(!P || !S.speak) return;
+  const c=coach(), ex=EXERCISES[P.s.list[P.i]];
+  const lead = P.i===0 ? pick(c.start).replace('{who}',whoSpoken()).replace('{session}',P.s.title) : pick(c.next);
+  const parts=[lead, ex.name+'.', spoken(ex.dose)+'.', ...ex.steps.map(spoken)];
+  if(needsBreath(ex)) parts.push(c.breathe);
+  if(ex.weighted && !ex.bodyweight) parts.push(whoIds().map(pid=>`${person(pid).name}: ${getW(pid,P.s.list[P.i])===0?'no weight':getW(pid,P.s.list[P.i])+' pounds'}`).join('. ')+'.');
+  say(parts.join(' '));
+}
+/* Count reps aloud at a slow, controlled pace */
+const COUNT={on:false,t:null};
+function repTarget(ex){ const m=String(ex.dose).match(/(\d+)\s*(?:–|-|to)\s*(\d+)/); if(m) return Math.round((+m[1]+ +m[2])/2); const n=String(ex.dose).match(/\d+/g); if(!n) return 8; const nums=n.map(Number); return /rounds? of/.test(ex.dose)?nums[1]||nums[0]:nums[0]; }
+function countReps(){
+  const ex=EXERCISES[P.s.list[P.i]], c=coach(), n=Math.min(20,repTarget(ex)), pace = ex.cat==='strength'?4200:3200;
+  hush(); COUNT.on=true; let i=0;
+  const btn=()=>$('[data-act="count"]');
+  if(btn()) btn().textContent='⏹ Stop counting';
+  const step=()=>{ if(!COUNT.on||!P) return; i++;
+    let line = String(i);
+    if(i===1 && needsBreath(ex)) line = '1. '+c.breathe;
+    if(i===Math.ceil(n/2) && n>=6) line = i+'. '+c.half;
+    if(i>=n){ say(i+'. '+c.round, {force:true}); COUNT.on=false; if(btn()) btn().textContent='🔢 Count with me'; return; }
+    say(line, {force:true}); COUNT.t=setTimeout(step, pace); };
+  say(`Counting ${n}. Ready.`, {force:true}); COUNT.t=setTimeout(step, 2200);
+}
+
 /* ---------------- Session player ---------------- */
 let P=null, TIMER=null;
 function startSession(key){
@@ -919,14 +1085,16 @@ function drawPlayer(){
   const ex=EXERCISES[s.list[P.i]];
   if(P.left===null) P.left = ex.timer||null;
   $('#overlay').innerHTML = `<div class="player" role="dialog" aria-label="${esc(s.title)}"><div class="wrap">
-    <div class="row" style="align-items:center"><div style="font-weight:900">${s.emoji} ${esc(s.title)}</div>
+    <div class="row" style="align-items:center;gap:8px"><div style="font-weight:900;min-width:0">${s.emoji} ${esc(s.title)}</div>
+    ${canSpeak()?`<button class="btn ${S.speak?'teal':'ghost'} spk" data-act="speak" aria-pressed="${!!S.speak}" aria-label="${S.speak?'Voice on':'Voice off'}">${S.speak?'🔊':'🔇'}</button>`:''}
     <button class="btn ghost" style="flex:0 0 auto;width:auto;min-height:52px;padding:8px 16px;font-size:.9rem" data-act="close">✕ Close</button></div>
     <div class="progressbar" aria-label="Move ${P.i+1} of ${n}"><i style="width:${(P.i/n)*100}%"></i></div>
     <div class="muted small" style="text-align:center;font-weight:800">Move ${P.i+1} of ${n}</div>
     <div class="bigemoji" aria-hidden="true">${ex.emoji}</div>
     <h1 style="text-align:center">${esc(ex.name)}${ex.optional?' <span class="tag">Optional</span>':''}</h1>
     <div class="dose">${esc(ex.dose)}</div>
-    ${s.cat==='strength'&&P.i<=1?`<div class="breathe">🗣️ <b>Talk test:</b> you should be able to talk in short sentences. If you can’t, slow down or rest.</div>`:''}
+    ${P.key==='strength'&&P.i<=1?`<div class="breathe">🗣️ <b>Talk test:</b> you should be able to talk in short sentences. If you can’t, slow down or rest.</div>`:''}
+    ${canSpeak()?`<div class="row voicebar">${S.speak?`<button class="btn ghost" data-act="repeat">🔁 Repeat</button>`:`<button class="btn ghost" data-act="speak">🔊 Turn on ${esc(coach().name)}</button>`}${!ex.timer&&!ex.info?`<button class="btn ghost" data-act="count">${COUNT.on?'⏹ Stop counting':'🔢 Count with me'}</button>`:''}</div>`:''}
     ${ex.timer?`<div class="timer" id="tm">${fmt(P.left)}</div>
       <button class="btn teal" data-act="timer" style="margin-bottom:12px">${P.running?'⏸ Pause':'⏱ Start timer'}</button>`:''}
     <ol class="steps">${ex.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
@@ -944,6 +1112,7 @@ function drawPlayer(){
     </div>
   </div></div>`;
   bindPlayer();
+  if(S.speak && P.spoken!==P.i){ P.spoken=P.i; speakExercise(); }
 }
 const fmt = s => s==null?'':(Math.floor(s/60)+':'+pad(s%60));
 function bindPlayer(){
@@ -951,16 +1120,21 @@ function bindPlayer(){
   o.querySelectorAll('[data-w]').forEach(b=>b.onclick=()=>{ const [pid,ex,d]=b.dataset.w.split(':'); setW(pid,ex,stepW(getW(pid,ex),+d)); const y=$('.player').scrollTop; drawPlayer(); $('.player').scrollTop=y; });
   o.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{
     const a=b.dataset.act;
-    if(a==='close'){ if(P.i===0) closePlayer(); else ask('Stop this session? It won’t be counted.','Yes, stop',closePlayer); }
-    if(a==='next'||a==='skip'){ stopTimer(); P.i++; P.left=null; drawPlayer(); }
-    if(a==='back'){ stopTimer(); P.i=Math.max(0,P.i-1); P.left=null; drawPlayer(); }
+    if(a==='close'){ hush(); if(P.i===0) closePlayer(); else ask('Stop this session? It won’t be counted.','Yes, stop',closePlayer); }
+    if(a==='next'||a==='skip'){ hush(); stopTimer(); P.i++; P.left=null; drawPlayer(); }
+    if(a==='back'){ hush(); stopTimer(); P.i=Math.max(0,P.i-1); P.left=null; P.spoken=null; drawPlayer(); }
+    if(a==='speak'){ S.speak=!S.speak; save(); if(S.speak){ P.spoken=null; } else hush(); const y=$('.player').scrollTop; drawPlayer(); $('.player').scrollTop=y; }
+    if(a==='repeat'){ speakExercise(); }
+    if(a==='count'){ if(COUNT.on){ hush(); b.textContent='🔢 Count with me'; } else countReps(); }
     if(a==='timer'){
       unlockAudio();
       if(P.running){ stopTimer(); drawPlayer(); return; }
       if(P.left<=0) P.left = EXERCISES[P.s.list[P.i]].timer;
-      P.running=true; b.textContent='⏸ Pause';
+      P.running=true; b.textContent='⏸ Pause'; say(coach().go);
+      const full=EXERCISES[P.s.list[P.i]].timer;
       TIMER=setInterval(()=>{ P.left--; const t=$('#tm'); if(t) t.textContent=fmt(Math.max(0,P.left));
-        if(P.left<=0){ stopTimer(); beep(); buzz(); const t2=$('#tm'); if(t2) t2.textContent='Done! ✓'; b.textContent='↺ Again'; } },1000);
+        if(P.left===10 && full>=20) say(coach().ten);
+        if(P.left<=0){ stopTimer(); beep(); buzz(); say(coach().end); const t2=$('#tm'); if(t2) t2.textContent='Done ✓'; b.textContent='↺ Again'; } },1000);
     }
     if(a.startsWith('feel:')){ const feel=a.split(':')[1]; addLog(P.s.cat,{feel, session:P.key, ...(P.s.cat==='strength'?{weights:snapW()}:{})}); const k=P.key; P=null; closeOverlay(); render();
       toast(`${SESSIONS[k].title} done! +${POINTS[SESSIONS[k].cat]+(S.active==='both'?POINTS.together:0)} points`); }
@@ -978,6 +1152,7 @@ function drawFinish(){
     <p class="small muted" style="margin-top:16px">Your answer helps the app suggest when to make things harder or easier.</p>
   </div></div>`;
   bindPlayer();
+  say(pick(coach().finish)+' How did that feel?');
 }
 
 /* ---------------- Progress & check-ins ---------------- */
@@ -1003,6 +1178,10 @@ function viewProgress(){
       ${T.length>1?lineChart(T):''}`; }).join('')}
     <button class="btn ${K.k==='chair'?'teal':K.k==='grip'?'violet':'sun'}" data-test="${K.k}" style="margin-top:10px">Start check-in</button>
   </section>`).join('')}
+  <h2>Everyday wins</h2>
+  <p class="muted small" style="margin-top:-4px">The real reason for all this. Tick one off the day it happens: 25 points each.</p>
+  <div class="grid2">${S.people.map(p=>`<div class="card"><div style="font-weight:900;margin-bottom:6px">${avatar(p)} ${esc(p.name)}</div>
+    ${winsFor(p).map(w=>{ const d=((S.wins||{})[p.id]||{})[w.id]; return `<button class="win ${d?'got':''}" data-win="${p.id}:${w.id}" aria-pressed="${!!d}"><span class="we">${w.e}</span><span class="wt">${esc(w.t)}${d?`<span class="wd">✓ ${parse(d).toLocaleDateString(undefined,{month:'short',day:'numeric',year:'numeric'})}</span>`:''}</span></button>`; }).join('')}</div>`).join('')}</div>
   <h2>Dumbbell weights</h2>
   <div class="card">${S.people.map(p=>`<div style="font-weight:900;margin:4px 0 6px">${avatar(p)} ${esc(p.name)}</div>
     ${Object.keys(EXERCISES).filter(k=>EXERCISES[k].weighted).map(k=>{ const hist=logsFor(p.id).filter(l=>l.weights&&l.weights[p.id]&&l.weights[p.id][k]!=null); const first=hist.length?hist[0].weights[p.id][k]:null, now=getW(p.id,k);
@@ -1037,7 +1216,7 @@ function testFlow(kind){
   const next = () => { if(idx>=ids.length){ closeOverlay(); const fresh=checkBadges(); render(); confetti(); toast('Check-in saved! ⭐'); queueBadges(fresh); return; } runTest(kind, person(ids[idx]), v=>{ if(v!=null) S.tests.push({date:today(), who:ids[idx], kind, value:v}); save(); idx++; next(); }); };
   next();
 }
-function closeOverlay(){ keepAwake(false); stopTimer(); $('#overlay').innerHTML=''; document.body.style.overflow=''; setTimeout(flushBadges,300); }
+function closeOverlay(){ hush(); keepAwake(false); stopTimer(); $('#overlay').innerHTML=''; document.body.style.overflow=''; setTimeout(flushBadges,300); }
 function runTest(kind, p, done){
   document.body.style.overflow='hidden';
   const shell = inner => { $('#overlay').innerHTML = `<div class="player"><div class="wrap"><div class="row" style="align-items:center"><div style="font-weight:900">${avatar(p)} ${esc(p.name)}’s check-in</div><button class="btn ghost" style="flex:0 0 auto;width:auto;min-height:52px;padding:8px 16px;font-size:.9rem" id="tx">✕ Close</button></div>${inner}</div></div>`; $('#tx').onclick=()=>{ closeOverlay(); render(); }; };
@@ -1051,8 +1230,8 @@ function runTest(kind, p, done){
       <button class="btn ghost" id="cs-skip" style="margin-top:12px">Skip ${esc(p.name)}</button>`);
     $('#cs-skip').onclick=()=>done(null);
     $('#cs-b').onclick=()=>{
-      if(!started){ started=true; $('#cs-b').textContent='0'; beep();
-        TIMER=setInterval(()=>{ left--; $('#cs-t').textContent=fmt(left); if(left<=0){ stopTimer(); beep(); buzz(); finish(); } },1000); return; }
+      if(!started){ started=true; $('#cs-b').textContent='0'; beep(); say(coach().go);
+        TIMER=setInterval(()=>{ left--; $('#cs-t').textContent=fmt(left); if(left<=0){ stopTimer(); beep(); buzz(); say(coach().end); finish(); } },1000); return; }
       if(left>0){ count++; $('#cs-b').textContent=count; buzz(); }
     };
     const finish=()=>{ const r=chairRef(p);
@@ -1124,6 +1303,17 @@ function openSettings(){
    ${[['walk','🚶 Walking days'],['strength','💪 Strong Days'],['stretch','🧘 Mobility & Yoga'],['grip','✊ Grip & Balance']].map(([k,l])=>`<div class="card stat" style="align-items:center"><span style="font-weight:800">${l}</span><span class="stepper"><button data-g="${k}" data-d="-1" aria-label="Less">−</button><output id="g-${k}">${g[k]}</output><button data-g="${k}" data-d="1" aria-label="More">+</button></span></div>`).join('')}
    <h2>Kitchen Corner</h2>
    <div class="row"><button class="btn ghost" data-kitchen="on" style="${S.kitchen!==false?'border-color:var(--coral);background:var(--coral-soft)':''}">🍲 Show weekly recipe</button><button class="btn ghost" data-kitchen="off" style="${S.kitchen===false?'border-color:var(--coral);background:var(--coral-soft)':''}">Hide it</button></div>
+   <h2>Voice coach</h2>
+   ${canSpeak()?`<p class="small muted">Turn the voice on with 🔊 during any session. The coach reads each move, counts reps and calls out timers, so you don’t need to look at the screen.</p>
+   <div class="row" style="margin-bottom:10px"><button class="btn ghost" data-spk="on" style="${S.speak?'border-color:var(--coral);background:var(--coral-soft)':''}">🔊 Voice on</button><button class="btn ghost" data-spk="off" style="${!S.speak?'border-color:var(--coral);background:var(--coral-soft)':''}">🔇 Voice off</button></div>
+   <div class="coaches" id="voice-list">${COACHES.map(c=>{ const {v,exact}=pickVoice(c); return `<div class="coachcard" aria-pressed="${coach().id===c.id}">
+     <div class="cn">${esc(c.name)} <span class="ca">· ${c.g==='m'?'male':'female'}, ${esc(c.accent)}</span></div>
+     <div class="small">${esc(c.vibe)}</div>
+     <div class="ca">${v?(exact?'Voice: '+esc(v.name):'Closest voice on this device: '+esc(v.name)):'Voices are still loading'}</div>
+     <div class="row" style="gap:6px;margin-top:4px"><button class="btn ghost" data-hear="${c.id}" style="min-height:48px;font-size:.85rem">▶ Hear</button><button class="btn ${coach().id===c.id?'':'ghost'}" data-coach="${c.id}" style="min-height:48px;font-size:.85rem">${coach().id===c.id?'✓ Chosen':'Choose'}</button></div></div>`; }).join('')}</div>
+   <label class="f">Speaking speed</label>
+   <div class="row">${[['0.8','Slower'],['0.92','Normal'],['1.05','Faster']].map(([v,l])=>`<button class="btn ghost" data-rate="${v}" style="${String(S.voiceRate||0.92)===v?'border-color:var(--coral);background:var(--coral-soft)':''}">${l}</button>`).join('')}</div>
+   <p class="small muted">On iPhone and iPad, more natural-sounding voices can be downloaded in Settings → Accessibility → Spoken Content → Voices → English. If a coach sounds like a different coach, that accent’s voice isn’t installed on this device yet.</p>`:'<p class="small muted">This browser can’t speak aloud.</p>'}
    <h2>Contrast</h2>
    <p class="small muted">High contrast uses darker text, thicker outlines and bolder buttons. Helpful outdoors or in bright light.</p>
    <div class="row"><button class="btn ghost" data-contrast="normal" style="${!S.contrast?'border-color:var(--coral);background:var(--coral-soft)':''}">Standard</button><button class="btn ghost" data-contrast="high" style="font-weight:900;${S.contrast?'border-color:var(--coral);background:var(--coral-soft)':''}">◐ High contrast</button></div>
@@ -1143,6 +1333,10 @@ function openSettings(){
   $('#overlay').querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>{ commit(); S.theme=b.dataset.theme; save(); render(); openSettings(); });
   $('#overlay').querySelectorAll('[data-pt]').forEach(b=>b.onclick=()=>{ commit(); const [i,k]=b.dataset.pt.split(':'); S.people[+i].theme=k; save(); render(); openSettings(); });
   $('#overlay').querySelectorAll('[data-kitchen]').forEach(b=>b.onclick=()=>{ commit(); S.kitchen=b.dataset.kitchen==='on'; save(); render(); openSettings(); });
+  $('#overlay').querySelectorAll('[data-hear]').forEach(b=>b.onclick=()=>{ const keep=S.voice; S.voice=b.dataset.hear; say(coach().sample,{force:true}); S.voice=keep; });
+  $('#overlay').querySelectorAll('[data-coach]').forEach(b=>b.onclick=()=>{ commit(); S.voice=b.dataset.coach; save(); say(coach().sample,{force:true}); const y=$('.player').scrollTop; openSettings(); $('.player').scrollTop=y; });
+  $('#overlay').querySelectorAll('[data-spk]').forEach(b=>b.onclick=()=>{ commit(); S.speak=b.dataset.spk==='on'; save(); const y=$('.player').scrollTop; openSettings(); $('.player').scrollTop=y; if(S.speak) say(coach().sample); });
+  $('#overlay').querySelectorAll('[data-rate]').forEach(b=>b.onclick=()=>{ commit(); S.voiceRate=+b.dataset.rate; save(); const y=$('.player').scrollTop; openSettings(); $('.player').scrollTop=y; say(coach().sample,{force:true}); });
   $('#overlay').querySelectorAll('[data-pc]').forEach(b=>b.onclick=()=>{ commit(); const [i,j]=b.dataset.pc.split(':'); S.people[+i].color=+j; save(); render(); openSettings(); });
   $('#overlay').querySelectorAll('[data-contrast]').forEach(b=>b.onclick=()=>{ commit(); S.contrast=b.dataset.contrast==='high'; save(); render(); openSettings(); });
   $('#overlay').querySelectorAll('[data-size]').forEach(b=>b.onclick=()=>{ commit(); S.size=b.dataset.size; save(); render(); openSettings(); });
@@ -1198,6 +1392,9 @@ function bind(root){
   root.querySelectorAll('[data-act="hideinstall"]').forEach(b=>b.onclick=()=>{ S.installHidden=true; save(); render(); });
   root.querySelectorAll('[data-undo]').forEach(a=>a.onclick=e=>{ e.preventDefault(); undoToday(a.dataset.undo); });
   root.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{ LIBCAT=b.dataset.cat; render(); });
+  root.querySelectorAll('[data-win]').forEach(b=>b.onclick=()=>{ const [pid,w]=b.dataset.win.split(':'); S.wins=S.wins||{}; S.wins[pid]=S.wins[pid]||{};
+    if(S.wins[pid][w]){ ask('Untick this win?','Untick',()=>{ delete S.wins[pid][w]; save(); render(); }); return; }
+    S.wins[pid][w]=today(); save(); const y=scrollY; render(); scrollTo(0,y); confetti(); toast(`${person(pid).name}: ${WINS.find(x=>x.id===w).t}! +25 points`); say(`Well done, ${person(pid).name}.`); });
   root.querySelectorAll('[data-test]').forEach(b=>b.onclick=()=>testFlow(b.dataset.test));
   root.querySelectorAll('[data-act="settings"]').forEach(b=>b.onclick=openSettings);
   root.querySelectorAll('[data-act="share"]').forEach(b=>b.onclick=shareWeek);

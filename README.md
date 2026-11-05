@@ -24,6 +24,23 @@ All content is at the top of the `<script>` in `index.html`:
 - `SESSIONS`: which moves go in each session.
 - `CLASSES`: longer follow-along videos (add `video:` for an exact link).
 
+## Voice coach
+Tap 🔊 in any session and a coach reads each move aloud, gives the weights, counts reps at a controlled pace ("Count with me"), and calls out timers, so nobody has to look at the screen. Recipes have "Read aloud" too. Six coaches, each with their own accent, speed, pitch and script:
+
+| Coach | | Accent | Personality | iPhone/iPad voice |
+|---|---|---|---|---|
+| Maggie | F | Irish | Warm and brisk | Moira |
+| Arthur | M | British | Dry wit, likes the science | Daniel |
+| Sunny | F | Australian | Bubbly and energetic | Karen |
+| Hank | M | American | Laid-back and easygoing | Fred / Aaron |
+| Tessa | F | South African | Calm, like a yoga teacher | Tessa |
+| Raj | M | Indian | Encouraging, a stickler for form | Rishi |
+
+Uses the device's built-in voices (Web Speech API), so nothing is sent anywhere. If a voice isn't installed, the coach falls back to the closest English voice of the same gender; better voices can be downloaded in iOS Settings → Accessibility → Spoken Content → Voices.
+
+## Floor Confidence and Everyday wins
+A weekly **Floor Confidence** session practises getting up from the floor in stages (kneel at the sofa → half-kneel to stand → floor to chair), following the NHS sequence, with a safety check first and an "If you ever fall" plan at the end. **Hammer Turns** (forearm rotation) were added to Grip & Balance for opening jars. **Everyday wins** on the Progress screen are real-life milestones (open a new jar, get up from the floor, play the accordion standing…) worth 25 points each.
+
 ## Dumbbell weights
 Arm Curls, Supported Row and Overhead Press use dumbbells; Sit-to-Stand can add one later. Each person has their own weight per exercise (stored in lb, shown in lb and kg), adjusted with − / + during a Strong Day. Progression rule: 2 rounds of 8–12; when 12 feels easy on both rounds, go up one step (0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20 lb). Starting defaults: Dad 5 lb curls/rows and 3 lb press, Mom 3 lb and 2 lb. The weights used are saved with each Strong Day, and Progress shows the increase since the first one.
 
