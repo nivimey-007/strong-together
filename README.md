@@ -41,6 +41,14 @@ Uses the device's built-in voices (Web Speech API), so nothing is sent anywhere.
 ## Floor Confidence and Everyday wins
 A weekly **Floor Confidence** session practises getting up from the floor in stages (kneel at the sofa → half-kneel to stand → floor to chair), following the NHS sequence, with a safety check first and an "If you ever fall" plan at the end. **Hammer Turns** (forearm rotation) were added to Grip & Balance for opening jars. **Everyday wins** on the Progress screen are real-life milestones (open a new jar, get up from the floor, play the accordion standing…) worth 25 points each.
 
+## Back care, upper body and nutrition (November 2026)
+Built from family feedback: back care, stiffness, more upper-body strength, and high-fibre, low-salt nutrition. Personal details are entered on the device, not stored here.
+- **Heights and weights** are entered in Settings and stay on the device (never in this repo) and drive a **daily guide** in Kitchen Corner for each person: protein 1.0–1.2 g/kg (PROT-AGE), fibre adequate intake for 51+ (Health Canada: 21 g women, 30 g men), sodium under 1,500 mg (AHA ideal). A lean build gets a "eat enough, not less" note.
+- **Back care** (Settings, per person, off by default): back-friendly versions shown on rows, twists, forward bends, leg swings and the floor session.
+- **Morning Loosen-Up**: a daily 5-minute gentle mobility session for stiffness, including seated pelvic tilts.
+- **Upper Body Day**: arm circles, counter push-ups, supported rows, curls, side raises, optional overhead press, shoulder-blade squeezes. Suggested Thursdays; Strong Day Mondays and Saturdays.
+- **Recipes**: 16 now, every one high-fibre and with no added salt, showing protein and fibre per serving; new science notes on fibre and on oat/barley beta-glucan.
+
 ## Dumbbell weights
 Arm Curls, Supported Row and Overhead Press use dumbbells; Sit-to-Stand can add one later. Each person has their own weight per exercise (stored in lb, shown in lb and kg), adjusted with − / + during a Strong Day. Progression rule: 2 rounds of 8–12; when 12 feels easy on both rounds, go up one step (0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20 lb). Starting defaults: Dad 5 lb curls/rows and 3 lb press, Mom 3 lb and 2 lb. The weights used are saved with each Strong Day, and Progress shows the increase since the first one.
 

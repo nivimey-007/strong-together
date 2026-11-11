@@ -172,6 +172,8 @@ nav.tabs button[aria-current="page"]{color:var(--coral-ink);background:var(--cor
 .win .wt{display:flex;flex-direction:column;font-size:.9rem;min-width:0}
 .win .wd{font-size:.75rem;color:var(--ok);font-weight:900}
 .win.got{border-color:var(--ok);background:var(--teal-soft)}
+.guide .stat b{font-size:1rem;text-align:right}
+.guide .stat{margin:3px 0}
 .breathe{background:var(--teal-soft);border-radius:14px;padding:10px 12px;font-size:.88rem;margin:.5rem 0}
 .safety{background:var(--sun-soft);border-radius:14px;padding:10px 12px;font-size:.88rem;margin:.5rem 0}
 /* player */
@@ -294,7 +296,7 @@ const EXERCISES = {
     steps:['Sit tall holding a dumbbell in each hand, palms facing up.','Bend your elbows and bring the weights up toward your shoulders.','Lower slowly, counting 1-2-3. Keep your elbows by your sides.'],
     tip:'Pick a weight where the last 2 reps of each round take real effort but your form stays smooth.', easier:'Go down one weight, or use no weight.', harder:'Go up one weight when 12 reps feel easy on both rounds.',
     q:'seated bicep curls seniors'},
-  row:{name:'Supported Row', emoji:'🚣', cat:'strength', dose:'8–12 each arm', sides:true, weighted:true,
+  row:{name:'Supported Row', back:'Stand more upright with only a small lean and a flat back, or skip this one until your back feels settled.',  emoji:'🚣', cat:'strength', dose:'8–12 each arm', sides:true, weighted:true,
     steps:['Stand at the kitchen counter. Put one hand on it and hold a dumbbell in the other, arm hanging down.','Lean forward slightly from your hips, keeping your back flat (not rounded).','Pull your elbow back toward your hip, squeezing your shoulder blade. Lower slowly. Swap arms.'],
     tip:'Keep the counter hand planted and your back flat. The pull comes from the shoulder blade, not the wrist.', easier:'Go down one weight, or stand more upright.', harder:'Go up one weight when 12 reps feel easy.',
     q:'single arm dumbbell row supported counter'},
@@ -310,7 +312,7 @@ const EXERCISES = {
     steps:['Sit tall in a chair.','Straighten one leg out in front until it’s level, toes pointing up.','Hold for 2 seconds, then lower slowly. Swap legs.'],
     tip:'Great for knees and for getting up from low chairs.', harder:'Hold for 5 seconds.',
     q:'seated knee extension exercise seniors'},
-  overhead:{name:'Overhead Press', emoji:'🙌', cat:'strength', dose:'2 rounds of 8–12', optional:true, weighted:true,
+  overhead:{name:'Overhead Press', back:'Keep your back against the chair.',  emoji:'🙌', cat:'strength', dose:'2 rounds of 8–12', optional:true, weighted:true,
     steps:['Sit tall holding a dumbbell in each hand at shoulder height, palms facing forward.','Push your arms up toward the ceiling without locking your elbows.','Lower slowly back to your shoulders.'],
     tip:'Optional. Lifting overhead raises blood pressure more than other moves. Skip it if your shoulders hurt or your doctor hasn’t said it’s fine. Use a lighter weight than for curls.', easier:'No weights.', harder:'Go up one weight when 12 reps feel easy on both rounds.',
     q:'seated overhead press seniors light weights'},
@@ -326,7 +328,7 @@ const EXERCISES = {
     steps:['Put a rubber band around your fingers and thumb.','Spread your fingers wide against the band.','Slowly close. Repeat, then switch hands.'],
     tip:'Opens the hand. Good for stiff fingers.', easier:'No band, just spread wide.',
     q:'rubber band finger extension exercise'},
-  bagHold:{name:'Shopping Bag Hold', emoji:'🛍️', cat:'grip', dose:'Hold 20 seconds', timer:20,
+  bagHold:{name:'Shopping Bag Hold', back:'Keep it light and stand tall; don’t let the bag pull you sideways.',  emoji:'🛍️', cat:'grip', dose:'Hold 20 seconds', timer:20,
     steps:['Stand next to the counter. Hold a shopping bag in one hand with a couple of cans or a water bottle inside.','Stand tall and hold it by your side for 20 seconds.','Put it down and switch hands.'],
     tip:'Keep it light. This trains holding on, not lifting.', breath:true, q:'farmers carry hold for seniors grip'},
   oneLeg:{name:'Stand on One Foot', emoji:'🦩', cat:'grip', dose:'10 seconds each foot', timer:10, sides:true,
@@ -346,16 +348,16 @@ const EXERCISES = {
   neck:{name:'Neck Stretch', emoji:'🦒', cat:'stretch', dose:'Hold 15 seconds each side', timer:15, sides:true,
     steps:['Sit tall and look straight ahead.','Gently tip your ear toward your shoulder.','Hold, breathe, then switch sides.'],
     tip:'Go gently. Never roll your head all the way round.', q:'gentle neck stretch seniors seated'},
-  catCow:{name:'Seated Cat-Cow', emoji:'🐈', cat:'stretch', dose:'6 slow breaths',
+  catCow:{name:'Seated Cat-Cow', back:'Keep it small, and skip the rounding if it twinges.',  emoji:'🐈', cat:'stretch', dose:'6 slow breaths',
     steps:['Sit near the edge of your chair with your hands on your knees.','Breathe in: lift your chest and look up a little.','Breathe out: round your back and drop your chin. Repeat.'],
     tip:'Move with your breath, slow and easy. With osteoporosis, keep the rounding small.', q:'seated cat cow chair yoga seniors'},
-  sideBend:{name:'Side Reach', emoji:'🌈', cat:'stretch', dose:'3 each side', sides:true,
+  sideBend:{name:'Side Reach', back:'Only a small lean to the side.',  emoji:'🌈', cat:'stretch', dose:'3 each side', sides:true,
     steps:['Sit tall. Reach one arm up toward the ceiling.','Lean gently to the other side, making a rainbow shape.','Come back up and switch.'],
     tip:'Keep both hips on the chair.', q:'seated side bend chair yoga seniors'},
-  twist:{name:'Seated Twist', emoji:'🌀', cat:'stretch', dose:'Hold 15 seconds each side', timer:15, sides:true,
+  twist:{name:'Seated Twist', back:'Keep it very small, or skip it until your back feels settled.',  emoji:'🌀', cat:'stretch', dose:'Hold 15 seconds each side', timer:15, sides:true,
     steps:['Sit tall with feet flat.','Turn your upper body to the right, holding the back or side of the chair.','Breathe, come back to centre, then turn left.'],
     tip:'Twist from your middle, gently. No forcing. With osteoporosis, keep it small.', q:'seated spinal twist chair yoga seniors'},
-  hamstring:{name:'Back-of-Leg Stretch', emoji:'🦵', cat:'stretch', dose:'Hold 20 seconds each leg', timer:20, sides:true,
+  hamstring:{name:'Back-of-Leg Stretch', back:'Lean forward only a little, from the hips, with a straight back.',  emoji:'🦵', cat:'stretch', dose:'Hold 20 seconds each leg', timer:20, sides:true,
     steps:['Sit near the edge of your chair. Stretch one leg out with the heel on the floor.','Sit tall and lean forward a little from your hips.','Feel a gentle stretch behind the leg. Switch.'],
     tip:'A gentle pull, never pain.', q:'seated hamstring stretch seniors'},
   ankle:{name:'Ankle Circles', emoji:'⭕', cat:'stretch', dose:'10 each way, each foot',
@@ -368,6 +370,18 @@ const EXERCISES = {
     steps:['Sit comfortably with one hand on your belly.','Breathe in slowly through your nose and feel your belly rise.','Breathe out slowly through your mouth. Relax your shoulders.'],
     tip:'A calm finish to the session.', q:'belly breathing relaxation seniors'},
 
+  pelvicTilt:{name:'Seated Pelvic Tilts', emoji:'↕️', cat:'stretch', dose:'10 slow tilts',
+    steps:['Sit tall near the front of a chair, feet flat.','Gently roll your hips back so your lower back flattens a little.','Then roll them forward so your lower back arches a little. Move slowly, only as far as is comfortable.'],
+    tip:'A gentle way to get a stiff lower back moving.', q:'seated pelvic tilt exercise lower back'},
+  counterPush:{name:'Counter Push-Ups', emoji:'🗄️', cat:'strength', dose:'2 rounds of 8–12',
+    steps:['Put your hands on the edge of the kitchen counter, a little wider than your shoulders.','Walk your feet back until your body makes a straight, slanted line.','Bend your elbows to bring your chest toward the counter, then push back up.'],
+    tip:'Make sure the counter is solid and your shoes grip the floor.', easier:'Do Wall Push-Ups instead.', harder:'Walk your feet a little further back.',
+    back:'Keep your stomach gently tight so your back stays straight.', q:'counter push ups incline push up older adults'},
+  lateralRaise:{name:'Side Raises', emoji:'↔️', cat:'strength', dose:'2 rounds of 8–12', weighted:true,
+    steps:['Sit tall holding a light dumbbell in each hand, arms by your sides.','With your elbows slightly bent, raise your arms out to the sides up to shoulder height.','Lower slowly, counting 1-2-3.'],
+    tip:'Use your lightest weights. This one is harder than it looks.', easier:'One arm at a time, or no weight.', harder:'Go up one weight when 12 reps feel easy on both rounds.',
+    back:'Keep your back against the chair.', q:'seated lateral raise light dumbbells'},
+
   /* Jar opening: forearm rotation with leverage */
   jarTwist:{name:'Hammer Turns', emoji:'🔨', cat:'grip', dose:'10 each hand', sides:true,
     steps:['Sit with your forearm resting on your thigh or a table, hand just past the edge.','Hold a hammer, or a dumbbell by one end, pointing straight up.','Slowly turn your palm down, then up, like closing and opening a jar. Only your forearm moves.'],
@@ -375,7 +389,7 @@ const EXERCISES = {
     q:'hammer pronation supination forearm exercise'},
 
   /* Getting up from the floor: practised in stages, always with someone home */
-  floorPrep:{name:'Before You Start', emoji:'🛡️', cat:'strength', dose:'Check all four', info:true,
+  floorPrep:{name:'Before You Start', back:'If your back is sore, wait until it has settled before doing this session.',  emoji:'🛡️', cat:'strength', dose:'Check all four', info:true,
     steps:['Someone else is home and nearby, at least for the first few sessions.','A soft surface for your knees: carpet, a rug or a folded blanket.','A sturdy chair or sofa that can’t slide, ideally against a wall.','You feel well today: no dizziness, and no hip or knee pain.'],
     tip:'If any of the four is missing, do this session another day.', q:'how to get up from the floor safely older adults physiotherapist'},
   kneelDown:{name:'Kneel at the Sofa', emoji:'🛋️', cat:'strength', dose:'3 times',
@@ -395,13 +409,13 @@ const EXERCISES = {
     tip:'Keep a phone where you could reach it from the floor. An Apple Watch or a medical alert pendant can call for help automatically after a hard fall.', q:'what to do if you fall older adults NHS'},
 
   /* Mobility: moving joints through their range, standing at the counter */
-  legSwing:{name:'Leg Swings', emoji:'🦵', cat:'stretch', dose:'10 each leg', sides:true,
+  legSwing:{name:'Leg Swings', back:'Keep the swings small and your back still.',  emoji:'🦵', cat:'stretch', dose:'10 each leg', sides:true,
     steps:['Stand side-on to the kitchen counter and hold it with one hand.','Swing the outside leg gently forward and back, like a pendulum.','Keep it small and easy at first. Turn around for the other leg.'],
     tip:'Loosens the hips for walking. Stand tall and keep holding on.', q:'standing leg swings hip mobility'},
   armCircle:{name:'Arm Circles', emoji:'🌀', cat:'stretch', dose:'10 forward, 10 back',
     steps:['Stand or sit tall with your arms out to the sides.','Make small circles, growing slowly bigger.','Then circle the other way.'],
     tip:'Arms tired? Do one arm at a time.', q:'arm circles shoulder mobility'},
-  hipCircle:{name:'Hip Circles', emoji:'⭕', cat:'stretch', dose:'5 each way',
+  hipCircle:{name:'Hip Circles', back:'Small, slow circles only.',  emoji:'⭕', cat:'stretch', dose:'5 each way',
     steps:['Stand at the counter with both hands on it, feet hip-width apart.','Slowly circle your hips, like a hula hoop.','Then circle the other way.'],
     tip:'Slow and smooth. Keep your feet planted.', q:'standing hip circles mobility'},
 
@@ -424,7 +438,7 @@ const EXERCISES = {
   bladeSqueeze:{name:'Shoulder Blade Squeeze', emoji:'🙆', cat:'stretch', dose:'8 squeezes',
     steps:['Sit tall with your arms relaxed.','Squeeze your shoulder blades together and down, like holding a pencil between them.','Hold for 5 seconds, then relax.'],
     tip:'Opens up rounded shoulders.', q:'shoulder blade squeeze exercise posture'},
-  backBend:{name:'Standing Back Stretch', emoji:'🌅', cat:'stretch', dose:'5 gentle stretches',
+  backBend:{name:'Standing Back Stretch', back:'Only a very small lean back. Stop if you feel any pain.',  emoji:'🌅', cat:'stretch', dose:'5 gentle stretches',
     steps:['Stand at the counter with your hands on your lower back.','Gently lean back a little and look slightly up.','Hold for 3 seconds and come back to standing tall.'],
     tip:'Small and gentle. Hold the counter if you feel wobbly.', q:'standing back extension stretch gentle'},
   eyeBreak:{name:'Eye Break', emoji:'👀', cat:'stretch', dose:'20 seconds', timer:20,
@@ -440,6 +454,9 @@ const WHY = {
   wallPush:'Works the chest (pectoralis major), front of the shoulders and triceps: the pushing muscles you use to get out of bed, up off the floor, or to catch yourself if you stumble. The angle to the wall sets the load, so stepping your feet back is an easy way to progress.',
   curls:'Biceps and forearm muscles for carrying: groceries, a kettle, a grandchild. The forearm work also feeds directly into grip strength.',
   row:'Works the upper back: latissimus dorsi, rhomboids and middle trapezius. These are the pulling muscles for opening heavy doors, starting a lawnmower or pulling yourself up, and they hold the shoulders back against a forward-rounded posture. Most daily life is pushing and reaching forward, so pulling work restores the balance.',
+  pelvicTilt:'Moves the lower spine and pelvis through a small range without any load. Gentle movement like this is commonly used to ease back stiffness, because staying still tends to make a stiff back stiffer.',
+  counterPush:'The same chest, shoulder and triceps muscles as Wall Push-Ups, but you lift more of your body weight: the lower the surface, the harder it gets. Wall, then counter, then a sturdy table is a simple path to steadily stronger pushing.',
+  lateralRaise:'Works the middle of the shoulder (the lateral deltoid), which lifts your arms out to the side and steadies the shoulder joint when you reach: hanging laundry, reaching across the table, lifting things onto a shelf.',
   jarTwist:'Works the forearm rotators (pronators and supinators) and the wrist stabilisers: exactly the twist that opens a jar or turns a stiff tap. Holding further from the weight increases leverage, so you can make it harder without buying anything. A practical extra: a rubber jar gripper or a rubber glove adds a lot of friction.',
   floorPrep:'Getting up from the floor is a skill that can be practised, but practice falls are the thing to avoid. These checks remove the main risks before you start.',
   kneelDown:'The last step of getting up from the floor is rising from kneeling, so practice starts there and works backwards. Physiotherapists teach floor rises in stages like this, starting from the easiest end. It also trains the thighs and hips through a deep bend that daily life rarely asks for.',
@@ -486,7 +503,7 @@ function whyBlock(id){
 
 /* Dumbbell weights, per person and per exercise, stored in pounds. */
 const LADDER = [0,1,2,3,4,5,6,8,10,12,15,20];
-const DEFAULT_LB = {dad:{curls:5,row:5,overhead:3,chairStand:0}, mom:{curls:3,row:3,overhead:2,chairStand:0}};
+const DEFAULT_LB = {dad:{curls:5,row:5,overhead:3,lateralRaise:2,chairStand:0}, mom:{curls:3,row:3,overhead:2,lateralRaise:1,chairStand:0}};
 const fmtW = lb => lb===0 ? 'No weight' : `${lb} lb · ${(lb*0.4536).toFixed(1).replace(/\.0$/,'')} kg`;
 function getW(pid, ex){ S.weights=S.weights||{}; const w=(S.weights[pid]||{})[ex]; return w!=null ? w : ((DEFAULT_LB[pid]||DEFAULT_LB.mom)[ex] ?? 0); }
 function setW(pid, ex, lb){ S.weights=S.weights||{}; S.weights[pid]=S.weights[pid]||{}; S.weights[pid][ex]=lb; save(); }
@@ -506,6 +523,10 @@ const SESSIONS = {
     list:['armCircle','legSwing','hipCircle','shoulderRoll','neck','catCow','sideBend','twist','hamstring','calf','breathing']},
   grip:{title:'Grip & Balance', emoji:'✊', cat:'grip', mins:7, blurb:'Strong hands for jars and handles, steady feet for paths and curbs.',
     list:['ballSqueeze','towelWring','jarTwist','rubberBand','bagHold','oneLeg','heelToe']},
+  upper:{title:'Upper Body Day', emoji:'🏋️', cat:'strength', mins:14, blurb:'Arms, shoulders and upper back: pushing, pulling and lifting.',
+    list:['armCircle','counterPush','row','curls','lateralRaise','overhead','bladeSqueeze']},
+  loosen:{title:'Morning Loosen-Up', emoji:'☕', cat:'stretch', mins:5, daily:true, blurb:'Five gentle minutes to ease morning stiffness. Good before your walk.',
+    list:['march','shoulderRoll','armCircle','pelvicTilt','hipCircle','ankle','neck']},
   floor:{title:'Floor Confidence', emoji:'🛋️', cat:'strength', mins:8, weekly:true, blurb:'Practise getting up from the floor, step by step. Once a week, with someone home.',
     list:['floorPrep','kneelDown','halfKneel','floorToChair','fallPlan']},
   hands:{title:'Musician’s Hands', emoji:'🎻', cat:'grip', mins:5, theme:'music', blurb:'Nimble fingers and loose wrists for strings and squeezebox.',
@@ -561,7 +582,7 @@ const CHEERS = [
 /* ---------------- state ---------------- */
 const KEY = 'strongTogether.v1';
 const DEFAULT = {
-  people:[{id:'dad',name:'Dad',emoji:'',age:84,sex:'m',theme:'music'},{id:'mom',name:'Mom',emoji:'',age:75,sex:'f',theme:'quilt'}],
+  people:[{id:'dad',name:'Dad',emoji:'',age:84,sex:'m',theme:'music',heightIn:null,weightLb:null,backCare:false},{id:'mom',name:'Mom',emoji:'',age:75,sex:'f',theme:'quilt',heightIn:null,weightLb:null,backCare:false}],
   active:'both', goals:{walk:7,strength:3,stretch:3,grip:5}, log:[], tests:[], seen:{}, theme:'auto'
 };
 let S;
@@ -569,7 +590,7 @@ function load(){
   try{ const raw = localStorage.getItem(KEY); S = raw ? Object.assign(structuredClone(DEFAULT), JSON.parse(raw)) : structuredClone(DEFAULT); }
   catch(e){ S = structuredClone(DEFAULT); }
   if(S.goals && S.goals.walk===6 && S.goals.strength===2 && S.goals.stretch===3 && S.goals.grip===5) S.goals={walk:7,strength:3,stretch:3,grip:5};
-  for(const p of S.people){ if(['👴','👵','🧓','👴🏻','👵🏻'].includes(p.emoji)) p.emoji=''; if(!p.theme) p.theme = p.id==='dad'?'music':p.id==='mom'?'quilt':'garden'; if(p.color==null) p.color = p.id==='mom'?1:0; }
+  for(const p of S.people){ if(['👴','👵','🧓','👴🏻','👵🏻'].includes(p.emoji)) p.emoji=''; if(!p.theme) p.theme = p.id==='dad'?'music':p.id==='mom'?'quilt':'garden'; if(p.color==null) p.color = p.id==='mom'?1:0; if(p.backCare==null) p.backCare=false; }
 }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ toast('Couldn’t save on this device'); } }
 
@@ -604,6 +625,9 @@ function avatar(p, size='1.6em'){
 }
 const whoIds = () => S.active==='both' ? S.people.map(p=>p.id) : [S.active];
 const focusId = () => S.active==='both' ? S.people[0].id : S.active;
+const backActive = () => whoIds().some(pid=>person(pid).backCare);
+const backFor = () => whoIds().filter(pid=>person(pid).backCare).map(pid=>person(pid).name).join(' & ');
+const backBlock = ex => ex.back && backActive() ? `<div class="safety" style="background:var(--rose-soft)">🩹 <b>Back care${S.active==='both'?' for '+esc(backFor()):''}:</b> ${esc(ex.back)}</div>` : '';
 const needsBreath = ex => ex.breath || (ex.cat==='strength' && !ex.info && ex.name!=='Seated Marching');
 const vlink = ex => ex.video && /^https?:/.test(ex.video) ? ex.video : yt(ex.q);
 function toast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2600); }
@@ -735,7 +759,7 @@ function whoLabel(){ return S.active==='both' ? S.people.map(p=>esc(p.name)).joi
 function suggestedToday(){
   const wd = (new Date().getDay()+6)%7; // Mon=0
   // Strength Mon/Thu (+Sat), yoga Tue/Fri/Sun, Wed light
-  return [0,3,5].includes(wd) ? 'strength' : 'stretch';
+  return wd===3 ? 'upper' : [0,5].includes(wd) ? 'strength' : 'stretch';
 }
 function ring(val, goal, color){
   const r=26, c=2*Math.PI*r, f=Math.min(1, goal? val/goal : 0);
@@ -760,52 +784,86 @@ const SCIENCE = {
   sleep:{h:'Protein before bed', b:'In a trial with men averaging about 72 years old, 40 g of casein (the slow milk protein in cottage cheese and Greek yogurt) before sleep raised overnight muscle building compared with a placebo. Whether that adds up to more muscle over months isn’t proven yet, but a protein snack at bedtime is an easy, low-risk habit.', src:'Kouw et al., J Nutr 2017', url:'https://pubmed.ncbi.nlm.nih.gov/28855419/'},
   creatine:{h:'Creatine isn’t just for athletes', b:'Meta-analyses of trials in older adults find that creatine taken alongside strength training adds roughly 1 kg more lean mass than training alone, with stronger effects on some strength measures. It’s inexpensive, but ask your doctor first, especially with kidney concerns or several medications.', src:'Chilibeck et al., 2017 meta-analysis', url:'https://pmc.ncbi.nlm.nih.gov/articles/PMC5679696'},
   sodium:{h:'Salt and blood pressure', b:'The American Heart Association’s ideal limit is 1,500 mg of sodium a day, and no more than 2,300 mg. Most sodium comes from packaged and restaurant food, not the salt shaker. Acid (lemon, vinegar), garlic, herbs and spices make food taste brighter without it.', src:'American Heart Association advisory', url:'https://www.eurekalert.org/pub_releases/2011-01/aha-pri011311.php'},
+  fibre:{h:'How much fibre?', b:'Health Canada’s adequate intake for adults over 50 is 21 g of fibre a day for women and 30 g for men, and most Canadian adults fall short. Beans, lentils, oats, barley, whole grains, vegetables, fruit, nuts and seeds are the main sources. Increase it gradually, and drink a little more water as you do.', src:'Health Canada', url:'https://www.canada.ca/en/health-canada/services/food-nutrition/food-nutrition-surveillance/health-nutrition-surveys/canadian-community-health-survey-cchs/canadian-adults-meet-their-nutrient-requirements-through-food-intake-alone-health-canada-2012.html'},
+  oats:{h:'Oats and barley: the special fibre', b:'Oats and barley contain beta-glucan, a soluble fibre. Health Canada accepts a health claim that oat fibre helps lower cholesterol, and a Toronto meta-analysis of 58 trials found about 3.5 g of oat beta-glucan a day modestly lowered LDL cholesterol. A separate meta-analysis linked oat and barley beta-glucan with slightly lower blood pressure; other kinds of fibre didn’t show that effect consistently.', src:'St. Michael’s Hospital meta-analysis, 2016', url:'https://www.eurekalert.org/pub_releases/2016-10/smh-rse100616.php'},
   afterwork:{h:'Eat protein after a Strong Day', b:'Strength exercise makes muscle use protein more efficiently and appears to lower the amount needed per meal to start muscle building. So a protein-rich meal or snack in the hours after a Strong Day gets extra value.', src:'Layman et al., Am J Clin Nutr 2015', url:'https://researchexperts.utmb.edu/en/publications/defining-meal-requirements-for-protein-to-optimize-metabolic-role/'}
 };
 const RECIPES = [
-  {t:'Berry Power Yogurt Bowl', e:'🫐', serves:'1', protein:'about 25 g', note:'meal',
-    ing:['1 cup (225 g) plain Greek yogurt','½ cup berries, fresh or frozen','1 tbsp ground flaxseed','1 tbsp chopped walnuts','A drizzle of honey (optional)'],
-    steps:['Spoon the yogurt into a bowl.','Top with berries, flax and walnuts.','Drizzle with honey if you like.']},
-  {t:'Lemon-Dill Sheet-Pan Salmon', e:'🐟', serves:'2', protein:'about 28 g each', note:'afterwork',
-    ing:['2 salmon fillets (about 4 oz / 120 g each)','2 cups small potatoes, halved','2 cups green beans','1 lemon, sliced','2 tbsp olive oil','Fresh or dried dill, black pepper, garlic powder'],
+  {t:'Berry Power Yogurt Bowl', e:'🫐', serves:'1', protein:'about 25 g', fibre:'about 9 g', note:'meal',
+    ing:['1 cup (225 g) plain Greek yogurt','½ cup raspberries or blackberries, fresh or frozen','2 tbsp high-fibre bran cereal','1 tbsp ground flaxseed','1 tbsp chopped walnuts'],
+    steps:['Spoon the yogurt into a bowl.','Top with the berries, bran cereal, flax and walnuts.','Add a little honey only if you need it; the berries are usually sweet enough.']},
+  {t:'Barley, Chicken & Mushroom Soup', e:'🍲', serves:'4', protein:'about 28 g each', fibre:'about 8 g each', note:'oats',
+    ing:['1 lb (450 g) chicken breast or thighs, diced','¾ cup pearl barley, rinsed','6 cups low-sodium chicken broth','1 onion, 2 carrots, 2 celery stalks, 2 cups mushrooms, chopped','2 cups chopped kale','Thyme, bay leaf, black pepper, lemon juice'],
+    steps:['Soften onion, carrot, celery and mushrooms in a little olive oil, 6 minutes.','Add chicken, barley, broth, thyme and bay leaf. Simmer 35–40 minutes, until the barley is tender.','Stir in kale for 3 minutes. Finish with lemon juice and pepper.']},
+  {t:'Lemon-Dill Sheet-Pan Salmon', e:'🐟', serves:'2', protein:'about 28 g each', fibre:'about 6 g each', note:'afterwork',
+    ing:['2 salmon fillets (about 4 oz / 120 g each)','2 cups small potatoes, halved, skins on','2 cups green beans','1 lemon, sliced','2 tbsp olive oil','Fresh or dried dill, black pepper, garlic powder'],
     steps:['Heat the oven to 425°F (220°C).','Toss potatoes with half the oil and roast 15 minutes.','Add green beans and salmon to the pan, brush with the rest of the oil, top with lemon slices, dill, pepper and garlic.','Roast 12–15 minutes more, until the salmon flakes.']},
-  {t:'Cottage Cheese Veggie Scramble', e:'🍳', serves:'1', protein:'about 25 g', note:'leucine',
-    ing:['2 eggs','½ cup low-sodium cottage cheese','A handful of spinach','¼ cup diced peppers or tomatoes','Black pepper, chives'],
-    steps:['Soften the vegetables in a non-stick pan for 2 minutes.','Whisk the eggs, add to the pan and stir gently.','When nearly set, fold in the cottage cheese and spinach until warm.','Finish with pepper and chives.']},
-  {t:'Chicken & White Bean Soup', e:'🍲', serves:'4', protein:'about 30 g each', note:'daily',
-    ing:['1 lb (450 g) chicken breast, diced','1 can no-salt-added white beans, rinsed','4 cups low-sodium chicken broth','1 onion, 2 carrots, 2 celery stalks, chopped','2 cloves garlic','Thyme, bay leaf, black pepper, lemon juice'],
-    steps:['Soften onion, carrot and celery in a little olive oil, 5 minutes. Add garlic.','Add chicken, broth, thyme and bay leaf. Simmer 15 minutes.','Stir in beans, heat through, then add a squeeze of lemon and pepper.']},
-  {t:'Peanut Butter Overnight Oats', e:'🥣', serves:'1', protein:'about 27 g', note:'meal',
-    ing:['½ cup rolled oats','¾ cup milk','½ cup plain Greek yogurt','1 tbsp unsalted peanut butter','½ banana, sliced; cinnamon'],
-    steps:['Stir oats, milk, yogurt, peanut butter and cinnamon in a jar.','Cover and refrigerate overnight.','Top with banana in the morning. Eat cold or warmed.']},
-  {t:'Bedtime Cottage Cheese & Pineapple', e:'🍍', serves:'1', protein:'about 25 g', note:'sleep',
-    ing:['1 cup low-sodium cottage cheese','½ cup pineapple chunks (or berries)','Cinnamon, a few chopped almonds'],
-    steps:['Spoon cottage cheese into a bowl.','Top with fruit, cinnamon and almonds.','Enjoy about an hour before bed.']},
-  {t:'Tuna & White Bean Salad', e:'🥗', serves:'2', protein:'about 30 g each', note:'leucine',
+  {t:'Oat & Cottage Cheese Pancakes', e:'🥞', serves:'1 (about 4 small pancakes)', protein:'about 29 g', fibre:'about 8 g', note:'oats',
+    ing:['½ cup rolled oats','½ cup low-sodium cottage cheese','2 eggs','½ ripe banana','Cinnamon','½ cup berries to top'],
+    steps:['Blend oats, cottage cheese, eggs, banana and cinnamon until smooth. Rest 5 minutes.','Cook small pancakes in a lightly oiled non-stick pan over medium heat, about 2 minutes a side.','Top with berries.']},
+  {t:'Cottage Cheese Veggie Scramble', e:'🍳', serves:'1', protein:'about 28 g', fibre:'about 5 g (with the toast)', note:'leucine',
+    ing:['2 eggs','½ cup low-sodium cottage cheese','A handful of spinach','¼ cup diced peppers or tomatoes','Black pepper, chives','1 slice whole-grain rye or whole-wheat toast'],
+    steps:['Soften the vegetables in a non-stick pan for 2 minutes.','Whisk the eggs, add to the pan and stir gently.','When nearly set, fold in the cottage cheese and spinach until warm.','Finish with pepper and chives; serve with the toast.']},
+  {t:'Chickpea & Spinach Curry', e:'🍛', serves:'4', protein:'about 16 g each (more with chicken added)', fibre:'about 12 g each', note:'fibre',
+    ing:['2 cans no-salt-added chickpeas, rinsed','1 can no-salt-added diced tomatoes','1 onion, 3 cloves garlic, 1 tbsp grated ginger','2 tsp curry powder, 1 tsp cumin, ½ tsp turmeric','4 cups spinach','Plain Greek yogurt and brown rice to serve'],
+    steps:['Soften the onion in a little oil, 5 minutes. Add garlic, ginger and spices for 1 minute.','Add chickpeas and tomatoes. Simmer 15 minutes, mashing a few chickpeas to thicken.','Stir in the spinach until wilted. Serve over brown rice with a spoon of yogurt.']},
+  {t:'Chicken & White Bean Soup', e:'🥣', serves:'4', protein:'about 30 g each', fibre:'about 7 g each', note:'daily',
+    ing:['1 lb (450 g) chicken breast, diced','1 can no-salt-added white beans, rinsed','4 cups low-sodium chicken broth','1 onion, 2 carrots, 2 celery stalks, chopped','1 cup chopped kale, 2 cloves garlic','Thyme, bay leaf, black pepper, lemon juice'],
+    steps:['Soften onion, carrot and celery in a little olive oil, 5 minutes. Add garlic.','Add chicken, broth, thyme and bay leaf. Simmer 15 minutes.','Stir in beans and kale, heat through, then add a squeeze of lemon and pepper.']},
+  {t:'Peanut Butter Chia Overnight Oats', e:'🫙', serves:'1', protein:'about 28 g', fibre:'about 11 g', note:'oats',
+    ing:['½ cup rolled oats','1 tbsp chia seeds','¾ cup milk','½ cup plain Greek yogurt','1 tbsp unsalted peanut butter','½ banana, sliced; cinnamon'],
+    steps:['Stir oats, chia, milk, yogurt, peanut butter and cinnamon in a jar.','Cover and refrigerate overnight.','Top with banana in the morning. Eat cold or warmed.']},
+  {t:'Black Bean & Sweet Potato Bowl', e:'🍠', serves:'2', protein:'about 24 g each', fibre:'about 13 g each', note:'sodium',
+    ing:['1 medium sweet potato, cubed, skin on','1 can no-salt-added black beans, rinsed','4 eggs','½ avocado, sliced','Cherry tomatoes, lime, cumin, smoked paprika','Fresh cilantro or parsley'],
+    steps:['Toss sweet potato with a little oil, cumin and paprika. Roast at 425°F (220°C) for 25 minutes.','Warm the beans with a squeeze of lime. Fry or poach the eggs.','Build bowls: sweet potato, beans, eggs, avocado and tomatoes. Finish with lime and herbs.']},
+  {t:'Tuna & White Bean Salad', e:'🥗', serves:'2', protein:'about 30 g each', fibre:'about 10 g each', note:'leucine',
     ing:['2 cans no-salt-added tuna, drained','1 can no-salt-added white beans, rinsed','½ red onion, finely chopped','Cherry tomatoes, cucumber, parsley','2 tbsp olive oil, juice of 1 lemon, black pepper'],
-    steps:['Whisk oil, lemon and pepper in a bowl.','Add everything else and toss gently.','Serve on greens or with whole-grain toast.']},
-  {t:'Smoky Turkey & Black Bean Chili', e:'🌶️', serves:'4', protein:'about 30 g each', note:'sodium',
-    ing:['1 lb (450 g) lean ground turkey','1 can no-salt-added black beans, rinsed','1 can no-salt-added crushed tomatoes','1 onion, 1 pepper, 2 cloves garlic','Cumin, smoked paprika, chili powder, oregano','Lime juice and Greek yogurt to serve'],
-    steps:['Brown the turkey with onion and pepper. Add garlic and spices for 1 minute.','Add tomatoes and beans; simmer 20 minutes.','Finish with lime juice. Top with a spoon of Greek yogurt.']},
-  {t:'Ginger Tofu Vegetable Stir-Fry', e:'🥢', serves:'2', protein:'about 22 g each', note:'daily',
+    steps:['Whisk oil, lemon and pepper in a bowl.','Add everything else and toss gently.','Serve on greens or with whole-grain rye toast.']},
+  {t:'Smoky Turkey & Black Bean Chili', e:'🌶️', serves:'4', protein:'about 30 g each', fibre:'about 9 g each', note:'sodium',
+    ing:['1 lb (450 g) lean ground turkey','1 can no-salt-added black beans, rinsed','1 can no-salt-added crushed tomatoes','1 onion, 1 pepper, 1 cup frozen corn, 2 cloves garlic','Cumin, smoked paprika, chili powder, oregano','Lime juice and Greek yogurt to serve'],
+    steps:['Brown the turkey with onion and pepper. Add garlic and spices for 1 minute.','Add tomatoes, beans and corn; simmer 20 minutes.','Finish with lime juice. Top with a spoon of Greek yogurt.']},
+  {t:'Ginger Tofu Vegetable Stir-Fry', e:'🥢', serves:'2', protein:'about 22 g each', fibre:'about 8 g each', note:'daily',
     ing:['1 block (14 oz) extra-firm tofu, cubed','4 cups mixed vegetables (broccoli, peppers, snap peas)','1 tbsp grated ginger, 2 cloves garlic','1 tbsp low-sodium soy sauce + 1 tbsp rice vinegar','1 tbsp sesame or olive oil; brown rice to serve'],
-    steps:['Pat tofu dry and brown it in the oil, 8 minutes. Set aside.','Stir-fry vegetables with ginger and garlic, 4 minutes.','Return tofu, add soy and vinegar, toss and serve over rice.']},
-  {t:'Chicken Kebabs with Garlic Yogurt', e:'🍢', serves:'2', protein:'about 32 g each', note:'afterwork',
-    ing:['10 oz (300 g) chicken breast, in chunks','Peppers, zucchini, red onion in chunks','1 tbsp olive oil, lemon zest, oregano, pepper','Sauce: ½ cup Greek yogurt, grated garlic, lemon, dill'],
-    steps:['Toss chicken and vegetables with oil, zest, oregano and pepper.','Thread onto skewers. Grill or broil 10–12 minutes, turning.','Stir the sauce together and serve on the side.']},
-  {t:'Lentil & Vegetable Stew', e:'🫘', serves:'4', protein:'about 18 g each (more with yogurt on top)', note:'thirst',
+    steps:['Pat tofu dry and brown it in the oil, 8 minutes. Set aside.','Stir-fry vegetables with ginger and garlic, 4 minutes.','Return tofu, add soy and vinegar, toss and serve over brown rice.']},
+  {t:'Bedtime Cottage Cheese & Raspberries', e:'🍓', serves:'1', protein:'about 25 g', fibre:'about 6 g', note:'sleep',
+    ing:['1 cup low-sodium cottage cheese','½ cup raspberries','1 tbsp ground flaxseed','Cinnamon, a few chopped almonds'],
+    steps:['Spoon cottage cheese into a bowl.','Top with raspberries, flax, cinnamon and almonds.','Enjoy about an hour before bed.']},
+  {t:'Chicken Kebabs with Bulgur & Garlic Yogurt', e:'🍢', serves:'2', protein:'about 34 g each', fibre:'about 8 g each', note:'afterwork',
+    ing:['10 oz (300 g) chicken breast, in chunks','Peppers, zucchini, red onion in chunks','1 tbsp olive oil, lemon zest, oregano, pepper','¾ cup bulgur','Sauce: ½ cup Greek yogurt, grated garlic, lemon, dill'],
+    steps:['Pour 1½ cups boiling water over the bulgur, cover and leave 15 minutes. Fluff with a fork.','Toss chicken and vegetables with oil, zest, oregano and pepper. Thread onto skewers and grill or broil 10–12 minutes, turning.','Stir the sauce together. Serve the kebabs on the bulgur with the sauce.']},
+  {t:'Lentil & Vegetable Stew', e:'🫘', serves:'4', protein:'about 18 g each (more with yogurt on top)', fibre:'about 12 g each', note:'fibre',
     ing:['1 cup dry green or brown lentils','1 can no-salt-added diced tomatoes','4 cups low-sodium vegetable broth','Onion, carrot, celery, 2 cloves garlic','Cumin, turmeric, smoked paprika; spinach','Greek yogurt to serve'],
     steps:['Soften onion, carrot and celery; add garlic and spices.','Add lentils, tomatoes and broth. Simmer 25–30 minutes.','Stir in spinach. Serve with a spoon of Greek yogurt for extra protein.']},
-  {t:'Garlic Shrimp & Spinach Pasta', e:'🍤', serves:'2', protein:'about 30 g each', note:'creatine',
-    ing:['8 oz (225 g) shrimp, peeled','4 oz (115 g) whole-wheat pasta','3 cloves garlic, chili flakes','2 cups spinach, juice of ½ lemon','1 tbsp olive oil, 2 tbsp grated Parmesan'],
-    steps:['Cook pasta without salt in the water; save ½ cup of the water.','Sauté garlic and chili in oil 30 seconds, add shrimp, cook 3 minutes.','Add pasta, spinach, lemon and a splash of pasta water. Toss and top with Parmesan.']}
+  {t:'Garlic Shrimp & Spinach Pasta', e:'🍤', serves:'2', protein:'about 30 g each', fibre:'about 7 g each', note:'creatine',
+    ing:['8 oz (225 g) shrimp, peeled','4 oz (115 g) whole-wheat pasta','3 cloves garlic, chili flakes','2 cups spinach, 1 cup cherry tomatoes, juice of ½ lemon','1 tbsp olive oil, 2 tbsp grated Parmesan'],
+    steps:['Cook pasta without salt in the water; save ½ cup of the water.','Sauté garlic and chili in oil 30 seconds, add shrimp and tomatoes, cook 3 minutes.','Add pasta, spinach, lemon and a splash of pasta water. Toss and top with Parmesan.']}
 ];
+/* Personal daily guide from each person's height, weight and age (Settings). */
+const lbToKg = lb => lb*0.4536;
+function dailyGuide(p){
+  if(!p.weightLb) return null;
+  const kg=lbToKg(p.weightLb), lo=Math.round(kg*1.0), hi=Math.round(kg*1.2);
+  const fibre = p.sex==='f' ? (p.age>=51?21:25) : (p.age>=51?30:38);
+  const m=(p.heightIn||0)*0.0254, bmi = m ? kg/(m*m) : null;
+  return {lo, hi, fibre, lean: bmi && bmi<23};
+}
+function guideCard(){
+  const rows=S.people.map(p=>{ const g=dailyGuide(p); if(!g) return ''; return `<div style="margin:8px 0">
+    <div style="font-weight:900">${avatar(p)} ${esc(p.name)}</div>
+    <div class="stat small" style="margin-left:8px"><span>Protein</span><b>${g.lo}–${g.hi} g a day</b></div>
+    <div class="stat small" style="margin-left:8px"><span>Fibre</span><b>at least ${g.fibre} g a day</b></div>
+    <div class="stat small" style="margin-left:8px"><span>Sodium</span><b>under 1,500 mg ideally</b></div>
+    ${g.lean?`<div class="small muted" style="margin:4px 0 0 8px">Lean build: muscle is built from food, so this is a time to eat enough, not less. Protein at every meal.</div>`:''}</div>`; }).join('');
+  if(!rows.trim()) return `<div class="card guide"><div class="small" style="font-weight:900;letter-spacing:.04em;text-transform:uppercase">🎯 Your daily guide</div><p class="small" style="margin:.4rem 0 0">Add each person’s height and weight in Settings ⚙️ to see a personal daily guide for protein, fibre and salt. They stay on this device.</p></div>`;
+  return `<div class="card guide"><div class="small" style="font-weight:900;letter-spacing:.04em;text-transform:uppercase">🎯 Your daily guide</div>${rows}
+    <p class="small muted" style="margin:6px 0 0">From the heights, weights and ages in Settings. Protein: 1.0–1.2 g per kg (PROT-AGE), spread as 25–30 g per meal. Fibre: Health Canada adequate intake. Sodium: American Heart Association ideal limit.</p></div>`;
+}
 const weekNo = () => Math.floor((weekStart() - new Date(2026,0,5)) / (7*864e5));
 function kitchenCard(){
   if(S.kitchen===false) return '';
   const i=((weekNo()%RECIPES.length)+RECIPES.length)%RECIPES.length, r=RECIPES[i], isNew=(new Date().getDay()+6)%7<2;
   return `<button class="tile" data-recipe="${i}" style="background:var(--card)"><span class="ic c-walk">${r.e}</span>
-    <span><span class="t">${esc(r.t)}</span>${isNew?'<span class="tag">New this week</span>':''}<br><span class="s">This week in the kitchen · protein: ${esc(r.protein)} · plus a bit of science</span></span><span class="go">›</span></button>`;
+    <span><span class="t">${esc(r.t)}</span>${isNew?'<span class="tag">New this week</span>':''}<br><span class="s">This week in the kitchen · high fibre, low salt · protein ${esc(r.protein.replace(/ \(.*\)/,''))} · fibre ${esc(r.fibre.replace(/ \(.*\)/,''))}</span></span><span class="go">›</span></button>`;
 }
 function openRecipe(i){
   const r=RECIPES[i], sc=SCIENCE[r.note], cur=((weekNo()%RECIPES.length)+RECIPES.length)%RECIPES.length;
@@ -815,16 +873,17 @@ function openRecipe(i){
     <div class="row" style="align-items:center"><div style="font-weight:900">🍽️ Kitchen Corner</div><button class="btn ghost" style="flex:0 0 auto;width:auto;min-height:52px;padding:8px 16px;font-size:.9rem" id="rx">✕ Close</button></div>
     <div class="bigemoji" aria-hidden="true">${r.e}</div><h1 style="text-align:center">${esc(r.t)}</h1>
     ${canSpeak()?`<button class="btn ghost" id="readr" style="margin:6px 0 10px">🔊 Read aloud with ${esc(coach().name)}</button>`:''}
-    <p class="muted" style="text-align:center;font-weight:800">Serves ${esc(r.serves)} · protein: ${esc(r.protein)} · no added salt</p>
+    <p class="muted" style="text-align:center;font-weight:800">Serves ${esc(r.serves)} · protein ${esc(r.protein)} · fibre ${esc(r.fibre)} · no added salt</p>
     <div class="grid2"><div class="card"><h3 style="margin:0 0 .4rem;font-weight:900">You’ll need</h3><ul style="margin:0;padding-left:1.2rem">${r.ing.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
     <div class="card"><h3 style="margin:0 0 .4rem;font-weight:900">Method</h3><ol style="margin:0;padding-left:1.2rem">${r.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol></div></div>
+    ${guideCard()}
     <div class="card" style="background:var(--violet-soft);border:0"><div class="small" style="font-weight:900;letter-spacing:.04em;text-transform:uppercase">🔬 Science corner</div>
       <h3 style="margin:.3rem 0;font-weight:900">${esc(sc.h)}</h3><p>${esc(sc.b)}</p>
       <a class="small" href="${sc.url}" target="_blank" rel="noopener">Source: ${esc(sc.src)} ↗</a></div>
-    ${earlier.length?`<h2>Earlier weeks</h2>${earlier.map(k=>`<button class="tile" data-recipe="${k}"><span class="ic c-walk">${RECIPES[k].e}</span><span><span class="t">${esc(RECIPES[k].t)}</span><br><span class="s">Protein: ${esc(RECIPES[k].protein)}</span></span><span class="go">›</span></button>`).join('')}`:''}
+    ${earlier.length?`<h2>Earlier weeks</h2>${earlier.map(k=>`<button class="tile" data-recipe="${k}"><span class="ic c-walk">${RECIPES[k].e}</span><span><span class="t">${esc(RECIPES[k].t)}</span><br><span class="s">Protein ${esc(RECIPES[k].protein)} · fibre ${esc(RECIPES[k].fibre)}</span></span><span class="go">›</span></button>`).join('')}`:''}
   </div></div>`;
   $('#rx').onclick=()=>{ closeOverlay(); render(); };
-  if($('#readr')) $('#readr').onclick=()=>say([r.t+'. Serves '+r.serves+'.','You’ll need: '+r.ing.map(spoken).join('. ')+'.','Method: '+r.steps.map(spoken).join(' ')].join(' '),{force:true});
+  if($('#readr')) $('#readr').onclick=()=>say([r.t+'. Serves '+spoken(r.serves)+'.','You’ll need: '+r.ing.map(spoken).join('. ')+'.','Method: '+r.steps.map(spoken).join(' ')].join(' '),{force:true});
   $('#overlay').querySelectorAll('[data-recipe]').forEach(b=>b.onclick=()=>{ openRecipe(+b.dataset.recipe); $('.player').scrollTop=0; });
 }
 
@@ -850,7 +909,7 @@ function installCard(){
 }
 function viewToday(){
   const id = focusId(), g=S.goals, sug = suggestedToday();
-  const doneToday = t => whoIds().every(pid=>logsFor(pid).some(l=>l.date===logDate() && (SESSIONS[t]&&(SESSIONS[t].theme||SESSIONS[t].weekly) ? l.session===t : l.type===t)));
+  const doneToday = t => whoIds().every(pid=>logsFor(pid).some(l=>l.date===logDate() && (l.session===t || (!l.session && l.type===t))));
   const dayWord = LOGDAY===0?'today':'yesterday';
   const st = streak(id);
   const hour = new Date().getHours();
@@ -858,9 +917,9 @@ function viewToday(){
   const pool = S.active==='both' ? CHEERS : CHEERS.concat(themeOf(person(S.active)).cheers, themeOf(person(S.active)).cheers);
   const cheer = pool[(new Date().getDate()*7+new Date().getMonth()) % pool.length];
   const tip = feelTip();
-  const order = sug==='strength' ? ['strength','grip','stretch'] : ['stretch','grip','strength'];
-  const hobby = ['floor', ...Object.keys(SESSIONS).filter(k=>SESSIONS[k].theme && whoIds().some(pid=>person(pid).theme===SESSIONS[k].theme))];
-  const forWho = k => SESSIONS[k].weekly ? 'Once a week' : 'For '+S.people.filter(p=>p.theme===SESSIONS[k].theme).map(p=>esc(p.name)).join(' & ');
+  const order = sug==='strength' ? ['strength','upper','grip','stretch'] : sug==='upper' ? ['upper','strength','grip','stretch'] : ['stretch','grip','strength','upper'];
+  const hobby = ['loosen','floor', ...Object.keys(SESSIONS).filter(k=>SESSIONS[k].theme && whoIds().some(pid=>person(pid).theme===SESSIONS[k].theme))];
+  const forWho = k => SESSIONS[k].daily ? 'Every morning' : SESSIONS[k].weekly ? 'Once a week' : 'For '+S.people.filter(p=>p.theme===SESSIONS[k].theme).map(p=>esc(p.name)).join(' & ');
   return `
   <section class="card hero">
     <span class="pill">${st? `🔥 ${st}-day streak`:'✨ Fresh start'}</span>
@@ -884,7 +943,7 @@ function viewToday(){
     <div class="quick">${['strength','stretch','grip'].map(k=>`<button class="${CATS[k].cls}" data-quick="${k}"><span class="e">${SESSIONS[k].emoji}</span>${k==='strength'?'Strength':k==='stretch'?'Mobility':'Grip'}${doneToday(k)?' ✓':''}</button>`).join('')}</div>
   </div></div>
   <h2>Today’s moves</h2>
-  <div class="grid3">${order.map(k=>{ const s=SESSIONS[k]; return `<button class="tile ${doneToday(k)?'done':''}" data-start="${k}">
+  <div class="grid2">${order.map(k=>{ const s=SESSIONS[k]; return `<button class="tile ${doneToday(k)?'done':''}" data-start="${k}">
     <span class="ic ${CATS[s.cat].cls}">${s.emoji}</span>
     <span><span class="t">${s.title}</span>${k===sug?'<span class="tag">Suggested today</span>':''}${doneToday(k)?'<span class="tag" style="background:#dcfce7;color:#14532d">Done ✓</span>':''}<br><span class="s">${s.blurb} · about ${s.mins} min</span></span>
     <span class="go">›</span></button>`;}).join('')}</div>
@@ -959,6 +1018,7 @@ function exCard(e,k){
    <h3>${esc(e.name)}${e.optional?' <span class="tag">Optional</span>':''}</h3><div class="muted small" style="font-weight:800">${esc(e.dose)}</div>
    <ol>${e.steps.map(s=>`<li>${esc(s)}</li>`).join('')}</ol>
    ${needsBreath(e)?`<div class="breathe">🌬️ <b>Breathe out as you lift or push.</b> Never hold your breath.</div>`:''}
+   ${backBlock(e)}
    ${e.tip?`<div class="safety">👉 ${esc(e.tip)}</div>`:''}
    ${e.easier||e.harder?`<div class="small muted">${e.easier?`<b>Easier:</b> ${esc(e.easier)} `:''}${e.harder?`<b>Harder:</b> ${esc(e.harder)}`:''}</div>`:''}
    ${whyBlock(k)}
@@ -1093,12 +1153,13 @@ function drawPlayer(){
     <div class="bigemoji" aria-hidden="true">${ex.emoji}</div>
     <h1 style="text-align:center">${esc(ex.name)}${ex.optional?' <span class="tag">Optional</span>':''}</h1>
     <div class="dose">${esc(ex.dose)}</div>
-    ${P.key==='strength'&&P.i<=1?`<div class="breathe">🗣️ <b>Talk test:</b> you should be able to talk in short sentences. If you can’t, slow down or rest.</div>`:''}
+    ${(P.key==='strength'||P.key==='upper')&&P.i<=1?`<div class="breathe">🗣️ <b>Talk test:</b> you should be able to talk in short sentences. If you can’t, slow down or rest.</div>`:''}
     ${canSpeak()?`<div class="row voicebar">${S.speak?`<button class="btn ghost" data-act="repeat">🔁 Repeat</button>`:`<button class="btn ghost" data-act="speak">🔊 Turn on ${esc(coach().name)}</button>`}${!ex.timer&&!ex.info?`<button class="btn ghost" data-act="count">${COUNT.on?'⏹ Stop counting':'🔢 Count with me'}</button>`:''}</div>`:''}
     ${ex.timer?`<div class="timer" id="tm">${fmt(P.left)}</div>
       <button class="btn teal" data-act="timer" style="margin-bottom:12px">${P.running?'⏸ Pause':'⏱ Start timer'}</button>`:''}
     <ol class="steps">${ex.steps.map(x=>`<li>${esc(x)}</li>`).join('')}</ol>
     ${needsBreath(ex)?`<div class="breathe">🌬️ <b>Breathe out as you lift or push.</b> Never hold your breath.</div>`:''}
+    ${backBlock(ex)}
     ${ex.tip?`<div class="safety">👉 ${esc(ex.tip)}</div>`:''}
     ${ex.easier?`<p class="small"><b>Easier:</b> ${esc(ex.easier)}</p>`:''}
     ${ex.harder?`<p class="small"><b>Too easy?</b> ${esc(ex.harder)}</p>`:''}
@@ -1296,6 +1357,10 @@ function openSettings(){
    ${S.people.map((p,i)=>`<div class="card"><label class="f" for="pn${i}">Name</label><input id="pn${i}" type="text" value="${esc(p.name)}">
      <div class="row"><div><label class="f" for="pa${i}">Age</label><input id="pa${i}" type="number" inputmode="numeric" value="${p.age}"></div>
      <div><label class="f" for="pe${i}">Picture <span class="muted small">(optional emoji; leave blank for initial)</span></label><input id="pe${i}" type="text" value="${esc(p.emoji)}" maxlength="8" placeholder="${esc((p.name.trim()[0]||'').toUpperCase())}"></div></div>
+     <div class="row"><div><label class="f" for="pft${i}">Height</label><div class="row" style="gap:6px"><input id="pft${i}" type="number" inputmode="numeric" value="${p.heightIn?Math.floor(p.heightIn/12):''}" placeholder="ft" aria-label="feet"><input id="pin${i}" type="number" inputmode="decimal" step="0.5" value="${p.heightIn?+(p.heightIn%12).toFixed(1):''}" placeholder="in" aria-label="inches"></div></div>
+       <div><label class="f" for="pw${i}">Weight (lb)</label><input id="pw${i}" type="number" inputmode="decimal" value="${p.weightLb||''}"></div></div>
+     <div class="small muted" style="margin-top:4px">${p.heightIn?Math.round(p.heightIn*2.54)+' cm':''}${p.weightLb?' · '+lbToKg(p.weightLb).toFixed(1)+' kg':''} · used for the daily protein and fibre guide in Kitchen Corner, and stays on this device.</div>
+     <label class="f">Back</label><button class="btn ghost" data-back="${i}" aria-pressed="${!!p.backCare}" style="${p.backCare?'border-color:var(--coral);background:var(--coral-soft)':''}">${p.backCare?'🩹 Going easy on my back: on':'🩹 Go easy on my back'}</button>
      <label class="f">Color</label><div class="swatches" role="group" aria-label="${esc(p.name)}’s color">${PALETTE.map((c,j)=>`<button class="swatch" data-pc="${i}:${j}" aria-label="${c.n}" aria-pressed="${colorOf(p)===c}" style="background-image:${c.g}"></button>`).join('')}</div>
      <label class="f">Theme</label><div class="row">${Object.entries(THEMES).map(([k,t])=>`<button class="btn ghost" data-pt="${i}:${k}" style="min-height:56px;font-size:.9rem;${p.theme===k?'border-color:var(--coral);background:var(--coral-soft)':''}">${t.icon} ${t.label}</button>`).join('')}</div></div>`).join('')}
    <h2>Weekly goals</h2>
@@ -1327,7 +1392,7 @@ function openSettings(){
    <input type="file" id="imp" accept=".json,application/json" class="sr">
    <button class="btn ghost" id="reset" style="margin-top:24px;color:#b91c1c">Start over (erase everything)</button>
   </div></div>`;
-  const commit=()=>{ S.people.forEach((p,i)=>{ p.name=$('#pn'+i).value.trim()||p.name; p.age=parseInt($('#pa'+i).value,10)||p.age; p.emoji=$('#pe'+i).value.trim(); }); save(); };
+  const commit=()=>{ S.people.forEach((p,i)=>{ p.name=$('#pn'+i).value.trim()||p.name; p.age=parseInt($('#pa'+i).value,10)||p.age; p.emoji=$('#pe'+i).value.trim(); const ft=parseFloat($('#pft'+i).value), inch=parseFloat($('#pin'+i).value)||0; if(ft>0) p.heightIn=ft*12+inch; const w=parseFloat($('#pw'+i).value); if(w>0) p.weightLb=w; }); save(); };
   $('#sx').onclick=()=>{ commit(); closeOverlay(); render(); };
   $('#overlay').querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>{ const k=b.dataset.g; S.goals[k]=Math.max(0,Math.min(7,S.goals[k]+Number(b.dataset.d))); $('#g-'+k).textContent=S.goals[k]; save(); });
   $('#overlay').querySelectorAll('[data-theme]').forEach(b=>b.onclick=()=>{ commit(); S.theme=b.dataset.theme; save(); render(); openSettings(); });
@@ -1337,6 +1402,7 @@ function openSettings(){
   $('#overlay').querySelectorAll('[data-coach]').forEach(b=>b.onclick=()=>{ commit(); S.voice=b.dataset.coach; save(); say(coach().sample,{force:true}); const y=$('.player').scrollTop; openSettings(); $('.player').scrollTop=y; });
   $('#overlay').querySelectorAll('[data-spk]').forEach(b=>b.onclick=()=>{ commit(); S.speak=b.dataset.spk==='on'; save(); const y=$('.player').scrollTop; openSettings(); $('.player').scrollTop=y; if(S.speak) say(coach().sample); });
   $('#overlay').querySelectorAll('[data-rate]').forEach(b=>b.onclick=()=>{ commit(); S.voiceRate=+b.dataset.rate; save(); const y=$('.player').scrollTop; openSettings(); $('.player').scrollTop=y; say(coach().sample,{force:true}); });
+  $('#overlay').querySelectorAll('[data-back]').forEach(b=>b.onclick=()=>{ commit(); const p=S.people[+b.dataset.back]; p.backCare=!p.backCare; save(); const y=$('.player').scrollTop; openSettings(); $('.player').scrollTop=y; });
   $('#overlay').querySelectorAll('[data-pc]').forEach(b=>b.onclick=()=>{ commit(); const [i,j]=b.dataset.pc.split(':'); S.people[+i].color=+j; save(); render(); openSettings(); });
   $('#overlay').querySelectorAll('[data-contrast]').forEach(b=>b.onclick=()=>{ commit(); S.contrast=b.dataset.contrast==='high'; save(); render(); openSettings(); });
   $('#overlay').querySelectorAll('[data-size]').forEach(b=>b.onclick=()=>{ commit(); S.size=b.dataset.size; save(); render(); openSettings(); });
